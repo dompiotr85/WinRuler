@@ -1,3 +1,6 @@
+![Development stage](https://img.shields.io/badge/Early%20alpha)
+
+
 # WinMeter
 
 ## Description
