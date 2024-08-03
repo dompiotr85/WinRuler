@@ -1,11 +1,11 @@
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/dompiotr85/WinMeter)
-![GitHub License](https://img.shields.io/github/license/dompiotr85/WinMeter)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/dompiotr85/WinRuler)
+![GitHub License](https://img.shields.io/github/license/dompiotr85/WinRuler)
 
-# WinMeter
+# WinRuler
 
 ## Description
 
-WinMeter is a computer application that operates on various graphical operating systems, allowing users to
+WinRuler is a computer application that operates on various graphical operating systems, allowing users to
 accurately measure distances on the computer screen. The application displays a virtual ruler with markings
 in centimeters or other units of measurement, enabling precise measurements.
 
@@ -18,17 +18,17 @@ in centimeters or other units of measurement, enabling precise measurements.
 
 ## Purpose
 
-WinMeter aims to facilitate the accurate measurement of elements on the computer screen, which is particularly
+WinRuler aims to facilitate the accurate measurement of elements on the computer screen, which is particularly
 useful for graphic designers, developers, and other professionals who need precise tools for working with
 graphics and interfaces.
 
 ## Contributions
 
-We welcome contributions to WinMeter development through [pull requests](https://github.com/dompiotr85/WinMeter/pulls/) on GitHub.
+We welcome contributions to WinRuler development through [pull requests](https://github.com/dompiotr85/WinRuler/pulls/) on GitHub.
 
 We prefer to take pull requests in our active development branches, particularly for new features.
 
-For more information on the process and expectations, see [the documentation](https://github.com/dompiotr85/WinMeter/tree/main/Documentation/).
+For more information on the process and expectations, see [the documentation](https://github.com/dompiotr85/WinRuler/tree/main/Documentation/).
 
 
 ## Contributing workflow

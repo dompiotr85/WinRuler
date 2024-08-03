@@ -1,4 +1,4 @@
-# Code of Conduct - WinMeter
+# Code of Conduct - WinRuler
 
 ## Our Pledge
 
