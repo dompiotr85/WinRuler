@@ -1,5 +1,5 @@
-![Development stage](https://img.shields.io/badge/Early%20alpha)
-
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/dompiotr85/WinMeter)
+![GitHub License](https://img.shields.io/github/license/dompiotr85/WinMeter)
 
 # WinMeter
 
