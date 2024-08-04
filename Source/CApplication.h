@@ -31,11 +31,11 @@ public:
 	/**
 	 * This function is called when application is initialized and returns
 	 * true if initialization process was successful.
-	 * 
-	 * @return	Returns true if initialization was successful, false otherwise.
 	 **/
 	bool OnInit();
 
-
+	/**
+	 * Override FilterEvent method for our mouse events pre-processing.
+	 **/
 	int FilterEvent(wxEvent& event);
 };

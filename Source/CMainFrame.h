@@ -23,33 +23,36 @@
 #pragma once
 
 #include <wx/wx.h>
+#include "CDrawPanel.h"
+#include "MainFrameUtilities.h"
 
-enum HT_Pos
-{
-	HT_client,
-	HT_left,
-	HT_right,
-	HT_top,
-	HT_topLeft,
-	HT_topRight,
-	HT_bottom,
-	HT_bottomLeft,
-	HT_bottomRight
-};
-
-// Ruler's position. It describes position of ruler's scale.
-enum TRulerPosition
-{
-	rpLeft,
-	rpTop,
-	rpRight,
-	rpBottom
-};
-
+/**
+ * MainFrame class definition. 
+ **/
 class CMainFrame :
 	public wxFrame
 {
 public:
+	/**
+	 * Ruler's position. It describes position of ruler's scale.
+	 **/
+	typedef enum ERulerPosition
+	{
+		// Ruler's scale is on left side of the ruler.
+		rpLeft,
+		// Ruler's scale is on top side of the ruler.
+		rpTop,
+		// Ruler's scale is on right side of the ruler.
+		rpRight,
+		// Ruler's scale is on bottom side of the ruler.
+		rpBottom
+	} ERulerPosition;
+
+	/**
+	 * CMainFrame constructor.
+	 *
+	 * @param Title		Reference to MainFrame title string.
+	 **/
 	CMainFrame(const wxString& Title);
 
 	void OnMouseEvent(wxMouseEvent& ev);
@@ -62,17 +65,11 @@ protected:
 	void OnEnterBorder();
 	void ResizeSize(const wxPoint& pos);
 private:
-	int m_eRulerPosition;
+	// Ruler's scale position.
+	ERulerPosition m_eRulerPosition = rpTop;
 
-	enum
-	{
-		ID_PANEL_CAPTION,
-		ID_BTN_MINIMIZE,
-		ID_BTN_MAXIMIZE,
-		ID_BTN_CLOSE
-	};
-
-	wxPanel* m_panelCaption;
+	// DrawPanel which is used for all drawing of our ruler.
+	CDrawPanel* m_DrawPanel;
 
 	// This filed records if caption drag opertion. 
 	bool m_bCaptionDragStart;
@@ -88,9 +85,6 @@ private:
 
 	// This filed record frame rect when drag beginning. 
 	wxRect m_rectBorder;
-	wxCursor m_borderCursorVertical;
-	wxCursor m_borderCursorHorizontal;
-	wxCursor m_borderCursorOblique;
 
 	// Direction vector.
 	wxPoint m_ptDirection;

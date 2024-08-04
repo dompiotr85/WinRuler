@@ -24,12 +24,21 @@
     <ClCompile Include="..\..\Source\CMainFrame.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CDrawPanel.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CApplication.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CMainFrame.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MainFrameUtilities.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CDrawPanel.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

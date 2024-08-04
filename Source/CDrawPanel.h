@@ -20,45 +20,20 @@
  * IN THE SOFTWARE.
  **/
 
-#include "CApplication.h"
-#include "CMainFrame.h"
+#pragma once
+
 #include <wx/wx.h>
 
-bool CApplication::OnInit()
+class CDrawPanel :
+    public wxPanel
 {
-	// Create dynamically (on heap) new CMainFrame class and store it in
-	// mainFrame.
-	CMainFrame* mainFrame = new CMainFrame("WinRuler");
+public:
+    CDrawPanel(wxFrame* parent);
 
-	// Set mainFrame client size and center it on screen.
-	mainFrame->SetClientSize(800, 80);
-	mainFrame->Center();
+    void PaintEvent(wxPaintEvent& event);
+    void PaintNow();
 
-	// Show mainFrame.
-	mainFrame->Show();
+    void Render(wxDC& dc);
 
-	// Return true.
-	return true;
-}
-
-int CApplication::FilterEvent(wxEvent& event)
-{
-	// Retrieve event type.
-	auto type = event.GetEventType();
-
-	// If retrieved event type is motion or left button down or left button
-	// up, then ...
-	if (type == wxEVT_MOTION || type == wxEVT_LEFT_DOWN || type == wxEVT_LEFT_UP)
-	{
-		// ... have only go up once; then this subroutine will be called again
-		//event.ResumePropagation(100);
-		event.ResumePropagation(1);
-
-		// Don't return Event_Ignore or Event_Processed, have to let it to
-		// propagate up instead.
-		//return Event_Processed;
-	}
-
-	// Return Event_Skip.
-	return Event_Skip;
-}
+    DECLARE_EVENT_TABLE()
+};

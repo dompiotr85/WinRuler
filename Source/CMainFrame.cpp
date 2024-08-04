@@ -20,24 +20,9 @@
  * IN THE SOFTWARE.
  **/
 
-#include "CMainFrame.h"
 #include <wx/wx.h>
-
-static int Clamp(int value, int min, int max)
-{
-	if (value <= min)
-	{
-		return 0;
-	}
-	else if (value < max)
-	{
-		return 1;
-	}
-	else
-	{
-		return 2;
-	}
-}
+#include <wx/sizer.h>
+#include "CMainFrame.h"
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 EVT_MOUSE_EVENTS(CMainFrame::OnMouseEvent)
@@ -46,7 +31,14 @@ END_EVENT_TABLE()
 CMainFrame::CMainFrame(const wxString& title) :
 	wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxCLIP_CHILDREN)
 {
-	m_eRulerPosition = rpTop;
+	wxBoxSizer* Sizer = new wxBoxSizer(wxHORIZONTAL);
+	m_DrawPanel = new CDrawPanel((wxFrame*) this);
+	Sizer->Add(m_DrawPanel, 1, wxEXPAND);
+
+	this->SetSizer(Sizer);
+	this->SetAutoLayout(true);
+
+	// Initialize Border Drag.
 	BorderDragInit();
 }
 
@@ -197,28 +189,6 @@ void CMainFrame::SetResizeCursor(int htPos)
 		}
 		break;
 	}
-
-	/*switch (htPos)
-	{
-	case HT_left:
-	case HT_right:
-		SetCursor(wxCURSOR_SIZEWE);
-		break;
-	case HT_top:
-	case HT_bottom:
-		SetCursor(wxCURSOR_SIZENS);
-		break;
-	case HT_topLeft:
-	case HT_bottomRight:
-		SetCursor(wxCURSOR_SIZENWSE);
-		break;
-	case HT_topRight:
-	case HT_bottomLeft:
-		SetCursor(wxCURSOR_SIZENESW);
-		break;
-	default:
-		SetCursor(*wxSTANDARD_CURSOR);
-	}*/
 }
 
 void CMainFrame::ResizeSize(const wxPoint& pos)
@@ -231,8 +201,6 @@ void CMainFrame::ResizeSize(const wxPoint& pos)
 	rect.x = offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x;
 	rect.y = offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y;
 
-	//INFO("%d\t%d\t%d\t%d", offset.x, offset.y, m_rectBorder.x + m_rectBorder.width - GetRect().x - GetRect().width,
-		//m_rectBorder.y + m_rectBorder.height - GetRect().y - GetRect().height);
 	SetSize(rect);
 	Update();
 }

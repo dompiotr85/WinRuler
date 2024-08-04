@@ -20,45 +20,33 @@
  * IN THE SOFTWARE.
  **/
 
-#include "CApplication.h"
-#include "CMainFrame.h"
-#include <wx/wx.h>
+#pragma once
 
-bool CApplication::OnInit()
+enum HT_Pos
 {
-	// Create dynamically (on heap) new CMainFrame class and store it in
-	// mainFrame.
-	CMainFrame* mainFrame = new CMainFrame("WinRuler");
+	HT_client,
+	HT_left,
+	HT_right,
+	HT_top,
+	HT_topLeft,
+	HT_topRight,
+	HT_bottom,
+	HT_bottomLeft,
+	HT_bottomRight
+};
 
-	// Set mainFrame client size and center it on screen.
-	mainFrame->SetClientSize(800, 80);
-	mainFrame->Center();
-
-	// Show mainFrame.
-	mainFrame->Show();
-
-	// Return true.
-	return true;
-}
-
-int CApplication::FilterEvent(wxEvent& event)
+static int Clamp(int value, int min, int max)
 {
-	// Retrieve event type.
-	auto type = event.GetEventType();
-
-	// If retrieved event type is motion or left button down or left button
-	// up, then ...
-	if (type == wxEVT_MOTION || type == wxEVT_LEFT_DOWN || type == wxEVT_LEFT_UP)
+	if (value <= min)
 	{
-		// ... have only go up once; then this subroutine will be called again
-		//event.ResumePropagation(100);
-		event.ResumePropagation(1);
-
-		// Don't return Event_Ignore or Event_Processed, have to let it to
-		// propagate up instead.
-		//return Event_Processed;
+		return 0;
 	}
-
-	// Return Event_Skip.
-	return Event_Skip;
+	else if (value < max)
+	{
+		return 1;
+	}
+	else
+	{
+		return 2;
+	}
 }
