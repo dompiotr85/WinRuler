@@ -24,11 +24,11 @@ graphics and interfaces.
 
 ## Contributions
 
-We welcome contributions to WinRuler development through [pull requests](https://github.com/dompiotr85/WinRuler/pulls/) on GitHub.
+We welcome contributions to WinRuler development through [pull requests](https://github.com/dompiotr85/WinRuler/pulls) on GitHub.
 
 We prefer to take pull requests in our active development branches, particularly for new features.
 
-For more information on the process and expectations, see [the documentation](https://github.com/dompiotr85/WinRuler/tree/main/Documentation/).
+For more information on the process and expectations, see [our contributing documentation](https://github.com/dompiotr85/WinRuler/blob/main/CONTRIBUTING.md).
 
 
 ## Contributing workflow
