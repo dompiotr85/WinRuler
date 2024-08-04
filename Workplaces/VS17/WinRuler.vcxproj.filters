@@ -18,18 +18,18 @@
     <ClCompile Include="..\..\Source\main.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\App.cpp">
+    <ClCompile Include="..\..\Source\CApplication.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MainFrame.cpp">
+    <ClCompile Include="..\..\Source\CMainFrame.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\App.h">
+    <ClInclude Include="..\..\Source\CApplication.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MainFrame.h">
+    <ClInclude Include="..\..\Source\CMainFrame.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

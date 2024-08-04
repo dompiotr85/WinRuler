@@ -20,33 +20,22 @@
  * IN THE SOFTWARE.
  **/
 
-#include "App.h"
-#include "MainFrame.h"
+#pragma once
+
 #include <wx/wx.h>
 
-bool App::OnInit()
+class CApplication :
+	public wxApp
 {
-	MainFrame* mainFrame = new MainFrame("WinRuler");
+public:
+	/**
+	 * This function is called when application is initialized and returns
+	 * true if initialization process was successful.
+	 * 
+	 * @return	Returns true if initialization was successful, false otherwise.
+	 **/
+	bool OnInit();
 
-	mainFrame->SetClientSize(800, 80);
-	mainFrame->Center();
 
-	mainFrame->Show();
-
-	return true;
-}
-
-int App::FilterEvent(wxEvent& event)
-{
-	auto type = event.GetEventType();
-	if (type == wxEVT_MOTION || type == wxEVT_LEFT_DOWN || type == wxEVT_LEFT_UP)
-	{
-		// Have only go up once; then this subroutine will be called again
-		//event.ResumePropagation(100);
-		event.ResumePropagation(1);
-		// Don't return 0 or 1, have to let it to propagate up instead
-		// return 1;
-	}
-
-	return -1;
-}
+	int FilterEvent(wxEvent& event);
+};

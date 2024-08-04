@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  **/
 
-#include "MainFrame.h"
+#include "CMainFrame.h"
 #include <wx/wx.h>
 
 static int Clamp(int value, int min, int max)
@@ -39,18 +39,18 @@ static int Clamp(int value, int min, int max)
 	}
 }
 
-BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-EVT_MOUSE_EVENTS(MainFrame::OnMouseEvent)
+BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
+EVT_MOUSE_EVENTS(CMainFrame::OnMouseEvent)
 END_EVENT_TABLE()
 
-MainFrame::MainFrame(const wxString& title) :
+CMainFrame::CMainFrame(const wxString& title) :
 	wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxCLIP_CHILDREN)
 {
 	m_eRulerPosition = rpTop;
 	BorderDragInit();
 }
 
-void MainFrame::OnMouseEvent(wxMouseEvent& event)
+void CMainFrame::OnMouseEvent(wxMouseEvent& event)
 {
 	auto pos = event.GetPosition();
 	wxWindow* window = wxDynamicCast(event.GetEventObject(), wxWindow);
@@ -98,7 +98,7 @@ void MainFrame::OnMouseEvent(wxMouseEvent& event)
 	}
 }
 
-int MainFrame::BorderHitTest(const wxPoint& pos)
+int CMainFrame::BorderHitTest(const wxPoint& pos)
 {
 	if (IsMaximized())	// Maximized frame can't be resized.
 	{
@@ -151,24 +151,24 @@ int MainFrame::BorderHitTest(const wxPoint& pos)
 	return hotArea[y][x];
 }
 
-void MainFrame::BorderDragInit()
+void CMainFrame::BorderDragInit()
 {
 	m_eBorderDragMode = HT_client;
 	m_nOffsetBorder = 10;
 	//m_rectBorder = GetRect();
 }
 
-void MainFrame::OnLeaveBorder(int hitPos)
+void CMainFrame::OnLeaveBorder(int hitPos)
 {
 	SetResizeCursor(hitPos);
 }
 
-void MainFrame::OnEnterBorder()
+void CMainFrame::OnEnterBorder()
 {
 	SetCursor(*wxSTANDARD_CURSOR);
 }
 
-void MainFrame::SetResizeCursor(int htPos)
+void CMainFrame::SetResizeCursor(int htPos)
 {
 	switch (m_eRulerPosition)
 	{
@@ -221,7 +221,7 @@ void MainFrame::SetResizeCursor(int htPos)
 	}*/
 }
 
-void MainFrame::ResizeSize(const wxPoint& pos)
+void CMainFrame::ResizeSize(const wxPoint& pos)
 {
 	auto offset = pos - m_ptDragStart;
 	wxRect rect;

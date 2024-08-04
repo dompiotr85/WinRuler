@@ -20,6 +20,6 @@
  * IN THE SOFTWARE.
  **/
 
-#include "App.h"
+#include "CApplication.h"
 
-wxIMPLEMENT_APP(App);
+wxIMPLEMENT_APP(CApplication);

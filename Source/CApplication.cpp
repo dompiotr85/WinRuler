@@ -20,14 +20,33 @@
  * IN THE SOFTWARE.
  **/
 
-#pragma once
-
+#include "CApplication.h"
+#include "CMainFrame.h"
 #include <wx/wx.h>
 
-class App :
-	public wxApp
+bool CApplication::OnInit()
 {
-public:
-	bool OnInit();
-	int FilterEvent(wxEvent& event);
-};
+	CMainFrame* mainFrame = new CMainFrame("WinRuler");
+
+	mainFrame->SetClientSize(800, 80);
+	mainFrame->Center();
+
+	mainFrame->Show();
+
+	return true;
+}
+
+int CApplication::FilterEvent(wxEvent& event)
+{
+	auto type = event.GetEventType();
+	if (type == wxEVT_MOTION || type == wxEVT_LEFT_DOWN || type == wxEVT_LEFT_UP)
+	{
+		// Have only go up once; then this subroutine will be called again
+		//event.ResumePropagation(100);
+		event.ResumePropagation(1);
+		// Don't return 0 or 1, have to let it to propagate up instead
+		// return 1;
+	}
+
+	return -1;
+}

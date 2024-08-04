@@ -46,11 +46,11 @@ enum TRulerPosition
 	rpBottom
 };
 
-class MainFrame :
+class CMainFrame :
 	public wxFrame
 {
 public:
-	MainFrame(const wxString& Title);
+	CMainFrame(const wxString& Title);
 
 	void OnMouseEvent(wxMouseEvent& ev);
 protected:
