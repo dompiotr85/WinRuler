@@ -33,7 +33,7 @@ the project and show your appreciation, which we would also be very happy about:
 ## Code of Conduct
 
 This project and everyone participating in it is governed by the
-[WinRuler Code of Conduct](https://github.com/dompiotr85/WinRuler/blob/main/Documentation/CODE_OF_CONDUCT.md).
+[WinRuler Code of Conduct](https://github.com/dompiotr85/WinRuler/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior
 to <dom.piotr.85@gmail.com>.
 
