@@ -35,7 +35,7 @@ the project and show your appreciation, which we would also be very happy about:
 This project and everyone participating in it is governed by the
 [WinRuler Code of Conduct](https://github.com/dompiotr85/WinRuler/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior
-to <dom.piotr.85@gmail.com>.
+to <positive.podi@gmail.com>.
 
 
 ## I Have a Question
@@ -86,7 +86,7 @@ for your bug or error in the [bug tracker](https://github.com/dompiotr85/WinRule
 #### How Do I Submit a Good Bug Report?
 
 > You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public.
-Instead sensitive bugs must be sent by email to <dom.piotr.85@gmail.com>.
+Instead sensitive bugs must be sent by email to <positive.podi@gmail.com>.
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
