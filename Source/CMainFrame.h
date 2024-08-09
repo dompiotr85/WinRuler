@@ -49,27 +49,63 @@ public:
 	} ERulerPosition;
 
 	/**
+	 * Ruler's units of measurement types.
+	 **/
+	typedef enum ERulerUnits
+	{
+		// Centimeters as unit of measurement.
+		ruCentimeters,
+		// Unches as unit of measurement.
+		ruInches,
+		// Picas as unit of measurement.
+		ruPicas,
+		// Pixels as unit of measurement.
+		ruPixels
+	} ERulerUnits;
+
+	/**
+	 * Ruler's background type.
+	 **/
+	typedef enum ERulerBackgroundType
+	{
+		// Solid color as ruler's background.
+		btSolid,
+		// Gradient color as ruler's background.
+		btGradient,
+		// Image as ruler's background.
+		btImage
+	} ERulerBackgroundType;
+public:
+	/**
 	 * CMainFrame constructor.
 	 *
 	 * @param Title		Reference to MainFrame title string.
 	 **/
 	CMainFrame(const wxString& Title);
 
-	void OnMouseEvent(wxMouseEvent& ev);
+	void OnMouseEvent(wxMouseEvent& Event);
+public:
+	void ChangeRulerPosition(ERulerPosition NewPosition);
 protected:
 	void BorderDragInit();
-	bool CaptionHitTest(const wxPoint& pos);
-	int BorderHitTest(const wxPoint& pos);
+	int BorderHitTest(const wxPoint& Pos);
 	void SetResizeCursor(int htPos);
 	void OnLeaveBorder(int hitPos);
 	void OnEnterBorder();
-	void ResizeSize(const wxPoint& pos);
-private:
+	void ResizeSize(const wxPoint& Pos);
+public:
 	// Ruler's scale position.
 	ERulerPosition m_eRulerPosition = rpTop;
+	ERulerUnits m_eRulerUnits = ruCentimeters;
+	ERulerBackgroundType m_eRulerBackgroundType = btSolid;
 
+	wxColor m_RulerScaleColour = wxColour(0, 0, 0);
+	wxColor m_RulerBackgroundColor = wxColour(255, 164, 119);
+
+	int m_iRulerLength = 640;
+private:
 	// DrawPanel which is used for all drawing of our ruler.
-	CDrawPanel* m_DrawPanel;
+	CDrawPanel* m_pDrawPanel;
 
 	// This filed records if caption drag opertion. 
 	bool m_bCaptionDragStart;

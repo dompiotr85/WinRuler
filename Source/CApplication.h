@@ -27,15 +27,22 @@
 class CApplication :
 	public wxApp
 {
+private:
+	wxLog* m_pLogger;
 public:
 	/**
 	 * This function is called when application is initialized and returns
 	 * true if initialization process was successful.
 	 **/
-	bool OnInit();
+	bool OnInit() override;
+
+	/**
+	 *  This function is called when application is closed.
+	 **/
+	int OnExit() override;
 
 	/**
 	 * Override FilterEvent method for our mouse events pre-processing.
 	 **/
-	int FilterEvent(wxEvent& event);
+	int FilterEvent(wxEvent& Event);
 };

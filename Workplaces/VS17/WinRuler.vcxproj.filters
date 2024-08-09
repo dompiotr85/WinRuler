@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\Source\CDrawPanel.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\WRUtilities.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CApplication.h">
@@ -39,6 +42,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CDrawPanel.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WRUtilities.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

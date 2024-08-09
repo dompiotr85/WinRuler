@@ -28,28 +28,28 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 EVT_MOUSE_EVENTS(CMainFrame::OnMouseEvent)
 END_EVENT_TABLE()
 
-CMainFrame::CMainFrame(const wxString& title) :
-	wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxCLIP_CHILDREN)
+CMainFrame::CMainFrame(const wxString& Title) :
+	wxFrame(nullptr, wxID_ANY, Title, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxCLIP_CHILDREN)
 {
-	wxBoxSizer* Sizer = new wxBoxSizer(wxHORIZONTAL);
-	m_DrawPanel = new CDrawPanel((wxFrame*) this);
-	Sizer->Add(m_DrawPanel, 1, wxEXPAND);
+	wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
+	m_pDrawPanel = new CDrawPanel((wxFrame*) this);
+	pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
 
-	this->SetSizer(Sizer);
+	this->SetSizer(pSizer);
 	this->SetAutoLayout(true);
 
 	// Initialize Border Drag.
 	BorderDragInit();
 }
 
-void CMainFrame::OnMouseEvent(wxMouseEvent& event)
+void CMainFrame::OnMouseEvent(wxMouseEvent& Event)
 {
-	auto pos = event.GetPosition();
-	wxWindow* window = wxDynamicCast(event.GetEventObject(), wxWindow);
-	pos = window->ClientToScreen(pos);
-	if (event.LeftDown())
+	auto Pos = Event.GetPosition();
+	wxWindow* pWindow = wxDynamicCast(Event.GetEventObject(), wxWindow);
+	Pos = pWindow->ClientToScreen(Pos);
+	if (Event.LeftDown())
 	{
-		m_eBorderDragMode = BorderHitTest(pos);
+		m_eBorderDragMode = BorderHitTest(Pos);
 
 		if (m_eBorderDragMode != HT_client)	 // Start the drag now.
 		{
@@ -57,13 +57,13 @@ void CMainFrame::OnMouseEvent(wxMouseEvent& event)
 			CaptureMouse();
 
 			SetResizeCursor(m_eBorderDragMode);
-			m_ptDragStart = pos;
+			m_ptDragStart = Pos;
 			m_rectBorder = GetRect();
 
 			return;
 		}
 	}
-	else if (event.LeftUp() && m_eBorderDragMode != HT_client)
+	else if (Event.LeftUp() && m_eBorderDragMode != HT_client)
 	{
 		// Reset the drag mode.
 		m_eBorderDragMode = HT_client;
@@ -72,35 +72,35 @@ void CMainFrame::OnMouseEvent(wxMouseEvent& event)
 		ReleaseMouse();
 		SetCursor(*wxSTANDARD_CURSOR);
 	}  // Left up && dragging.
-	else if ((event.Moving() || event.Leaving() || event.Entering()) && (m_eBorderDragMode == HT_client))
+	else if ((Event.Moving() || Event.Leaving() || Event.Entering()) && (m_eBorderDragMode == HT_client))
 	{
-		int hitPos = BorderHitTest(pos);
-		if (event.Leaving() || m_eBorderDragMode == HT_client)
+		int hitPos = BorderHitTest(Pos);
+		if (Event.Leaving() || m_eBorderDragMode == HT_client)
 			OnLeaveBorder(hitPos);
 		else
 			OnEnterBorder();
 	}
-	else if (event.Dragging() && (m_eBorderDragMode != HT_client))
+	else if (Event.Dragging() && (m_eBorderDragMode != HT_client))
 	{
-		ResizeSize(pos);
+		ResizeSize(Pos);
 	}
 	else
 	{
-		event.Skip();
+		Event.Skip();
 	}
 }
 
-int CMainFrame::BorderHitTest(const wxPoint& pos)
+int CMainFrame::BorderHitTest(const wxPoint& Pos)
 {
 	if (IsMaximized())	// Maximized frame can't be resized.
 	{
 		return HT_client;
 	}
 
-	wxRect rect = GetRect();
+	wxRect Rect = GetRect();
 
-	int x = Clamp(pos.x, rect.x + m_nOffsetBorder, rect.x + rect.width - m_nOffsetBorder);
-	int y = Clamp(pos.y, rect.y + m_nOffsetBorder, rect.y + rect.height - m_nOffsetBorder);
+	int x = Clamp(Pos.x, Rect.x + m_nOffsetBorder, Rect.x + Rect.width - m_nOffsetBorder);
+	int y = Clamp(Pos.y, Rect.y + m_nOffsetBorder, Rect.y + Rect.height - m_nOffsetBorder);
 
 	static int hotArea[3][3] =
 	{
@@ -191,16 +191,41 @@ void CMainFrame::SetResizeCursor(int htPos)
 	}
 }
 
-void CMainFrame::ResizeSize(const wxPoint& pos)
+void CMainFrame::ResizeSize(const wxPoint& Pos)
 {
-	auto offset = pos - m_ptDragStart;
-	wxRect rect;
+	auto Offset = Pos - m_ptDragStart;
+	wxRect Rect;
 
-	rect.width = offset.x * m_ptDirection.x + m_rectBorder.width;
-	rect.height = offset.y * m_ptDirection.y + m_rectBorder.height;
-	rect.x = offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x;
-	rect.y = offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y;
+	Rect.width = Offset.x * m_ptDirection.x + m_rectBorder.width;
+	Rect.height = Offset.y * m_ptDirection.y + m_rectBorder.height;
+	Rect.x = Offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x;
+	Rect.y = Offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y;
 
-	SetSize(rect);
+	SetSize(Rect);
 	Update();
+	m_pDrawPanel->Refresh();
+}
+
+void CMainFrame::ChangeRulerPosition(ERulerPosition NewPosition)
+{
+	if (m_eRulerPosition != NewPosition)
+	{
+		switch (NewPosition)
+		{
+		case rpLeft:
+		case rpRight:
+			SetSize(60, m_iRulerLength);
+
+			break;
+		case rpTop:
+		case rpBottom:
+			SetSize(m_iRulerLength, 60);
+
+			break;
+		}
+
+		m_eRulerPosition = NewPosition;
+		
+		Refresh();
+	}
 }
