@@ -7,12 +7,12 @@
 
 WinRuler is a computer application that operates on various graphical operating systems, allowing users to
 accurately measure distances on the computer screen. The application displays a virtual ruler with markings
-in centimeters or other units of measurement, enabling precise measurements.
+in centimetres or other units of measurement, enabling precise measurements.
 
 ## Features
 
 - Intuitive and simple user interface.
-- Support for various units of measurement (centimeters, inches, pixels, etc.).
+- Support for various units of measurement (centimetres, inches, pixels, etc.).
 - Adjustable ruler length to suit individual needs.
 - Works on all major operating systems: Windows, macOS, Linux.
 
