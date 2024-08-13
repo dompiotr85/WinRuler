@@ -32,6 +32,13 @@ private:
     void DrawRulerScale(wxDC& dc, wxRect& SurfaceRect);
 	void DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect);
 
+    void OnOptionsClick(wxCommandEvent& Event);
+    void OnNewRulerLengthClick(wxCommandEvent& Event);
+    void OnPixelsAsUnitClick(wxCommandEvent& Event);
+    void OnCentimetresAsUnitClick(wxCommandEvent& Event);
+    void OnInchesAsUnitClick(wxCommandEvent& Event);
+    void OnPicasAsUnitClick(wxCommandEvent& Event);
+    void OnAlwaysOnTopClick(wxCommandEvent& Event);
 	void OnScaleOnLeftClick(wxCommandEvent& Event);
 	void OnScaleOnTopClick(wxCommandEvent& Event);
 	void OnScaleOnRightClick(wxCommandEvent& Event);
@@ -66,7 +73,17 @@ public:
      **/
     void Render(wxDC& dc);
 
-	void OnMouseEvent(wxMouseEvent& Event);
+    void OnMouseEvent(wxMouseEvent& Event);
+private:
+    void OnLeftDown(wxMouseEvent& Event);
+    void OnLeftUp(wxMouseEvent& Event);
+    void OnMouseMove(wxMouseEvent& Event);
+    void OnMouseLeave(wxMouseEvent& Event);
+private:
+    bool m_bDragging;
+    wxPoint m_DragStartPos;
+    wxSize m_InitialSize;
+    wxPoint m_InitialPos;
 public:
     DECLARE_EVENT_TABLE()
 };

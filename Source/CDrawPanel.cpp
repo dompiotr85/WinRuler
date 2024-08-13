@@ -31,15 +31,35 @@
 #define ID_RULER_POSITION_SCALE_ON_RIGHT 2003
 #define ID_RULER_POSITION_SCALE_ON_TOP 2004
 #define ID_RULER_POSITION_SCALE_ON_BOTTOM 2005
-#define ID_ABOUT 2006
-#define ID_CLOSE 2007
+#define ID_PIXELS_AS_UNIT 2006
+#define ID_CENTIMETRES_AS_UNIT 2007
+#define ID_INCHES_AS_UNIT 2008
+#define ID_PICAS_AS_UNIT 2009
+#define ID_ALWAYS_ON_TOP 2010
+#define ID_NEW_RULER_LENGTH 2011
+#define ID_OPTIONS 2012
 
 BEGIN_EVENT_TABLE(CDrawPanel, wxPanel)
+
 // Catch paint events.
 EVT_PAINT(CDrawPanel::PaintEvent)
-EVT_MOUSE_EVENTS(CDrawPanel::OnMouseEvent)
 
+// Catch mouse events.
+EVT_MOUSE_EVENTS(CDrawPanel::OnMouseEvent)
+EVT_LEFT_DOWN(CDrawPanel::OnLeftDown)
+EVT_LEFT_UP(CDrawPanel::OnLeftUp)
+EVT_MOTION(CDrawPanel::OnMouseMove)
+EVT_LEAVE_WINDOW(CDrawPanel::OnMouseLeave)
+
+// Catch menu events.
 //EVT_MENU(ID_, CDrawPanel::OnClick)
+EVT_MENU(ID_OPTIONS, CDrawPanel::OnOptionsClick)
+EVT_MENU(ID_NEW_RULER_LENGTH, CDrawPanel::OnNewRulerLengthClick)
+EVT_MENU(ID_PIXELS_AS_UNIT, CDrawPanel::OnPixelsAsUnitClick)
+EVT_MENU(ID_CENTIMETRES_AS_UNIT, CDrawPanel::OnCentimetresAsUnitClick)
+EVT_MENU(ID_INCHES_AS_UNIT, CDrawPanel::OnInchesAsUnitClick)
+EVT_MENU(ID_PICAS_AS_UNIT, CDrawPanel::OnPicasAsUnitClick)
+EVT_MENU(ID_ALWAYS_ON_TOP, CDrawPanel::OnAlwaysOnTopClick)
 EVT_MENU(ID_RULER_POSITION_SCALE_ON_LEFT, CDrawPanel::OnScaleOnLeftClick)
 EVT_MENU(ID_RULER_POSITION_SCALE_ON_RIGHT, CDrawPanel::OnScaleOnRightClick)
 EVT_MENU(ID_RULER_POSITION_SCALE_ON_TOP, CDrawPanel::OnScaleOnTopClick)
@@ -48,11 +68,9 @@ EVT_MENU(wxID_ABOUT, CDrawPanel::OnAboutClick)
 EVT_MENU(wxID_CLOSE, CDrawPanel::OnCloseClick)
 END_EVENT_TABLE()
 
-// Forward declarations.
-class CMainFrame;
-
 CDrawPanel::CDrawPanel(wxFrame* pParent) :
-    wxPanel(pParent)
+    wxPanel(pParent),
+    m_bDragging(false)
 {
     // No code.
 }
@@ -64,26 +82,127 @@ void CDrawPanel::OnMouseEvent(wxMouseEvent& Event)
     Pos = pWindow->ClientToScreen(Pos);
     if (Event.RightDown())
     {
-        // Show PopupMenu at position.
+        // Create pMenu, pRulerPositionMenu.
         wxMenu* pMenu = new wxMenu();
         wxMenu* pRulerPositionMenu = new wxMenu();
 
-        pRulerPositionMenu->Append(ID_RULER_POSITION_SCALE_ON_LEFT, wxString("Scale on &left"));
-        pRulerPositionMenu->Append(ID_RULER_POSITION_SCALE_ON_RIGHT, wxString("Scale on &right"));
-        pRulerPositionMenu->Append(ID_RULER_POSITION_SCALE_ON_TOP, wxString("Scale on &top"));
-        pRulerPositionMenu->Append(ID_RULER_POSITION_SCALE_ON_BOTTOM, wxString("Scale on &bottom"));
+        // Retrieve pointer to CMainFrame class.
+        CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
 
-        pMenu->Append(ID_RULER_POSITION, wxString("&Ruler's position"), pRulerPositionMenu);
+        // Build pRulerPositionMenu items.
+        pRulerPositionMenu->AppendRadioItem(
+            ID_RULER_POSITION_SCALE_ON_LEFT,
+            wxString("Scale on &left side"))->Check(
+                pMainFrame->m_eRulerPosition == CMainFrame::rpLeft ? true : false);
+        pRulerPositionMenu->AppendRadioItem(
+            ID_RULER_POSITION_SCALE_ON_RIGHT,
+            wxString("Scale on &right side"))->Check(
+                pMainFrame->m_eRulerPosition == CMainFrame::rpRight ? true : false);
+        pRulerPositionMenu->AppendRadioItem(
+            ID_RULER_POSITION_SCALE_ON_TOP,
+            wxString("Scale on &top"))->Check(
+                pMainFrame->m_eRulerPosition == CMainFrame::rpTop ? true : false);
+        pRulerPositionMenu->AppendRadioItem(
+            ID_RULER_POSITION_SCALE_ON_BOTTOM,
+            wxString("Scale on &bottom"))->Check(
+                pMainFrame->m_eRulerPosition == CMainFrame::rpBottom ? true : false);
 
+        // Append pRulerPositionMenu as submenu of ID_RULER_POSITION item.
+        pMenu->Append(ID_RULER_POSITION, wxString("&Ruler position"), pRulerPositionMenu);
+        pMenu->AppendSeparator();
+
+        // Append measuring units as radio items.
+        pMenu->AppendRadioItem(
+            ID_PIXELS_AS_UNIT,
+            wxString("&Pixels as unit"))->Check(
+                pMainFrame->m_eRulerUnits == CMainFrame::ruPixels ? true : false);
+        pMenu->AppendRadioItem(
+            ID_CENTIMETRES_AS_UNIT,
+            wxString("&Centimetres as unit"))->Check(
+                pMainFrame->m_eRulerUnits == CMainFrame::ruCentimetres ? true : false);
+        pMenu->AppendRadioItem(
+            ID_INCHES_AS_UNIT,
+            wxString("&Inches as unit"))->Check(
+                pMainFrame->m_eRulerUnits == CMainFrame::ruInches ? true : false);
+        pMenu->AppendRadioItem(
+            ID_PICAS_AS_UNIT,
+            wxString("&Picas as unit"))->Check(
+                pMainFrame->m_eRulerUnits == CMainFrame::ruPicas ? true : false);
+        pMenu->AppendSeparator();
+
+        // Append AlwaysOnTop item separated.
+        wxMenuItem* pMenuItem = pMenu->AppendCheckItem(ID_ALWAYS_ON_TOP, wxString("&Always on top"));
+        pMenuItem->Check(pMainFrame->m_bAlwaysOnTop);
+        pMenu->AppendSeparator();
+
+        // Append new ruler length MenuItem.
+        pMenu->Append(ID_NEW_RULER_LENGTH, wxString("Set new ruler &length"));
+        pMenu->AppendSeparator();
+
+        // Append option menu item.
+        pMenu->Append(ID_OPTIONS, wxString("&Options..."));
+        pMenu->AppendSeparator();
+
+        // Append About and Close items separated.
         pMenu->Append(wxID_ABOUT, wxString("&About"));
-        pMenu->Append(wxID_CLOSE, wxString("&Close"));
+        pMenu->AppendSeparator();
+        pMenu->Append(wxID_CLOSE, wxString("&Close\tAlt+F4"));
 
+        // Pop penu.
         PopupMenu(pMenu, Event.GetPosition());
+
+        // Release pMenu.
+        delete pMenu;
     }
     else
     {
         Event.Skip();
     }
+}
+
+void CDrawPanel::OnOptionsClick(wxCommandEvent& WXUNUSED(Event))
+{
+
+}
+
+void CDrawPanel::OnNewRulerLengthClick(wxCommandEvent& WXUNUSED(Event))
+{
+
+}
+
+void CDrawPanel::OnPixelsAsUnitClick(wxCommandEvent& WXUNUSED(Event))
+{
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+
+    pMainFrame->ChangeRulerUnitOfMeasurement(CMainFrame::ruPixels);
+}
+
+void CDrawPanel::OnCentimetresAsUnitClick(wxCommandEvent& WXUNUSED(Event))
+{
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+
+    pMainFrame->ChangeRulerUnitOfMeasurement(CMainFrame::ruCentimetres);
+}
+
+void CDrawPanel::OnInchesAsUnitClick(wxCommandEvent& WXUNUSED(Event))
+{
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+
+    pMainFrame->ChangeRulerUnitOfMeasurement(CMainFrame::ruInches);
+}
+
+void CDrawPanel::OnPicasAsUnitClick(wxCommandEvent& WXUNUSED(Event))
+{
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+
+    pMainFrame->ChangeRulerUnitOfMeasurement(CMainFrame::ruPicas);
+}
+
+void CDrawPanel::OnAlwaysOnTopClick(wxCommandEvent& WXUNUSED(Event))
+{
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+
+    pMainFrame->StayOnTop(!pMainFrame->m_bAlwaysOnTop);
 }
 
 void CDrawPanel::OnScaleOnLeftClick(wxCommandEvent& WXUNUSED(Event))
@@ -111,9 +230,10 @@ void CDrawPanel::OnAboutClick(wxCommandEvent& WXUNUSED(Event))
     wxMessageBox("This is about window", "About...");
 }
 
-void CDrawPanel::OnCloseClick(wxCommandEvent& WXUNUSED(Event))
+void CDrawPanel::OnCloseClick(wxCommandEvent& Event)
 {
-    ::wxExit();
+    //::wxExit();
+    ((CMainFrame*) this->GetParent())->OnExit(Event);
 }
 
 void CDrawPanel::PaintEvent(wxPaintEvent& Event)
@@ -168,7 +288,7 @@ void CDrawPanel::DrawRulerScale(wxDC& dc, wxRect& SurfaceRect)
     case CMainFrame::rpLeft:
         switch (pMainFrame->m_eRulerUnits)
         {
-        case CMainFrame::ruCentimeters:
+        case CMainFrame::ruCentimetres:
             sT = (SurfaceRect.GetBottom() - SurfaceRect.GetTop()) - 10;
             ID = 0.0;
             I = CentimetresToPixelsVertical(0, ID);
@@ -227,7 +347,7 @@ void CDrawPanel::DrawRulerScale(wxDC& dc, wxRect& SurfaceRect)
     case CMainFrame::rpTop:
         switch (pMainFrame->m_eRulerUnits)
         {
-        case CMainFrame::ruCentimeters:
+        case CMainFrame::ruCentimetres:
             sT = (SurfaceRect.GetRight() - SurfaceRect.GetLeft()) - 10;
             ID = 0.0;
             I = CentimetresToPixelsHorizontal(0, ID);
@@ -286,7 +406,7 @@ void CDrawPanel::DrawRulerScale(wxDC& dc, wxRect& SurfaceRect)
     case CMainFrame::rpRight:
         switch (pMainFrame->m_eRulerUnits)
         {
-        case CMainFrame::ruCentimeters:
+        case CMainFrame::ruCentimetres:
             sT = (SurfaceRect.GetBottom() - SurfaceRect.GetTop()) - 10;
             ID = 0.0;
             I = CentimetresToPixelsVertical(0, ID);
@@ -348,7 +468,7 @@ void CDrawPanel::DrawRulerScale(wxDC& dc, wxRect& SurfaceRect)
     case CMainFrame::rpBottom:
         switch (pMainFrame->m_eRulerUnits)
         {
-        case CMainFrame::ruCentimeters:
+        case CMainFrame::ruCentimetres:
             sT = (SurfaceRect.GetRight() - SurfaceRect.GetLeft()) - 10;
             ID = 0.0;
             I = CentimetresToPixelsHorizontal(0, ID);
@@ -497,24 +617,75 @@ void CDrawPanel::DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect)
 
         break;
     }
-        /*
-        // Draw some text.
-        dc.DrawText(wxT("Testing"), 40, 60);
+}
 
-        // Draw a circle.
-        dc.SetBrush(*wxGREEN_BRUSH); // Green filling
-        dc.SetPen(wxPen(wxColor(255, 0, 0), 5)); // 5-pixels-thick red outline.
-        dc.DrawCircle(wxPoint(200, 100), 25);
+void CDrawPanel::OnLeftDown(wxMouseEvent& Event)
+{
+    wxPoint Pos = Event.GetPosition();
+    CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+    int Width, Height, Offset;
+    pMainFrame->GetSize(&Width, &Height);
+    Offset = pMainFrame->m_nOffsetBorder;
 
-        // Draw a rectangle.
-        dc.SetBrush(*wxBLUE_BRUSH); // Blue filling.
-        dc.SetPen(wxPen(wxColor(255, 175, 175), 10)); // 10-pixels-thick pink outline.
-        dc.DrawRectangle(300, 100, 400, 200);
+    if (Event.LeftDown() && 
+        ((Pos.x >= Offset && Pos.y >= Offset) &&
+         (Pos.x < Width - Offset && Pos.y < Height - Offset)))
+    {
+        // Retrieve mouse position from Event.
+        wxPoint Pos = Event.GetPosition();
 
-        // Draw a line.
-        dc.SetPen(wxPen(wxColor(0, 0, 0), 3)); // Black line, 3 pixels thick
-        dc.DrawLine(300, 100, 700, 300); // Draw line across the rectangle.
+        m_bDragging = true;
 
-        // Look at the wxDC docs to learn how to draw other stuff.
-        */
+        // Convert to screen position.
+        m_DragStartPos = ClientToScreen(Pos);
+
+        CaptureMouse();
+    }
+    else
+    {
+        Event.Skip();
+    }
+}
+
+void CDrawPanel::OnLeftUp(wxMouseEvent& Event)
+{
+    if (m_bDragging)
+    {
+        m_bDragging = false;
+
+        ReleaseMouse();
+    }
+    else
+    {
+        Event.Skip();
+    }
+}
+
+void CDrawPanel::OnMouseMove(wxMouseEvent& Event)
+{
+    if (m_bDragging)
+    {
+        wxPoint Pos = ClientToScreen(Event.GetPosition());
+        wxPoint diff = Pos - m_DragStartPos;
+        GetParent()->Move(GetParent()->GetPosition() + diff);
+
+        // Update starting position.
+        m_DragStartPos = Pos;
+    }
+    else
+    {
+        Event.Skip();
+    }
+}
+
+void CDrawPanel::OnMouseLeave(wxMouseEvent& Event)
+{
+    if (!m_bDragging)
+    {
+        SetCursor(wxNullCursor);
+    }
+    else
+    {
+        Event.Skip();
+    }
 }

@@ -23,12 +23,11 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <CMainFrame.h>
 
 class CApplication :
 	public wxApp
 {
-private:
-	wxLog* m_pLogger;
 public:
 	/**
 	 * This function is called when application is initialized and returns
@@ -45,4 +44,6 @@ public:
 	 * Override FilterEvent method for our mouse events pre-processing.
 	 **/
 	int FilterEvent(wxEvent& Event);
+public:
+	CMainFrame* m_pMainFrame;
 };

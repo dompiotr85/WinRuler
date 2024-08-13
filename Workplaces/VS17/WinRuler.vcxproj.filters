@@ -47,5 +47,13 @@
     <ClInclude Include="..\..\Source\WRUtilities.h">
       <Filter>Header files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinRuler.rc">
+      <Filter>Resource files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

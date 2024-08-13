@@ -163,6 +163,10 @@
     <ClInclude Include="..\..\Source\CMainFrame.h" />
     <ClInclude Include="..\..\Source\MainFrameUtilities.h" />
     <ClInclude Include="..\..\Source\WRUtilities.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinRuler.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

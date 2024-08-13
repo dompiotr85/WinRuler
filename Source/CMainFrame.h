@@ -24,7 +24,19 @@
 
 #include <wx/wx.h>
 #include "CDrawPanel.h"
-#include "MainFrameUtilities.h"
+
+enum HT_Pos
+{
+	HT_client,
+	HT_left,
+	HT_right,
+	HT_top,
+	HT_topLeft,
+	HT_topRight,
+	HT_bottom,
+	HT_bottomLeft,
+	HT_bottomRight
+};
 
 /**
  * MainFrame class definition. 
@@ -54,7 +66,7 @@ public:
 	typedef enum ERulerUnits
 	{
 		// Centimeters as unit of measurement.
-		ruCentimeters,
+		ruCentimetres,
 		// Unches as unit of measurement.
 		ruInches,
 		// Picas as unit of measurement.
@@ -82,10 +94,16 @@ public:
 	 * @param Title		Reference to MainFrame title string.
 	 **/
 	CMainFrame(const wxString& Title);
+	~CMainFrame();
+
+	void OnExit(wxCommandEvent& Event);
+	void OnClose(wxCloseEvent& Event);
 
 	void OnMouseEvent(wxMouseEvent& Event);
-public:
+
 	void ChangeRulerPosition(ERulerPosition NewPosition);
+	void StayOnTop(bool State);
+	void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
 protected:
 	void BorderDragInit();
 	int BorderHitTest(const wxPoint& Pos);
@@ -96,17 +114,22 @@ protected:
 public:
 	// Ruler's scale position.
 	ERulerPosition m_eRulerPosition = rpTop;
-	ERulerUnits m_eRulerUnits = ruCentimeters;
+	ERulerUnits m_eRulerUnits = ruCentimetres;
 	ERulerBackgroundType m_eRulerBackgroundType = btSolid;
 
 	wxColor m_RulerScaleColour = wxColour(0, 0, 0);
 	wxColor m_RulerBackgroundColor = wxColour(255, 164, 119);
 
-	int m_iRulerLength = 640;
-private:
+	int m_iRulerLength = 800;
+
+	bool m_bAlwaysOnTop = true;
+
 	// DrawPanel which is used for all drawing of our ruler.
 	CDrawPanel* m_pDrawPanel;
 
+	// Box sizer.
+	wxBoxSizer* m_pSizer;
+public:
 	// This filed records if caption drag opertion. 
 	bool m_bCaptionDragStart;
 

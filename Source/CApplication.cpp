@@ -21,7 +21,6 @@
  **/
 
 #include "CApplication.h"
-#include "CMainFrame.h"
 #include "WRUtilities.h"
 #include <wx/wx.h>
 #include <wx/display.h>
@@ -42,14 +41,14 @@ bool CApplication::OnInit()
 
 	// Create dynamically (on heap) new CMainFrame class and store it in
 	// mainFrame.
-	CMainFrame* pMainFrame = new CMainFrame("WinRuler");
+	m_pMainFrame = new CMainFrame("WinRuler");
 
 	// Set mainFrame client size and center it on screen.
-	pMainFrame->SetClientSize(800, 80);
-	pMainFrame->Center();
+	m_pMainFrame->SetClientSize(800, 60);
+	m_pMainFrame->Center();
 
 	// Show mainFrame.
-	pMainFrame->Show();
+	m_pMainFrame->Show();
 
 	// Return true.
 	return true;
@@ -58,8 +57,10 @@ bool CApplication::OnInit()
 int CApplication::OnExit()
 {
 	g_vPixelPerInch.clear();
+	//if (!m_pMainFrame)
+	//	delete m_pMainFrame;
 
-	return 0;
+	return wxApp::OnExit();
 }
 
 int CApplication::FilterEvent(wxEvent& Event)

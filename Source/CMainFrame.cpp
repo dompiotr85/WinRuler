@@ -24,22 +24,138 @@
 #include <wx/sizer.h>
 #include "CMainFrame.h"
 
+static int Clamp(int value, int min, int max)
+{
+	if (value <= min)
+	{
+		return 0;
+	}
+	else if (value < max)
+	{
+		return 1;
+	}
+	else
+	{
+		return 2;
+	}
+}
+
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 EVT_MOUSE_EVENTS(CMainFrame::OnMouseEvent)
 END_EVENT_TABLE()
 
 CMainFrame::CMainFrame(const wxString& Title) :
-	wxFrame(nullptr, wxID_ANY, Title, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE | wxCLIP_CHILDREN)
+	wxFrame(
+		nullptr, wxID_ANY, Title, wxDefaultPosition, wxDefaultSize,
+		wxBORDER_NONE | wxCLIP_CHILDREN | wxSTAY_ON_TOP)
 {
-	wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
+	m_pSizer = new wxBoxSizer(wxHORIZONTAL);
 	m_pDrawPanel = new CDrawPanel((wxFrame*) this);
-	pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
+	m_pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
 
-	this->SetSizer(pSizer);
+	this->SetSizer(m_pSizer);
 	this->SetAutoLayout(true);
+
+	this->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
+	this->Bind(wxEVT_CLOSE_WINDOW, &CMainFrame::OnClose, this);
 
 	// Initialize Border Drag.
 	BorderDragInit();
+}
+
+CMainFrame::~CMainFrame()
+{
+	if (!m_pSizer)
+		delete m_pSizer;
+	if (!m_pDrawPanel)
+		delete m_pDrawPanel;
+
+	this->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
+}
+
+void CMainFrame::OnExit(wxCommandEvent& Event)
+{
+	if (wxMessageBox(
+			"Are you sure that you want to exit the WinRuler?",
+			"WinRuler - Please confirm", wxICON_QUESTION | wxYES_NO) == wxYES)
+	{
+		this->Close(true);
+	}
+}
+
+void CMainFrame::OnClose(wxCloseEvent& Event)
+{
+	// Check, that ALT+F4 was pressed.
+	if (wxGetKeyState(WXK_ALT) && wxGetKeyState(WXK_F4))
+	{
+		// Show message about closing.
+		if (wxMessageBox(
+			"Are you sure that you want to exit the WinRuler?",
+			"WinRuler - Plase confirm", wxICON_QUESTION | wxYES_NO) == wxYES)
+		{
+			// Is YES pressed, close Frame.
+			this->Close(true);
+		}
+
+		// Ignore closing of Frame.
+		return;
+	}
+
+	// If ALT+F4 not pressed, skip this Event.
+	Event.Skip();
+}
+
+void CMainFrame::ChangeRulerPosition(ERulerPosition NewPosition)
+{
+	if (m_eRulerPosition != NewPosition)
+	{
+		switch (NewPosition)
+		{
+		case rpLeft:
+		case rpRight:
+			SetSize(60, m_iRulerLength);
+
+			break;
+		case rpTop:
+		case rpBottom:
+			SetSize(m_iRulerLength, 60);
+
+			break;
+		}
+
+		m_eRulerPosition = NewPosition;
+		
+		Refresh();
+	}
+}
+
+void CMainFrame::StayOnTop(bool State)
+{
+	if (m_bAlwaysOnTop != State)
+	{
+		m_bAlwaysOnTop = State;
+
+		if (m_bAlwaysOnTop)
+		{
+			this->SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN | wxSTAY_ON_TOP);
+		}
+		else
+		{
+			this->SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN);
+		}
+	}
+}
+
+void CMainFrame::ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit)
+{
+	// If NewUnit is different than current unit of measurement, then change it
+	// and refresh ruler.
+	if (m_eRulerUnits != NewUnit)
+	{
+		m_eRulerUnits = NewUnit;
+		
+		Refresh();
+	}
 }
 
 void CMainFrame::OnMouseEvent(wxMouseEvent& Event)
@@ -97,10 +213,10 @@ int CMainFrame::BorderHitTest(const wxPoint& Pos)
 		return HT_client;
 	}
 
-	wxRect Rect = GetRect();
+	wxRect rect = GetRect();
 
-	int x = Clamp(Pos.x, Rect.x + m_nOffsetBorder, Rect.x + Rect.width - m_nOffsetBorder);
-	int y = Clamp(Pos.y, Rect.y + m_nOffsetBorder, Rect.y + Rect.height - m_nOffsetBorder);
+	int x = Clamp(Pos.x, rect.x + m_nOffsetBorder, rect.x + rect.width - m_nOffsetBorder);
+	int y = Clamp(Pos.y, rect.y + m_nOffsetBorder, rect.y + rect.height - m_nOffsetBorder);
 
 	static int hotArea[3][3] =
 	{
@@ -147,7 +263,6 @@ void CMainFrame::BorderDragInit()
 {
 	m_eBorderDragMode = HT_client;
 	m_nOffsetBorder = 10;
-	//m_rectBorder = GetRect();
 }
 
 void CMainFrame::OnLeaveBorder(int hitPos)
@@ -171,10 +286,12 @@ void CMainFrame::SetResizeCursor(int htPos)
 		case HT_top:
 		case HT_bottom:
 			SetCursor(wxCURSOR_SIZENS);
+			
 			break;
 		default:
 			SetCursor(*wxSTANDARD_CURSOR);
 		}
+		
 		break;
 	case rpTop:
 	case rpBottom:
@@ -183,49 +300,37 @@ void CMainFrame::SetResizeCursor(int htPos)
 		case HT_left:
 		case HT_right:
 			SetCursor(wxCURSOR_SIZEWE);
+			
 			break;
 		default:
 			SetCursor(*wxSTANDARD_CURSOR);
 		}
+		
 		break;
 	}
 }
 
-void CMainFrame::ResizeSize(const wxPoint& Pos)
+void CMainFrame::ResizeSize(const wxPoint& pos)
 {
-	auto Offset = Pos - m_ptDragStart;
-	wxRect Rect;
+	auto offset = pos - m_ptDragStart;
+	wxRect rect;
 
-	Rect.width = Offset.x * m_ptDirection.x + m_rectBorder.width;
-	Rect.height = Offset.y * m_ptDirection.y + m_rectBorder.height;
-	Rect.x = Offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x;
-	Rect.y = Offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y;
+	rect.width = offset.x * m_ptDirection.x + m_rectBorder.width;
+	rect.height = offset.y * m_ptDirection.y + m_rectBorder.height;
+	rect.x = offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x;
+	rect.y = offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y;
 
-	SetSize(Rect);
+	SetSize(rect);
 	Update();
-	m_pDrawPanel->Refresh();
-}
 
-void CMainFrame::ChangeRulerPosition(ERulerPosition NewPosition)
-{
-	if (m_eRulerPosition != NewPosition)
+	if (m_eRulerPosition == rpLeft || m_eRulerPosition == rpRight)
 	{
-		switch (NewPosition)
-		{
-		case rpLeft:
-		case rpRight:
-			SetSize(60, m_iRulerLength);
-
-			break;
-		case rpTop:
-		case rpBottom:
-			SetSize(m_iRulerLength, 60);
-
-			break;
-		}
-
-		m_eRulerPosition = NewPosition;
-		
-		Refresh();
+		m_iRulerLength = rect.GetHeight();
 	}
+	else if (m_eRulerPosition == rpTop || m_eRulerPosition == rpBottom)
+	{
+		m_iRulerLength = rect.GetWidth();
+	}
+
+	m_pDrawPanel->Refresh();
 }
