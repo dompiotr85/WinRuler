@@ -25,25 +25,32 @@
 #include <wx/wx.h>
 #include <CMainFrame.h>
 
-class CApplication :
-	public wxApp
+namespace WinRuler
 {
-public:
-	/**
-	 * This function is called when application is initialized and returns
-	 * true if initialization process was successful.
-	 **/
-	bool OnInit() override;
+	class CApplication :
+		public wxApp
+	{
+	public:
+		/**
+		 * This function is called when application is initialized and returns
+		 * true if initialization process was successful.
+		 **/
+		bool OnInit() override;
 
-	/**
-	 *  This function is called when application is closed.
-	 **/
-	int OnExit() override;
+		/**
+		 * This function is called when application is closed.
+		 **/
+		int OnExit() override;
 
-	/**
-	 * Override FilterEvent method for our mouse events pre-processing.
-	 **/
-	int FilterEvent(wxEvent& Event);
-public:
-	CMainFrame* m_pMainFrame;
-};
+		/**
+		 * Override FilterEvent method for our mouse events pre-processing.
+		 **/
+		int FilterEvent(wxEvent& Event);
+	public:
+		// Pointer to CMainFrame instance.
+		CMainFrame* m_pMainFrame;
+
+		// Pointer to wxIcon.
+		wxIcon* m_pIcon;
+	};
+} // end namespace WinRuler

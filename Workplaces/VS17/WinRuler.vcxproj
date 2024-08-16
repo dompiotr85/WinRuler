@@ -151,16 +151,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\CAboutDialog.cpp" />
     <ClCompile Include="..\..\Source\CApplication.cpp" />
     <ClCompile Include="..\..\Source\CDrawPanel.cpp" />
+    <ClCompile Include="..\..\Source\CLicenseDialog.cpp" />
+    <ClCompile Include="..\..\Source\CNewRulerLengthDialog.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
     <ClCompile Include="..\..\Source\CMainFrame.cpp" />
     <ClCompile Include="..\..\Source\WRUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\CAboutDialog.h" />
     <ClInclude Include="..\..\Source\CApplication.h" />
     <ClInclude Include="..\..\Source\CDrawPanel.h" />
+    <ClInclude Include="..\..\Source\CLicenseDialog.h" />
     <ClInclude Include="..\..\Source\CMainFrame.h" />
+    <ClInclude Include="..\..\Source\CNewRulerLengthDialog.h" />
     <ClInclude Include="..\..\Source\MainFrameUtilities.h" />
     <ClInclude Include="..\..\Source\WRUtilities.h" />
     <ClInclude Include="resource.h" />

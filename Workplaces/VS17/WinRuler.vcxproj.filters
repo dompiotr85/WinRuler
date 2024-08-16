@@ -30,6 +30,15 @@
     <ClCompile Include="..\..\Source\WRUtilities.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CAboutDialog.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CLicenseDialog.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CNewRulerLengthDialog.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CApplication.h">
@@ -49,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resource files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CAboutDialog.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CLicenseDialog.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CNewRulerLengthDialog.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

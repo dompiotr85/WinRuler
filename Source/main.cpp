@@ -22,4 +22,4 @@
 
 #include "CApplication.h"
 
-wxIMPLEMENT_APP(CApplication);
+wxIMPLEMENT_APP(WinRuler::CApplication);

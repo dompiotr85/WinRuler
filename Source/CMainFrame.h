@@ -24,6 +24,8 @@
 
 #include <wx/wx.h>
 #include "CDrawPanel.h"
+#include "CAboutDialog.h"
+#include "CNewRulerLengthDialog.h"
 
 enum HT_Pos
 {
@@ -38,115 +40,230 @@ enum HT_Pos
 	HT_bottomRight
 };
 
-/**
- * MainFrame class definition. 
- **/
-class CMainFrame :
-	public wxFrame
+#define ID_RULER_POSITION 2001
+#define ID_RULER_POSITION_SCALE_ON_LEFT 2002
+#define ID_RULER_POSITION_SCALE_ON_RIGHT 2003
+#define ID_RULER_POSITION_SCALE_ON_TOP 2004
+#define ID_RULER_POSITION_SCALE_ON_BOTTOM 2005
+#define ID_PIXELS_AS_UNIT 2006
+#define ID_CENTIMETRES_AS_UNIT 2007
+#define ID_INCHES_AS_UNIT 2008
+#define ID_PICAS_AS_UNIT 2009
+#define ID_ALWAYS_ON_TOP 2010
+#define ID_NEW_RULER_LENGTH 2011
+#define ID_OPTIONS 2012
+
+namespace WinRuler
 {
-public:
 	/**
-	 * Ruler's position. It describes position of ruler's scale.
+	 * MainFrame class definition.
 	 **/
-	typedef enum ERulerPosition
+	class CMainFrame :
+		public wxFrame
 	{
-		// Ruler's scale is on left side of the ruler.
-		rpLeft,
-		// Ruler's scale is on top side of the ruler.
-		rpTop,
-		// Ruler's scale is on right side of the ruler.
-		rpRight,
-		// Ruler's scale is on bottom side of the ruler.
-		rpBottom
-	} ERulerPosition;
+		DECLARE_EVENT_TABLE()
+	public:
+		/**
+		 * Ruler's position. It describes position of ruler's scale.
+		 **/
+		typedef enum ERulerPosition
+		{
+			// Ruler's scale is on left side of the ruler.
+			rpLeft,
+			// Ruler's scale is on top side of the ruler.
+			rpTop,
+			// Ruler's scale is on right side of the ruler.
+			rpRight,
+			// Ruler's scale is on bottom side of the ruler.
+			rpBottom
+		} ERulerPosition;
 
-	/**
-	 * Ruler's units of measurement types.
-	 **/
-	typedef enum ERulerUnits
-	{
-		// Centimeters as unit of measurement.
-		ruCentimetres,
-		// Unches as unit of measurement.
-		ruInches,
-		// Picas as unit of measurement.
-		ruPicas,
-		// Pixels as unit of measurement.
-		ruPixels
-	} ERulerUnits;
+		/**
+		 * Ruler's units of measurement types.
+		 **/
+		typedef enum ERulerUnits
+		{
+			// Centimeters as unit of measurement.
+			ruCentimetres,
+			// Unches as unit of measurement.
+			ruInches,
+			// Picas as unit of measurement.
+			ruPicas,
+			// Pixels as unit of measurement.
+			ruPixels
+		} ERulerUnits;
 
-	/**
-	 * Ruler's background type.
-	 **/
-	typedef enum ERulerBackgroundType
-	{
-		// Solid color as ruler's background.
-		btSolid,
-		// Gradient color as ruler's background.
-		btGradient,
-		// Image as ruler's background.
-		btImage
-	} ERulerBackgroundType;
-public:
-	/**
-	 * CMainFrame constructor.
-	 *
-	 * @param Title		Reference to MainFrame title string.
-	 **/
-	CMainFrame(const wxString& Title);
-	~CMainFrame();
+		/**
+		 * Ruler's background type.
+		 **/
+		typedef enum ERulerBackgroundType
+		{
+			// Solid color as ruler's background.
+			btSolid,
+			// Gradient color as ruler's background.
+			btGradient,
+			// Image as ruler's background.
+			btImage
+		} ERulerBackgroundType;
+	private:
+		/**
+		 * PopupMenu event handling methods.
+		 **/
+		void OnOptionsClicked(wxCommandEvent& Event);
+		void OnNewRulerLengthClicked(wxCommandEvent& Event);
+		void OnPixelsAsUnitClicked(wxCommandEvent& Event);
+		void OnCentimetresAsUnitClicked(wxCommandEvent& Event);
+		void OnInchesAsUnitClicked(wxCommandEvent& Event);
+		void OnPicasAsUnitClicked(wxCommandEvent& Event);
+		void OnAlwaysOnTopClicked(wxCommandEvent& Event);
+		void OnScaleOnLeftClicked(wxCommandEvent& Event);
+		void OnScaleOnTopClicked(wxCommandEvent& Event);
+		void OnScaleOnRightClicked(wxCommandEvent& Event);
+		void OnScaleOnBottomClicked(wxCommandEvent& Event);
+		void OnAboutClicked(wxCommandEvent& Event);
+		void OnCloseClicked(wxCommandEvent& Event);
+	public:
+		/**
+		 * CMainFrame constructor.
+		 *
+		 * @param Title		Reference to MainFrame title string.
+		 **/
+		CMainFrame(const wxString& Title);
 
-	void OnExit(wxCommandEvent& Event);
-	void OnClose(wxCloseEvent& Event);
+		/**
+		 * Default destructor.
+		 **/
+		~CMainFrame();
 
-	void OnMouseEvent(wxMouseEvent& Event);
+		/**
+		 * OnExit() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 */
+		void OnExit(wxCommandEvent& Event);
 
-	void ChangeRulerPosition(ERulerPosition NewPosition);
-	void StayOnTop(bool State);
-	void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
-protected:
-	void BorderDragInit();
-	int BorderHitTest(const wxPoint& Pos);
-	void SetResizeCursor(int htPos);
-	void OnLeaveBorder(int hitPos);
-	void OnEnterBorder();
-	void ResizeSize(const wxPoint& Pos);
-public:
-	// Ruler's scale position.
-	ERulerPosition m_eRulerPosition = rpTop;
-	ERulerUnits m_eRulerUnits = ruCentimetres;
-	ERulerBackgroundType m_eRulerBackgroundType = btSolid;
+		/**
+		 * OnClose() method event.
+		 *
+		 * @param Event		Reference to wxCloseEvent instance.
+		 **/
+		void OnClose(wxCloseEvent& Event);
 
-	wxColor m_RulerScaleColour = wxColour(0, 0, 0);
-	wxColor m_RulerBackgroundColor = wxColour(255, 164, 119);
+		/**
+		 * OnMouseEvent() method event.
+		 *
+		 * @param Event		Reference to wxMouseEvent instance.
+		 **/
+		void OnMouseEvent(wxMouseEvent& Event);
 
-	int m_iRulerLength = 800;
+		/**
+		 * This method should be called for proper change of ruler's position.
+		 * 
+		 * @param NewPosition		New ruler's position that will be set.
+		 **/
+		void ChangeRulerPosition(ERulerPosition NewPosition);
 
-	bool m_bAlwaysOnTop = true;
+		/**
+		 * This method should be called for proper change of StayOnTop state.
+		 *
+		 * @param State		New StayOnTop state.
+		 **/
+		void StayOnTop(bool State);
 
-	// DrawPanel which is used for all drawing of our ruler.
-	CDrawPanel* m_pDrawPanel;
+		/**
+		 * This method should be called for proper change of ruler's unit of
+		 * measurement.
+		 *
+		 * @param NewUnit	New ruler's unit of measurement.
+		 **/
+		void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
 
-	// Box sizer.
-	wxBoxSizer* m_pSizer;
-public:
-	// This filed records if caption drag opertion. 
-	bool m_bCaptionDragStart;
+		/**
+		 * This method sould be called for proper change of the ruler's length.
+		 * 
+		 * @param NewLength		New ruler's length.
+		 **/
+		void ChangeRulerLength(int NewLength);
+	protected:
+		/**
+		 * Performs initialization of border dragging.
+		 **/
+		void BorderDragInit();
 
-	// Mouse position when dragging started.
-	wxPoint m_ptDragStart;
+		/**
+		 * Performs border hit test and returns hit position.
+		 *
+		 * @param Pos	Reference to wxPoint instance.
+		 *
+		 * @return	Returns hit position described as HT_Pos.
+		 **/
+		int BorderHitTest(const wxPoint& Pos);
 
-	// Default width of the border.
-	int	m_nOffsetBorder;
+		/**
+		 * Sets resize cursor for specified hit position.
+		 *
+		 * @param htPos		Hit position specified.
+		 **/
+		void SetResizeCursor(int HitPos);
 
-	// Record the hit position when resizing the frame.
-	int m_eBorderDragMode;
+		/**
+		 * This method is called when mouse is leaving border specified by
+		 * hit position.
+		 *
+		 * @param hitPos	Hit position specified.
+		 **/
+		void OnLeaveBorder(int HitPos);
 
-	// This filed record frame rect when drag beginning. 
-	wxRect m_rectBorder;
+		/**
+		 * This method is called when mouse is entering border.
+		 **/
+		void OnEnterBorder();
 
-	// Direction vector.
-	wxPoint m_ptDirection;
+		/**
+		 * This method is called when 
+		 **/
+		void ResizeSize(const wxPoint& Pos);
+	public:
+		// Ruler's scale position.
+		ERulerPosition m_eRulerPosition = rpTop;
+		ERulerUnits m_eRulerUnits = ruCentimetres;
+		ERulerBackgroundType m_eRulerBackgroundType = btSolid;
 
-	DECLARE_EVENT_TABLE()
-};
+		wxColour m_RulerScaleColour = wxColour(0, 0, 0);
+		wxColour m_RulerBackgroundColor = wxColour(255, 164, 119);
+
+		int m_iRulerLength = 800;
+
+		bool m_bAlwaysOnTop = true;
+
+		// DrawPanel which is used for all drawing of our ruler.
+		CDrawPanel* m_pDrawPanel;
+
+		// Box sizer.
+		wxBoxSizer* m_pSizer;
+
+		// About dialog.
+		CAboutDialog* m_pAboutDialog;
+
+		// New ruler's length dialog.
+		CNewRulerLengthDialog* m_pNewRulerLengthDialog;
+	public:
+		// This filed records if caption drag opertion. 
+		bool m_bCaptionDragStart;
+
+		// Mouse position when dragging started.
+		wxPoint m_ptDragStart;
+
+		// Default width of the border.
+		int	m_nOffsetBorder;
+
+		// Record the hit position when resizing the frame.
+		int m_eBorderDragMode;
+
+		// This filed record frame rect when drag beginning. 
+		wxRect m_rectBorder;
+
+		// Direction vector.
+		wxPoint m_ptDirection;
+	};
+} // end namespace WinRuler

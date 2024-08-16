@@ -22,107 +22,111 @@
 
 #include "WRUtilities.h"
 
-std::vector<wxSize> g_vPixelPerInch = { wxSize(0, 0) };
-
-bool AreSame(double a, double b, double epsilon)
+namespace WinRuler
 {
-	return (std::fabs(a - b) < epsilon);
-}
+	std::vector<wxSize> g_vPixelPerInch = { wxSize(0, 0) };
 
-void SetPixelPerInch(unsigned int DisplayNo, wxSize& NewPPIValue)
-{
-	// If NewValue is different than current PixelPerInch value, then change
-	// it.
-	if ((g_vPixelPerInch[DisplayNo].x != NewPPIValue.x) && (g_vPixelPerInch[DisplayNo].y != NewPPIValue.y))
-		g_vPixelPerInch[DisplayNo] = NewPPIValue;
-}
+	bool AreSame(double a, double b, double epsilon)
+	{
+		return (std::fabs(a - b) < epsilon);
+	}
 
-wxSize& GetPixelPerInch(unsigned int DisplayNo)
-{
-	// Return current PixelPerInch value.
-	return g_vPixelPerInch[DisplayNo];
-}
+	void SetPixelPerInch(unsigned int DisplayNo, wxSize& NewPPIValue)
+	{
+		// If NewValue is different than current PixelPerInch value, then
+		// change it.
+		if ((g_vPixelPerInch[DisplayNo].x != NewPPIValue.x) && 
+			(g_vPixelPerInch[DisplayNo].y != NewPPIValue.y))
+			g_vPixelPerInch[DisplayNo] = NewPPIValue;
+	}
 
-int InchesToPixelsHorizontal(unsigned int DisplayNo, double AInchDistance)
-{
-	// Calculate how many pixels are in specified distance (in inches) and
-	// return result.
-	return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetX() * AInchDistance));
-}
+	wxSize& GetPixelPerInch(unsigned int DisplayNo)
+	{
+		// Return current PixelPerInch value.
+		return g_vPixelPerInch[DisplayNo];
+	}
 
-int InchesToPixelsVertical(unsigned int DisplayNo, double AInchDistance)
-{
-	// Calculate how many pixels are in specified distance (in inches) and
-	// return result.
-	return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetY() * AInchDistance));
-}
+	int InchesToPixelsHorizontal(unsigned int DisplayNo, double AInchDistance)
+	{
+		// Calculate how many pixels are in specified distance (in inches) and
+		// return result.
+		return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetX() * AInchDistance));
+	}
 
-double PixelsToInchesHorizontal(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculate how many inches are in specified pixel distance and return
-	// result.
-	return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetX());
-}
+	int InchesToPixelsVertical(unsigned int DisplayNo, double AInchDistance)
+	{
+		// Calculate how many pixels are in specified distance (in inches) and
+		// return result.
+		return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetY() * AInchDistance));
+	}
 
-double PixelsToInchesVertical(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculate how many inches are in specified pixel distance and return
-	// result.
-	return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetY());
-}
+	double PixelsToInchesHorizontal(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculate how many inches are in specified pixel distance and return
+		// result.
+		return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetX());
+	}
 
-int CentimetresToPixelsHorizontal(unsigned int DisplayNo, double ACentimetreDistance)
-{
-	// Calculate how many pixels are in specified distance (in centimetres) and
-	// return result.
-	return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetX() / 2.54) * ACentimetreDistance);
-}
+	double PixelsToInchesVertical(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculate how many inches are in specified pixel distance and return
+		// result.
+		return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetY());
+	}
 
-int CentimetresToPixelsVertical(unsigned int DisplayNo, double ACentimetreDistance)
-{
-	// Calculate how many pixels are in specified distance (in centimetres) and
-	// return result.
-	return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetY() / 2.54) * ACentimetreDistance);
-}
+	int CentimetresToPixelsHorizontal(unsigned int DisplayNo, double ACentimetreDistance)
+	{
+		// Calculate how many pixels are in specified distance (in centimetres)
+		// and return result.
+		return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetX() / 2.54) * ACentimetreDistance);
+	}
 
-double PixelsToCentimetresHorizontal(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculates how many centimetres are in specified pixel distance and
-	// return result.
-	return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 2.54));
-}
+	int CentimetresToPixelsVertical(unsigned int DisplayNo, double ACentimetreDistance)
+	{
+		// Calculate how many pixels are in specified distance (in centimetres)
+		// and return result.
+		return (int) (std::trunc(GetPixelPerInch(DisplayNo).GetY() / 2.54) * ACentimetreDistance);
+	}
 
-double PixelsToCentimetresVertical(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculates how many centimetres are in specified pixel distance and
-	// return result.
-	return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 2.54));
-}
+	double PixelsToCentimetresHorizontal(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculates how many centimetres are in specified pixel distance and
+		// return result.
+		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 2.54));
+	}
 
-int PicasToPixelsHorizontal(unsigned int DisplayNo, double APicasDistance)
-{
-	// Calculates how many pixels are in specified distance (in picas) and
-	// return result.
-	return (int) ((GetPixelPerInch(DisplayNo).GetX() / 6.0) * APicasDistance);
-}
+	double PixelsToCentimetresVertical(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculates how many centimetres are in specified pixel distance and
+		// return result.
+		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 2.54));
+	}
 
-int PicasToPixelsVertical(unsigned int DisplayNo, double APicasDistance)
-{
-	// Calculates how many pixels are in specified distance (in picas) and
-	// return result.
-	return (int) ((GetPixelPerInch(DisplayNo).GetY() / 6.0) * APicasDistance);
-}
+	int PicasToPixelsHorizontal(unsigned int DisplayNo, double APicasDistance)
+	{
+		// Calculates how many pixels are in specified distance (in picas) and
+		// return result.
+		return (int) ((GetPixelPerInch(DisplayNo).GetX() / 6.0) * APicasDistance);
+	}
 
-double PixelsToPicasHorizontal(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculates how many picas are in specified pixel distance and return
-	// result.
-	return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 6.0));
-}
+	int PicasToPixelsVertical(unsigned int DisplayNo, double APicasDistance)
+	{
+		// Calculates how many pixels are in specified distance (in picas) and
+		// return result.
+		return (int) ((GetPixelPerInch(DisplayNo).GetY() / 6.0) * APicasDistance);
+	}
 
-double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance)
-{
-	// Calculates how many picas are in specified pixel distance and return
-	// result.
-	return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 6.0));
-}
+	double PixelsToPicasHorizontal(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculates how many picas are in specified pixel distance and return
+		// result.
+		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 6.0));
+	}
+
+	double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance)
+	{
+		// Calculates how many picas are in specified pixel distance and return
+		// result.
+		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 6.0));
+	}
+} // end namespace WinRuler

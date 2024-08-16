@@ -25,62 +25,88 @@
 #include <wx/wx.h>
 #include <wx/display.h>
 
-bool CApplication::OnInit()
+namespace WinRuler
 {
-	wxApp::OnInit();
-
-	// Retrieve PPI information for all screen detected.
-	g_vPixelPerInch.clear();
-	for (unsigned int i = 0; i < wxDisplay::GetCount(); ++i)
+	bool CApplication::OnInit()
 	{
-		const wxDisplay display(i);
+		// Execute inherited method OnInit().
+		wxApp::OnInit();
 
-		g_vPixelPerInch.emplace_back();
-		g_vPixelPerInch.back() = display.GetPPI();
+		// Initialize all supported image handlers. 
+		::wxInitAllImageHandlers();
+
+		// Retrieve PPI information for all screen detected.
+		g_vPixelPerInch.clear();
+		for (unsigned int i = 0; i < wxDisplay::GetCount(); ++i)
+		{
+			const wxDisplay display(i);
+
+			g_vPixelPerInch.emplace_back();
+			g_vPixelPerInch.back() = display.GetPPI();
+		}
+
+		// Create dynamically (on heap) new CMainFrame class and store it in
+		// mainFrame.
+		m_pMainFrame = new CMainFrame("WinRuler");
+
+		// Load application icon and set it on m_pMainFrame.
+		m_pIcon = new wxIcon();
+		if (!m_pIcon->LoadFile(wxString("../../../../Resources/WinRuler.ico"), wxBITMAP_TYPE_ICO))
+		{
+			wxMessageBox(
+				wxString("Can't load application icon!"),
+				wxString("WinRuler - Error"),
+				wxOK | wxCENTRE | wxICON_ERROR, m_pMainFrame);
+
+			return false;
+		}
+		m_pMainFrame->SetIcon(*m_pIcon);
+
+		// Set mainFrame client size and center it on screen.
+		m_pMainFrame->SetClientSize(800, 60);
+		m_pMainFrame->Center();
+
+		// Show mainFrame.
+		m_pMainFrame->Show();
+
+		// Return true.
+		return true;
 	}
 
-	// Create dynamically (on heap) new CMainFrame class and store it in
-	// mainFrame.
-	m_pMainFrame = new CMainFrame("WinRuler");
-
-	// Set mainFrame client size and center it on screen.
-	m_pMainFrame->SetClientSize(800, 60);
-	m_pMainFrame->Center();
-
-	// Show mainFrame.
-	m_pMainFrame->Show();
-
-	// Return true.
-	return true;
-}
-
-int CApplication::OnExit()
-{
-	g_vPixelPerInch.clear();
-	//if (!m_pMainFrame)
-	//	delete m_pMainFrame;
-
-	return wxApp::OnExit();
-}
-
-int CApplication::FilterEvent(wxEvent& Event)
-{
-	// Retrieve event type.
-	auto Type = Event.GetEventType();
-
-	// If retrieved event type is motion or left button down or left button
-	// up, then ...
-	if (Type == wxEVT_MOTION || Type == wxEVT_LEFT_DOWN || Type == wxEVT_LEFT_UP)
+	int CApplication::OnExit()
 	{
-		// ... have only go up once; then this subroutine will be called again
-		//Event.ResumePropagation(100);
-		Event.ResumePropagation(1);
+		// Clear h_vPixelPerInch vector.
+		g_vPixelPerInch.clear();
 
-		// Don't return Event_Ignore or Event_Processed, have to let it to
-		// propagate up instead.
-		//return Event_Processed;
+		// If not released, release m_pIcon and m_pMainFrame.
+		if (!m_pIcon)
+			delete m_pIcon;
+		if (!m_pMainFrame)
+			delete m_pMainFrame;
+
+		// Execute and return inherited method OnExit() value.
+		return wxApp::OnExit();
 	}
 
-	// Return Event_Skip.
-	return Event_Skip;
-}
+	int CApplication::FilterEvent(wxEvent& Event)
+	{
+		// Retrieve event type.
+		auto Type = Event.GetEventType();
+
+		// If retrieved event type is motion or left button down or left button
+		// up, then ...
+		if (Type == wxEVT_MOTION || Type == wxEVT_LEFT_DOWN || Type == wxEVT_LEFT_UP)
+		{
+			// ... have only go up once; then this subroutine will be called again
+			//Event.ResumePropagation(100);
+			Event.ResumePropagation(1);
+
+			// Don't return Event_Ignore or Event_Processed, have to let it to
+			// propagate up instead.
+			//return Event_Processed;
+		}
+
+		// Return Event_Skip.
+		return Event_Skip;
+	}
+} // end namespace WinRuler
