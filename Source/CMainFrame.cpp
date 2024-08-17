@@ -67,20 +67,11 @@ namespace WinRuler
 			nullptr, wxID_ANY, Title, wxDefaultPosition, wxDefaultSize,
 			wxBORDER_NONE | wxCLIP_CHILDREN | wxSTAY_ON_TOP)
 	{
-		// Create new wxBoxSizer and store it in m_pSizer.
-		m_pSizer = new wxBoxSizer(wxHORIZONTAL);
+		// Initialize CMainFrame.
+		Init();
 
-		// Create new CDrawPanel and store it in m_pDrawPanel. 
-		m_pDrawPanel = new CDrawPanel((wxFrame*) this);
-
-		// Add m_pDrawPanel to our m_pSizer.
-		m_pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
-
-		// Set our m_pSizer in CMainFrame.
-		this->SetSizer(m_pSizer);
-
-		// Set CMainFrame auto layout.
-		this->SetAutoLayout(true);
+		// Create CMainFrame controls.
+		CreateControls();
 
 		// Bind OnExit method for command button clicked event.
 		this->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
@@ -108,6 +99,59 @@ namespace WinRuler
 
 		// Unbind command button clicked event.
 		this->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
+	}
+
+	void CMainFrame::Init()
+	{
+		// Ruler's scale position.
+		m_eRulerPosition = rpTop;
+
+		// Ruler's unit of measurement.
+		m_eRulerUnits = ruCentimetres;
+
+		// Ruler's background type.
+		m_eRulerBackgroundType = btGradient;
+
+		// Ruler's scale colour.
+		m_cRulerScaleColour = wxColour(0, 0, 0);
+
+		// Ruler's background colour (used when btSolid is background type).
+		m_cRulerBackgroundColour = wxColour(255, 164, 119);
+
+		// Ruler's background start colour (used when btGradient is background
+		// type).
+		m_cRulerBackgroundStartColour = wxColour(255, 196, 119);
+
+		// Ruler's background end colour (used when btGradient is background
+		// type).
+		m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
+
+		// Ruler's length.
+		m_iRulerLength = 800;
+
+		// Ruler's minimum length limit.
+		m_iRulerMinimumLengthLimit = 100;
+
+		// Ruler AlwaysOnTop state.
+		m_bAlwaysOnTop = true;
+	}
+
+	void CMainFrame::CreateControls()
+	{
+		// Create new wxBoxSizer and store it in m_pSizer.
+		m_pSizer = new wxBoxSizer(wxHORIZONTAL);
+
+		// Create new CDrawPanel and store it in m_pDrawPanel. 
+		m_pDrawPanel = new CDrawPanel((wxFrame*)this);
+
+		// Add m_pDrawPanel to our m_pSizer.
+		m_pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
+
+		// Set our m_pSizer in CMainFrame.
+		this->SetSizer(m_pSizer);
+
+		// Set CMainFrame auto layout.
+		this->SetAutoLayout(true);
 	}
 
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
@@ -301,7 +345,7 @@ namespace WinRuler
 	void CMainFrame::ChangeRulerLength(int NewLength)
 	{
 		// If NewLength is different than current ruler's length, then ...
-		if (m_iRulerLength != NewLength)
+		if (m_iRulerLength != NewLength && NewLength >= m_iRulerMinimumLengthLimit)
 		{
 			// ... set NewLength as current ruler's length.
 			m_iRulerLength = NewLength;
@@ -499,8 +543,25 @@ namespace WinRuler
 		wxPoint Offset = Pos - m_ptDragStart;
 		wxRect Rect;
 
-		Rect.SetWidth(Offset.x * m_ptDirection.x + m_rectBorder.width);
-		Rect.SetHeight(Offset.y* m_ptDirection.y + m_rectBorder.height);
+		// Depending on current m_eRulerPosition, calculate Rect.Width and
+		// Rect.Height taking m_iRulerMinimumLengthLimit in mind.
+		Rect.SetWidth(Offset.x * m_ptDirection.x + m_rectBorder.GetWidth());
+		Rect.SetHeight(Offset.y * m_ptDirection.y + m_rectBorder.GetHeight());
+
+		switch (m_eRulerPosition)
+		{
+		case rpLeft:
+		case rpRight:
+			Rect.SetHeight(
+				std::max<int>(m_iRulerMinimumLengthLimit, Rect.GetHeight()));
+			break;
+		case rpTop:
+		case rpBottom:
+			Rect.SetWidth(
+				std::max<int>(m_iRulerMinimumLengthLimit, Rect.GetWidth()));
+			break;
+		}
+		
 		Rect.SetX(Offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x);
 		Rect.SetY(Offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y);
 

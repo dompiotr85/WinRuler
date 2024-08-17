@@ -64,14 +64,14 @@ namespace WinRuler
 	{
 		// Calculate how many inches are in specified pixel distance and return
 		// result.
-		return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetX());
+		return (double) ((double) APixelDistance / (double) GetPixelPerInch(DisplayNo).GetX());
 	}
 
 	double PixelsToInchesVertical(unsigned int DisplayNo, int APixelDistance)
 	{
 		// Calculate how many inches are in specified pixel distance and return
 		// result.
-		return (double) (APixelDistance / GetPixelPerInch(DisplayNo).GetY());
+		return (double) ((double) APixelDistance / (double) GetPixelPerInch(DisplayNo).GetY());
 	}
 
 	int CentimetresToPixelsHorizontal(unsigned int DisplayNo, double ACentimetreDistance)
@@ -92,14 +92,14 @@ namespace WinRuler
 	{
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
-		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 2.54));
+		return (double) ((double) APixelDistance / (double) ((double) GetPixelPerInch(DisplayNo).GetX() / 2.54));
 	}
 
 	double PixelsToCentimetresVertical(unsigned int DisplayNo, int APixelDistance)
 	{
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
-		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 2.54));
+		return (double) ((double) APixelDistance / (double) ((double) GetPixelPerInch(DisplayNo).GetY() / 2.54));
 	}
 
 	int PicasToPixelsHorizontal(unsigned int DisplayNo, double APicasDistance)
@@ -120,13 +120,13 @@ namespace WinRuler
 	{
 		// Calculates how many picas are in specified pixel distance and return
 		// result.
-		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetX() / 6.0));
+		return (double) ((double) APixelDistance / (double) ((double) GetPixelPerInch(DisplayNo).GetX() / 6.0));
 	}
 
 	double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance)
 	{
 		// Calculates how many picas are in specified pixel distance and return
 		// result.
-		return (double) (APixelDistance / (GetPixelPerInch(DisplayNo).GetY() / 6.0));
+		return (double) ((double) APixelDistance / (double) ((double) GetPixelPerInch(DisplayNo).GetY() / 6.0));
 	}
 } // end namespace WinRuler

@@ -27,6 +27,9 @@
 
 namespace WinRuler
 {
+	/**
+	 * AboutDialog class implementation.
+	 **/
 	class CAboutDialog :
 		public wxDialog
 	{

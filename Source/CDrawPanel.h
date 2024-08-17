@@ -26,6 +26,9 @@
 
 namespace WinRuler
 {
+    /**
+     * DrawPanel class definition.
+     **/
     class CDrawPanel :
         public wxPanel
     {

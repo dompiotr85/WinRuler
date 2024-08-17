@@ -136,6 +136,16 @@ namespace WinRuler
 		~CMainFrame();
 
 		/**
+		 * Initialize MainFrame.
+		 **/
+		void Init();
+
+		/**
+		 * Creates all controls for CMainFrame.
+		 **/
+		void CreateControls();
+
+		/**
 		 * OnExit() method event.
 		 *
 		 * @param Event		Reference to wxCommandEvent instance.
@@ -226,16 +236,35 @@ namespace WinRuler
 	public:
 		// Ruler's scale position.
 		ERulerPosition m_eRulerPosition = rpTop;
+
+		// Ruler's unit of measurement.
 		ERulerUnits m_eRulerUnits = ruCentimetres;
+
+		// Ruler's background type.
 		ERulerBackgroundType m_eRulerBackgroundType = btSolid;
 
-		wxColour m_RulerScaleColour = wxColour(0, 0, 0);
-		wxColour m_RulerBackgroundColor = wxColour(255, 164, 119);
+		// Ruler's scale colour.
+		wxColour m_cRulerScaleColour = wxColour(0, 0, 0);
 
+		// Ruler's background color (used in btSolid background type).
+		wxColour m_cRulerBackgroundColour = wxColour(255, 164, 119);
+
+		// Ruler's background start colour (used in btGradient background
+		// type).
+		wxColour m_cRulerBackgroundStartColour = wxColour(255, 196, 119);
+
+		// Ruler's background end colour (used in btGradient background type).
+		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
+
+		// Ruler's length.
 		int m_iRulerLength = 800;
 
-		bool m_bAlwaysOnTop = true;
+		// Ruler's minimum length limit.
+		int m_iRulerMinimumLengthLimit = 100;
 
+		// Ruler AlwaysOnTop state.
+		bool m_bAlwaysOnTop = true;
+	public:
 		// DrawPanel which is used for all drawing of our ruler.
 		CDrawPanel* m_pDrawPanel;
 

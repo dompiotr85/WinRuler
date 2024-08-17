@@ -90,7 +90,10 @@ namespace WinRuler
             new wxSpinCtrl(
                 m_pContentPanel, wxID_ANY,
                 wxString::Format(wxT("%d"), (int) pMainFrame->m_iRulerLength),
-                wxPoint(10, 40), wxSize(m_pChooseStaticText->GetSize().GetWidth(), -1), wxSP_ARROW_KEYS, 100, 2000);
+                wxPoint(10, 40),
+                wxSize(m_pChooseStaticText->GetSize().GetWidth(), -1),
+                wxSP_ARROW_KEYS,
+                pMainFrame->m_iRulerMinimumLengthLimit, 2000);
 
         // Create OK button.
         m_pOKButton =

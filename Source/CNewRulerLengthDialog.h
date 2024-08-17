@@ -27,6 +27,9 @@
 
 namespace WinRuler
 {
+	/**
+	 * NewRulerLengthDialog class definition.
+	 **/
 	class CNewRulerLengthDialog :
 		public wxDialog
 	{
@@ -40,7 +43,7 @@ namespace WinRuler
 		 * @param Title		Reference to dialog title string.
 		 *					Default: "Choose new ruler's length"
 		 * @param Pos		Dialog position. Default: wxDefaultPosition
-		 * @param Size		Dialog size. Default: wxSize(600, 440)
+		 * @param Size		Dialog size. Default: wxSize(200, 150)
 		 * @param Style		Dialog style.
 		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
 		 **/

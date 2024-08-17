@@ -27,6 +27,9 @@
 
 namespace WinRuler
 {
+	/**
+	 * LicenseDialog class definition.
+	 **/
     class CLicenseDialog :
         public wxDialog
     {

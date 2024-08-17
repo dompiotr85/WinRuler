@@ -27,6 +27,9 @@
 
 namespace WinRuler
 {
+	/**
+	 * Application class definition. 
+	 **/
 	class CApplication :
 		public wxApp
 	{
