@@ -64,7 +64,7 @@ namespace WinRuler
 
 		// Set mainFrame client size and center it on screen.
 		m_pMainFrame->SetClientSize(800, 60);
-		m_pMainFrame->Center();
+		m_pMainFrame->Centre();
 
 		// Show mainFrame.
 		m_pMainFrame->Show();
@@ -77,12 +77,6 @@ namespace WinRuler
 	{
 		// Clear h_vPixelPerInch vector.
 		g_vPixelPerInch.clear();
-
-		// If not released, release m_pIcon and m_pMainFrame.
-		if (!m_pIcon)
-			delete m_pIcon;
-		if (!m_pMainFrame)
-			delete m_pMainFrame;
 
 		// Execute and return inherited method OnExit() value.
 		return wxApp::OnExit();

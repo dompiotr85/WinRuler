@@ -264,6 +264,18 @@ namespace WinRuler
 
 		// Ruler AlwaysOnTop state.
 		bool m_bAlwaysOnTop = true;
+
+		// First marker position.
+		int m_iFirstMarkerPosition = 0;
+
+		// Second marker position.
+		int m_iSecondMarkerPosition = -1;
+
+		// First marker colour.
+		wxColour m_cFirstMarkerColour = wxColour(0, 0, 255);
+
+		// Second marker colour.
+		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
 	public:
 		// DrawPanel which is used for all drawing of our ruler.
 		CDrawPanel* m_pDrawPanel;

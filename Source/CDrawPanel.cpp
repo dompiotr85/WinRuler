@@ -170,7 +170,333 @@ namespace WinRuler
 
     void CDrawPanel::DrawRulerMarkers(wxDC& dc, wxRect& SurfaceRect)
     {
+        wxString TmpS;
+        wxCoord TextWidth, TextHeight;
 
+        // Retrieve pointer to CMainFrame and store it in pMainFrame.
+        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+
+        // Set DC's brush to transparent.
+        dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
+
+        // Set DC's pen colour to first marker colour and style to solid.
+        dc.SetPen(wxPen(pMainFrame->m_cFirstMarkerColour, 1, wxPENSTYLE_SOLID));
+
+        // Set DC's font size and font colour.
+        wxFont font(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+        dc.SetFont(font);
+        dc.SetTextForeground(pMainFrame->m_cRulerScaleColour);
+
+        // Draw ruler's marker and its information depending on ruler's
+        // position.
+        switch (pMainFrame->m_eRulerPosition)
+        {
+        case CMainFrame::rpLeft:
+            // Draw first marker.
+            dc.DrawLine(
+                wxPoint(
+                    SurfaceRect.GetLeft(),
+                    SurfaceRect.GetTop() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition),
+                wxPoint(
+                    SurfaceRect.GetRight(),
+                    SurfaceRect.GetTop() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition));
+
+            switch (pMainFrame->m_eRulerUnits)
+            {
+            case CMainFrame::ruCentimetres:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToCentimetresHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" cm");
+
+                break;
+            case CMainFrame::ruInches:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToInchesHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" in");
+
+                break;
+            case CMainFrame::ruPicas:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToPicasHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" pica");
+
+                break;
+            case CMainFrame::ruPixels:
+                TmpS =
+                    wxString::Format(
+                        wxT("%d px"), pMainFrame->m_iFirstMarkerPosition);
+
+                break;
+            }
+
+            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+            if (SurfaceRect.GetTop() + 4 + pMainFrame->m_iFirstMarkerPosition +
+                4 + TextHeight > SurfaceRect.GetBottom())
+            {
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 
+                        ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
+                        SurfaceRect.GetTop() + 4 + 
+                        pMainFrame->m_iFirstMarkerPosition - 4 - TextHeight));
+            }
+            else
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() +
+                        ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition + 4));
+            }
+
+            // Draw second marker if its value is other than -1.
+            if (pMainFrame->m_iSecondMarkerPosition != -1)
+            {
+                // Set pen colour to second marker's colour.
+                dc.SetPen(wxPen(pMainFrame->m_cSecondMarkerColour, 1, wxPENSTYLE_SOLID));
+
+                dc.DrawLine(
+                    wxPoint(
+                        SurfaceRect.GetLeft(),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition),
+                    wxPoint(
+                        SurfaceRect.GetRight(),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition));
+
+                switch (pMainFrame->m_eRulerUnits)
+                {
+                case CMainFrame::ruCentimetres:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToCentimetresHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" cm");
+
+                    break;
+                case CMainFrame::ruInches:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToInchesHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" in");
+
+                    break;
+                case CMainFrame::ruPicas:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToPicasHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" pica");
+
+                    break;
+                case CMainFrame::ruPixels:
+                    TmpS =
+                        wxString::Format(
+                            wxT("%d px"), pMainFrame->m_iSecondMarkerPosition);
+
+                    break;
+                }
+
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+                if (SurfaceRect.GetTop() + 4 + pMainFrame->m_iSecondMarkerPosition +
+                    4 + TextHeight > SurfaceRect.GetBottom())
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() +
+                            ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
+                            SurfaceRect.GetTop() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition - 4 - TextHeight));
+                }
+                else
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() +
+                            ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
+                            SurfaceRect.GetTop() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition + 4));
+                }
+            }
+            
+            break;
+        case CMainFrame::rpTop:
+            // Draw first marker.
+            dc.DrawLine(
+                wxPoint(
+                    SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition,
+                    SurfaceRect.GetTop()),
+                wxPoint(
+                    SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition,
+                    SurfaceRect.GetBottom()));
+
+            switch (pMainFrame->m_eRulerUnits)
+            {
+            case CMainFrame::ruCentimetres:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToCentimetresVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" cm");
+
+                break;
+            case CMainFrame::ruInches:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToInchesVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" in");
+
+                break;
+            case CMainFrame::ruPicas:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToPicasVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" pica");
+
+                break;
+            case CMainFrame::ruPixels:
+                TmpS =
+                    wxString::Format(
+                        wxT("%d px"), pMainFrame->m_iFirstMarkerPosition);
+
+                break;
+            }
+
+            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+            if (SurfaceRect.GetLeft() + 4 + pMainFrame->m_iFirstMarkerPosition +
+                TextWidth > SurfaceRect.GetRight())
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 + 
+                        pMainFrame->m_iFirstMarkerPosition - 4 - TextWidth,
+                        SurfaceRect.GetTop() +
+                        ((SurfaceRect.GetHeight() / 3) * 2)));
+            }
+            else
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition + 4,
+                        SurfaceRect.GetTop() +
+                        ((SurfaceRect.GetHeight() / 3) * 2)));
+            }
+
+            // Draw second marker if its value is other than -1.
+            if (pMainFrame->m_iSecondMarkerPosition != -1)
+            {
+                // Set pen colour to second marker's colour.
+                dc.SetPen(wxPen(pMainFrame->m_cSecondMarkerColour, 1, wxPENSTYLE_SOLID));
+
+                dc.DrawLine(
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition,
+                        SurfaceRect.GetTop()),
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition,
+                        SurfaceRect.GetBottom()));
+
+                switch (pMainFrame->m_eRulerUnits)
+                {
+                case CMainFrame::ruCentimetres:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToCentimetresHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" cm");
+
+                    break;
+                case CMainFrame::ruInches:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToInchesHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" in");
+
+                    break;
+                case CMainFrame::ruPicas:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToPicasHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" pica");
+
+                    break;
+                case CMainFrame::ruPixels:
+                    TmpS =
+                        wxString::Format(
+                            wxT("%d px"), pMainFrame->m_iSecondMarkerPosition);
+
+                    break;
+                }
+
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+                if (SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iSecondMarkerPosition + 4 +
+                    TextWidth > SurfaceRect.GetRight())
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() + 4 + 
+                            pMainFrame->m_iSecondMarkerPosition - 4 - TextWidth,
+                            SurfaceRect.GetTop() +
+                            ((SurfaceRect.GetHeight() / 3) * 2)));
+                }
+                else
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition + 4,
+                            SurfaceRect.GetTop() +
+                            ((SurfaceRect.GetHeight() / 3) * 2)));
+                }
+            }
+
+            break;
+        case CMainFrame::rpRight:
+            // Draw first marker.
+
+            // Draw second marker.
+
+            break;
+        case CMainFrame::rpBottom:
+            // Draw first marker.
+
+            // Draw second marker.
+
+            break;
+        }
     }
 
     void CDrawPanel::DrawRulerScale(wxDC& dc, wxRect& SurfaceRect)
@@ -191,9 +517,10 @@ namespace WinRuler
         // m_RulerScaleColour. 
         dc.SetPen(wxPen(pMainFrame->m_cRulerScaleColour, 1, wxPENSTYLE_SOLID));
 
-        // Set DC's font size to 6.
+        // Set DC's font size to 6 and font colour.
         wxFont font(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
         dc.SetFont(font);
+        dc.SetTextForeground(pMainFrame->m_cRulerScaleColour);
 
         // Depending on ruler's position and ruler's unit of measurement:
         switch (pMainFrame->m_eRulerPosition)
@@ -382,7 +709,7 @@ namespace WinRuler
             switch (pMainFrame->m_eRulerUnits)
             {
             case CMainFrame::ruCentimetres: // Ruler's unit as centimetres.
-                sT = (SurfaceRect.GetRight() - SurfaceRect.GetLeft()) - 10;
+                sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsHorizontal(0, ID);
                 while (I < sT)
@@ -563,7 +890,7 @@ namespace WinRuler
             switch (pMainFrame->m_eRulerUnits)
             {
             case CMainFrame::ruCentimetres: // Ruler's unit as centimetres.
-                sT = (SurfaceRect.GetBottom() - SurfaceRect.GetTop()) - 10;
+                sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsVertical(0, ID);
                 while (I < sT)
@@ -572,46 +899,254 @@ namespace WinRuler
 
                     if (AreSame(ID, 0.0))
                     {
-                        dc.DrawLine(wxPoint(SurfaceRect.GetRight() - 1 - 12, pT), wxPoint(SurfaceRect.GetRight(), pT));
+                        dc.DrawLine(
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT),
+                            wxPoint(SurfaceRect.GetRight(), pT));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                        dc.DrawText(TmpS, wxPoint(SurfaceRect.GetRight() - 1 - 14 - TextWidth, pT - 2));
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                pT - 2));
                     }
                     else
                     {
                         if (AreSame(std::fmod(ID, 1.0), 0.0))
                         {
-                            dc.DrawLine(wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), wxPoint(SurfaceRect.GetRight(), pT));
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                            dc.DrawText(TmpS, wxPoint(SurfaceRect.GetRight() - 1 - 5 - TextWidth, pT - (TextHeight / 2)));
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    pT - (TextHeight / 2)));
                         }
                         else
                         {
-                            dc.DrawLine(wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), wxPoint(SurfaceRect.GetRight(), pT));
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
                         }
                     }
 
                     ID = ID + 0.125;
-                    I = CentimetresToPixelsHorizontal(0, ID);
+                    I = CentimetresToPixelsVertical(0, ID);
                 }
 
-                dc.DrawLine(wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), wxPoint(SurfaceRect.GetRight(), 4 + sT));
+                dc.DrawLine(
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight(), 4 + sT));
 
-                TmpS = wxString::FromDouble(PixelsToCentimetresHorizontal(0, sT), 2);
+                TmpS = 
+                    wxString::FromDouble(
+                        PixelsToCentimetresVertical(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                dc.DrawText(TmpS, wxPoint(SurfaceRect.GetRight() - 1 - 14 - TextWidth, 4 + sT - TextHeight));
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        4 + sT - TextHeight));
 
                 break;
             case CMainFrame::ruInches:  // Ruler's unit as inches.
+                sT = SurfaceRect.GetHeight() - 10;
+                ID = 0.0;
+                I = InchesToPixelsVertical(0, ID);
+                while (I < sT)
+                {
+                    pT = 4 + I;
+
+                    if (AreSame(ID, 0.0))
+                    {
+                        dc.DrawLine(
+                            wxPoint(SurfaceRect.GetRight(), pT), 
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT));
+
+                        TmpS = wxString("0.00");
+                        dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                pT - 2));
+                    }
+                    else
+                    {
+                        if (AreSame(std::fmod(ID, 1.0), 0.0))
+                        {
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight(), pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT));
+
+                            TmpS = wxString::FromDouble(ID, 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    pT - (TextHeight / 2)));
+                        }
+                        else
+                        {
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
+                        }
+                    }
+
+                    ID = ID + 0.125;
+                    I = InchesToPixelsVertical(0, ID);
+                }
+
+                dc.DrawLine(
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight(), 4 + sT));
+
+                TmpS = wxString::FromDouble(PixelsToInchesVertical(0, sT), 2);
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        4 + sT - TextHeight));
 
                 break;
             case CMainFrame::ruPixels:  // Ruler's unit as pixels.
+                sT = (SurfaceRect.GetHeight() - 8) / 2;
+
+                for (I = 0; I <= sT - 1; I++)
+                {
+                    pT = 4 + (I * 2);
+
+                    if ((I == 0) || (I == sT - 1))
+                    {
+                        dc.DrawLine(
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT), 
+                            wxPoint(SurfaceRect.GetRight(), pT));
+
+                        if (I == 0)
+                        {
+                            TmpS = wxString("0");
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 15 - TextWidth, 
+                                    pT - 2));
+                        }
+
+                        if (I == sT - 1)
+                        {
+                            TmpS = wxString::Format(wxT("%d"), (sT - 1) * 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 17 - TextWidth, 
+                                    pT - TextHeight + 2));
+                        }
+                    }
+                    else
+                    {
+                        if (I % 10 == 0)
+                        {
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
+                            TmpS = wxString::Format(wxT("%d"), I * 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    pT - (TextHeight / 2)));
+                        }
+                        else
+                        {
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
+                        }
+                    }
+                }
 
                 break;
             case CMainFrame::ruPicas:   // Ruler's unit as picas.
+                sT = SurfaceRect.GetHeight() - 10;
+                ID = 0.0;
+                I = PicasToPixelsVertical(0, ID);
+                while (I < sT)
+                {
+                    pT = 4 + I;
+
+                    if (AreSame(ID, 0.0))
+                    {
+                        dc.DrawLine(
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT), 
+                            wxPoint(SurfaceRect.GetRight(), pT));
+
+                        TmpS = wxString("0.00");
+                        dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                pT - 2));
+                    }
+                    else
+                    {
+                        if (AreSame(std::fmod(ID, 6.0), 0.0))
+                        {
+                            dc.DrawLine(
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT));
+
+                            TmpS = wxString::FromDouble(ID, 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    pT - (TextHeight / 2)));
+                        }
+                        else
+                        {
+                            if (AreSame(std::fmod(ID, 1.0), 0.0))
+                            {
+                                dc.DrawLine(
+                                    wxPoint(SurfaceRect.GetRight() - 1 - 8, pT), 
+                                    wxPoint(SurfaceRect.GetRight(), pT));
+                            }
+                            else
+                            {
+                                dc.DrawLine(
+                                    wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                    wxPoint(SurfaceRect.GetRight(), pT));
+                            }
+                        }
+                    }
+
+                    ID = ID + 0.125;
+                    I = PicasToPixelsVertical(0, ID);
+                }
+
+                dc.DrawLine(
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight(), 4 + sT));
+
+                TmpS = wxString::FromDouble(PixelsToPicasVertical(0, sT), 2);
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        4 + sT - TextHeight));
 
                 break;
             }
@@ -621,7 +1156,7 @@ namespace WinRuler
             switch (pMainFrame->m_eRulerUnits)
             {
             case CMainFrame::ruCentimetres: // Ruler's unit as centimetres.
-                sT = (SurfaceRect.GetRight() - SurfaceRect.GetLeft()) - 10;
+                sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsHorizontal(0, ID);
                 while (I < sT)
@@ -630,25 +1165,39 @@ namespace WinRuler
 
                     if (AreSame(ID, 0.0))
                     {
-                        dc.DrawLine(wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), wxPoint(pT, SurfaceRect.GetBottom()));
+                        dc.DrawLine(
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom()));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                        dc.DrawText(TmpS, wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                pT, 
+                                SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
                     }
                     else
                     {
                         if (AreSame(std::fmod(ID, 1.0), 0.0))
                         {
-                            dc.DrawLine(wxPoint(pT, SurfaceRect.GetBottom() - 1 - 5), wxPoint(pT, SurfaceRect.GetBottom()));
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 5),
+                                wxPoint(pT, SurfaceRect.GetBottom()));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                            dc.DrawText(TmpS, wxPoint(pT - (TextWidth / 2), SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT - (TextWidth / 2), 
+                                    SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
                         }
                         else
                         {
-                            dc.DrawLine(wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), wxPoint(pT, SurfaceRect.GetBottom()));
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                wxPoint(pT, SurfaceRect.GetBottom()));
                         }
                     }
 
@@ -656,20 +1205,217 @@ namespace WinRuler
                     I = CentimetresToPixelsHorizontal(0, ID);
                 }
 
-                dc.DrawLine(wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), wxPoint(4 + sT, SurfaceRect.GetBottom()));
+                dc.DrawLine(
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom()));
 
-                TmpS = wxString::FromDouble(PixelsToCentimetresHorizontal(0, sT), 2);
+                TmpS = 
+                    wxString::FromDouble(
+                        PixelsToCentimetresHorizontal(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-                dc.DrawText(TmpS, wxPoint(4 + sT - TextWidth, SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        4 + sT - TextWidth, 
+                        SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
             case CMainFrame::ruInches:  // Ruler's unit as inches.
+                sT = SurfaceRect.GetWidth() - 10;
+                ID = 0.0;
+                I = InchesToPixelsHorizontal(0, ID);
+                while (I < sT)
+                {
+                    pT = 4 + I;
+
+                    if (AreSame(ID, 0.0))
+                    {
+                        dc.DrawLine(
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom()));
+
+                        TmpS = wxString("0.00");
+                        dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                pT, 
+                                SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
+                    }
+                    else
+                    {
+                        if (AreSame(std::fmod(ID, 1.0), 0.0))
+                        {
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 5),
+                                wxPoint(pT, SurfaceRect.GetBottom()));
+
+                            TmpS = wxString::FromDouble(ID, 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT - (TextWidth / 2), 
+                                    SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
+                        }
+                        else
+                        {
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                wxPoint(pT, SurfaceRect.GetBottom()));
+                        }
+                    }
+
+                    ID = ID + 0.125;
+                    I = InchesToPixelsHorizontal(0, ID);
+                }
+
+                dc.DrawLine(
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom()));
+
+                TmpS = 
+                    wxString::FromDouble(PixelsToInchesHorizontal(0, sT), 2);
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        4 + sT - TextWidth, 
+                        SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
             case CMainFrame::ruPixels:  // Ruler's unit as pixels.
+                sT = (SurfaceRect.GetWidth() - 8) / 2;
+
+                for (I = 0; I <= sT - 1; I++)
+                {
+                    pT = 4 + (I * 2);
+
+                    if ((I == 0) || (I == sT - 1))
+                    {
+                        dc.DrawLine(
+                            wxPoint(pT, SurfaceRect.GetBottom() - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom()));
+
+                        if (I == 0)
+                        {
+                            TmpS = wxString("0");
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT, 
+                                    SurfaceRect.GetBottom() - 12 - TextHeight));
+                        }
+
+                        if (I == sT - 1)
+                        {
+                            TmpS = wxString::Format(wxT("%d"), (sT - 1) * 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT - TextWidth, 
+                                    SurfaceRect.GetBottom() - 12 - TextHeight));
+                        }
+                    }
+                    else
+                    {
+                        if (I % 10 == 0)
+                        {
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 6), 
+                                wxPoint(pT, SurfaceRect.GetBottom()));
+
+                            TmpS = wxString::Format(wxT("%d"), I * 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT - (TextWidth / 2) + 2, 
+                                    SurfaceRect.GetBottom() - 5 - TextHeight));
+                        }
+                        else
+                        {
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 4), 
+                                wxPoint(pT, SurfaceRect.GetBottom()));
+                        }
+                    }
+                }
 
                 break;
             case CMainFrame::ruPicas:   // Ruler's unit as picas.
+                sT = SurfaceRect.GetWidth() - 10;
+                ID = 0.0;
+                I = PicasToPixelsHorizontal(0, ID);
+                while (I < sT)
+                {
+                    pT = 4 + I;
+
+                    if (AreSame(ID, 0.0))
+                    {
+                        dc.DrawLine(
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom()));
+
+                        TmpS = wxString("0.00");
+                        dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                        dc.DrawText(
+                            TmpS, 
+                            wxPoint(
+                                pT, 
+                                SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
+                    }
+                    else
+                    {
+                        if (AreSame(std::fmod(ID, 6.0), 0.0))
+                        {
+                            dc.DrawLine(
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 5), 
+                                wxPoint(pT, SurfaceRect.GetBottom()));
+
+                            TmpS = wxString::FromDouble(ID, 2);
+                            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                            dc.DrawText(
+                                TmpS, 
+                                wxPoint(
+                                    pT - (TextWidth / 2), 
+                                    SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
+                        }
+                        else
+                        {
+                            if (AreSame(std::fmod(ID, 1.0), 0.0))
+                            {
+                                dc.DrawLine(
+                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 8), 
+                                    wxPoint(pT, SurfaceRect.GetBottom()));
+                            }
+                            else
+                            {
+                                dc.DrawLine(
+                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                    wxPoint(pT, SurfaceRect.GetBottom()));
+                            }
+                        }
+                    }
+
+                    ID = ID + 0.125;
+                    I = PicasToPixelsHorizontal(0, ID);
+                }
+
+                dc.DrawLine(
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom()));
+
+                TmpS = 
+                    wxString::FromDouble(PixelsToPicasHorizontal(0, sT), 2);
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+                dc.DrawText(
+                    TmpS, 
+                    wxPoint(
+                        4 + sT - TextWidth, 
+                        SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
             }
@@ -691,7 +1437,9 @@ namespace WinRuler
             {
             case CMainFrame::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
-                dc.SetBrush(wxBrush(pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                dc.SetBrush(
+                    wxBrush(
+                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
                 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -722,7 +1470,9 @@ namespace WinRuler
             {
             case CMainFrame::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
-                dc.SetBrush(wxBrush(pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                dc.SetBrush(
+                    wxBrush(
+                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -753,7 +1503,9 @@ namespace WinRuler
             {
             case CMainFrame::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
-                dc.SetBrush(wxBrush(pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                dc.SetBrush(
+                    wxBrush(
+                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
                 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -784,7 +1536,9 @@ namespace WinRuler
             {
             case CMainFrame::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
-                dc.SetBrush(wxBrush(pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                dc.SetBrush(
+                    wxBrush(
+                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -815,7 +1569,8 @@ namespace WinRuler
         // Draw black outline.
         dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
         dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
-        dc.DrawRectangle(wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
+        dc.DrawRectangle(
+            wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
     }
 
     void CDrawPanel::OnLeftDown(wxMouseEvent& Event)
@@ -832,6 +1587,31 @@ namespace WinRuler
 
         // Retrieve CMainFrame m_nOffsetBorder.
         Offset = pMainFrame->m_nOffsetBorder;
+
+        // If mouse left button is down, then we can set second marker position
+        // for measurement.
+        if (Event.LeftDown())
+        {
+            switch (pMainFrame->m_eRulerPosition)
+            {
+            case CMainFrame::rpLeft:
+            case CMainFrame::rpRight:
+                if ((Pos.y >= 4) && (Pos.y < pMainFrame->m_iRulerLength - 5))
+                {
+                    pMainFrame->m_iSecondMarkerPosition = Pos.y - 4;
+                }
+
+                break;
+            case CMainFrame::rpTop:
+            case CMainFrame::rpBottom:
+                if ((Pos.x >= 4) && (Pos.x < pMainFrame->m_iRulerLength - 5))
+                {
+                    pMainFrame->m_iSecondMarkerPosition = Pos.x - 4;
+                }
+
+                break;
+            }
+        }
 
         // If mouse left button is down and Event mouse position is inside
         // dragging space, then ...
@@ -875,11 +1655,40 @@ namespace WinRuler
 
     void CDrawPanel::OnMouseMove(wxMouseEvent& Event)
     {
+        // Retrieve mouse position from event.
+        wxPoint Pos = Event.GetPosition();
+
+        // Retrieve pointer to CMainFrame.
+        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+
+        // Update marker position depending on current ruler's position.
+        switch (pMainFrame->m_eRulerPosition)
+        {
+        case CMainFrame::rpLeft:
+        case CMainFrame::rpRight:
+            if ((Pos.y >= 4) && (Pos.y < pMainFrame->m_iRulerLength - 5))
+            {
+                pMainFrame->m_iFirstMarkerPosition = Pos.y - 4;
+            }
+
+            break;
+        case CMainFrame::rpTop:
+        case CMainFrame::rpBottom:
+            if ((Pos.x >= 4) && (Pos.x < pMainFrame->m_iRulerLength - 5))
+            {
+                pMainFrame->m_iFirstMarkerPosition = Pos.x - 4;
+            }
+
+            break;
+        }
+
+        Refresh();
+
         // If currently dragging, then ...
         if (m_bDragging)
         {
             // ... retrieve event position and cast it as ClientToScreen.
-            wxPoint Pos = ClientToScreen(Event.GetPosition());
+            Pos = ClientToScreen(Pos);
 
             // Calculate difference.
             wxPoint diff = Pos - m_DragStartPos;

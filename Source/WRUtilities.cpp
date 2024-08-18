@@ -24,7 +24,7 @@
 
 namespace WinRuler
 {
-	std::vector<wxSize> g_vPixelPerInch = { wxSize(0, 0) };
+	std::vector<wxSize> g_vPixelPerInch( { wxSize(0, 0) } );
 
 	bool AreSame(double a, double b, double epsilon)
 	{

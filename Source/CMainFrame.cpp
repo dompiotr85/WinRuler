@@ -134,6 +134,18 @@ namespace WinRuler
 
 		// Ruler AlwaysOnTop state.
 		m_bAlwaysOnTop = true;
+
+		// First marker position.
+		m_iFirstMarkerPosition = 0;
+
+		// Second marker position.
+		m_iSecondMarkerPosition = -1;
+
+		// First marker colour.
+		m_cFirstMarkerColour = wxColour(0, 0, 255);
+
+		// Second marker colour.
+		m_cSecondMarkerColour = wxColour(255, 0, 0);
 	}
 
 	void CMainFrame::CreateControls()
@@ -143,6 +155,7 @@ namespace WinRuler
 
 		// Create new CDrawPanel and store it in m_pDrawPanel. 
 		m_pDrawPanel = new CDrawPanel((wxFrame*)this);
+		m_pDrawPanel->SetDoubleBuffered(true);
 
 		// Add m_pDrawPanel to our m_pSizer.
 		m_pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
