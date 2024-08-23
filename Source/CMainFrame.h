@@ -271,6 +271,12 @@ namespace WinRuler
 		// Ruler AlwaysOnTop state.
 		bool m_bAlwaysOnTop = true;
 
+		// Ruler transparency state.
+		bool m_bRulerTransparency = false;
+
+		// Ruler transparency value.
+		wxByte m_iRulerTransparencyValue = 255;
+
 		// First marker position.
 		int m_iFirstMarkerPosition = 0;
 

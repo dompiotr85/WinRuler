@@ -13,6 +13,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header files\ThirdParty">
+      <UniqueIdentifier>{1d163c9b-9480-4af5-bcdd-f9b469bbae21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\ThirdParty">
+      <UniqueIdentifier>{bca3a233-8406-4d38-8e09-9d43902da83a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\main.cpp">
@@ -41,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\COptionsDialog.cpp">
       <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThirdParty\sqlite\sqlite3.c">
+      <Filter>Source files\ThirdParty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\COptionsDialog.h">
       <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h">
+      <Filter>Header files\ThirdParty</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

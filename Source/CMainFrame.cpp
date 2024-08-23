@@ -135,6 +135,12 @@ namespace WinRuler
 		// Ruler AlwaysOnTop state.
 		m_bAlwaysOnTop = true;
 
+		// Ruler transparency flag.
+		m_bRulerTransparency = false;
+
+		// Ruler transparency value.
+		m_iRulerTransparencyValue = 255;
+
 		// First marker position.
 		m_iFirstMarkerPosition = 0;
 
@@ -197,6 +203,21 @@ namespace WinRuler
 			// Set first and second marker colour.
 			m_cFirstMarkerColour = (wxColour)m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour();
 			m_cSecondMarkerColour = (wxColour)m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour();
+
+			// Set ruler transparency.
+			m_bRulerTransparency = (bool)m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked();
+			m_iRulerTransparencyValue = (wxByte)m_pOptionsDialog->m_pRulerTransparencySlider->GetValue();
+			if (m_bRulerTransparency)
+			{
+				if (CanSetTransparent())
+				{
+					SetTransparent(m_iRulerTransparencyValue);
+				}
+			}
+			else
+			{
+				SetTransparent(255);
+			}
 
 			// Refresh CMainFrame.
 			Refresh();
