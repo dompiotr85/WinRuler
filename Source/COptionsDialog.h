@@ -105,11 +105,18 @@ namespace WinRuler
 		wxStaticText* m_pBackgroundImageText;
 
 		// Background colours.
-		wxColourPickerCtrl* m_pBackgroundColour;
-		wxColourPickerCtrl* m_pBackgroundStartColour;
-		wxColourPickerCtrl* m_pBackgroundEndColour;
+		wxColourPickerCtrl* m_pBackgroundColourPicker;
+		wxColourPickerCtrl* m_pBackgroundStartColourPicker;
+		wxColourPickerCtrl* m_pBackgroundEndColourPicker;
 
 		// Background image.
 		wxFilePickerCtrl* m_pBackgroundImagePicker;
+
+		// Ruler Scale colour.
+		wxColourPickerCtrl* m_pRulerScaleColourPicker;
+
+		// First and second marker colour.
+		wxColourPickerCtrl* m_pFirstMarkerColourPicker;
+		wxColourPickerCtrl* m_pSecondMarkerColourPicker;
 	};
 } // end namespace WinRuler

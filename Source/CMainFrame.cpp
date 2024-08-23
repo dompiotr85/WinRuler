@@ -176,20 +176,27 @@ namespace WinRuler
 		// then save new options.
 		if (m_pOptionsDialog->ShowModal() == wxID_OK)
 		{
-			// Set Ruler Background Type.
+			// Set ruler background type.
 			m_eRulerBackgroundType = 
 				(ERulerBackgroundType)m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection();
 
-			// Set Ruler Background Colour.
-			m_cRulerBackgroundColour = (wxColour)m_pOptionsDialog->m_pBackgroundColour->GetColour();
+			// Set ruler background colour.
+			m_cRulerBackgroundColour = (wxColour)m_pOptionsDialog->m_pBackgroundColourPicker->GetColour();
 
-			// Set Ruler Background Start Colour and End Colour.
-			m_cRulerBackgroundStartColour = (wxColour)m_pOptionsDialog->m_pBackgroundStartColour->GetColour();
-			m_cRulerBackgroundEndColour = (wxColour)m_pOptionsDialog->m_pBackgroundEndColour->GetColour();
+			// Set ruler background start colour and end colour.
+			m_cRulerBackgroundStartColour = (wxColour)m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour();
+			m_cRulerBackgroundEndColour = (wxColour)m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour();
 
-			// Set Ruler Background Image.
+			// Set ruler background image.
 			wxFileName Filename = m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName();
 			m_sRulerBackgroundImage = (wxString)wxFileName::FileNameToURL(Filename);
+
+			// Set ruler scale colour.
+			m_cRulerScaleColour = (wxColour)m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour();
+
+			// Set first and second marker colour.
+			m_cFirstMarkerColour = (wxColour)m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour();
+			m_cSecondMarkerColour = (wxColour)m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour();
 
 			// Refresh CMainFrame.
 			Refresh();

@@ -48,10 +48,13 @@ namespace WinRuler
 	COptionsDialog::~COptionsDialog()
 	{
 		// Release all instances from heap.
+		wxDELETE(m_pFirstMarkerColourPicker);
+		wxDELETE(m_pSecondMarkerColourPicker);
+		wxDELETE(m_pRulerScaleColourPicker);
 		wxDELETE(m_pBackgroundImagePicker);
-		wxDELETE(m_pBackgroundColour);
-		wxDELETE(m_pBackgroundStartColour);
-		wxDELETE(m_pBackgroundEndColour);
+		wxDELETE(m_pBackgroundColourPicker);
+		wxDELETE(m_pBackgroundStartColourPicker);
+		wxDELETE(m_pBackgroundEndColourPicker);
 		wxDELETE(m_pBackgroundColourText);
 		wxDELETE(m_pBackgroundStartEndColourText);
 		wxDELETE(m_pBackgroundImageText);
@@ -71,10 +74,13 @@ namespace WinRuler
 		m_pBackgroundColourText = NULL;
 		m_pBackgroundStartEndColourText = NULL;
 		m_pBackgroundImageText = NULL;
-		m_pBackgroundColour = NULL;
-		m_pBackgroundStartColour = NULL;
-		m_pBackgroundEndColour = NULL;
+		m_pBackgroundColourPicker = NULL;
+		m_pBackgroundStartColourPicker = NULL;
+		m_pBackgroundEndColourPicker = NULL;
 		m_pBackgroundImagePicker = NULL;
+		m_pRulerScaleColourPicker = NULL;
+		m_pFirstMarkerColourPicker = NULL;
+		m_pSecondMarkerColourPicker = NULL;
 	}
 
 	void COptionsDialog::CreateControls()
@@ -101,40 +107,45 @@ namespace WinRuler
 		//////////////////////
 		// Create Ruler page.
 
-		// Create Ruler BackgroundTypeChoice.
+		// Create ruler background type choice.
 		wxArrayString Choices;
 		Choices.Add(wxString("Solid"));
 		Choices.Add(wxString("Gradient"));
 		Choices.Add(wxString("Image"));
 
 		wxStaticText* pBackgroundTypeText =
-			new wxStaticText(pRulerPanel, wxID_ANY, wxString("Ruler background type:"));
+			new wxStaticText(
+				pRulerPanel, wxID_ANY, wxString("Ruler background type:"));
 		m_pBackgroundTypeChoice =
-			new wxChoice(pRulerPanel, ID_BackgroundTypeChoice, wxDefaultPosition, wxDefaultSize, Choices);
-		// Select current Ruler Background Type.
+			new wxChoice(
+				pRulerPanel, ID_BackgroundTypeChoice,
+				wxDefaultPosition, wxDefaultSize, Choices);
+		// Select current ruler background type.
 		m_pBackgroundTypeChoice->Select(pMainFrame->m_eRulerBackgroundType);
 
-		// Create Ruler Background Colours.
+		// Create ruler background colours picker.
 		m_pBackgroundColourText =
 			new wxStaticText(pRulerPanel, wxID_ANY, wxString("Ruler background colour:"));
-		m_pBackgroundColour =
+		m_pBackgroundColourPicker =
 			new wxColourPickerCtrl(
 				pRulerPanel, wxID_ANY, pMainFrame->m_cRulerBackgroundColour,
 				wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
 
-		// Create Ruler Background Start and End Colour.
+		// Create ruler background start and end colour picker.
 		m_pBackgroundStartEndColourText =
-			new wxStaticText(pRulerPanel, wxID_ANY, wxString("Ruler background start and end colour:"));
-		m_pBackgroundStartColour =
+			new wxStaticText(
+				pRulerPanel, wxID_ANY,
+				wxString("Ruler background start and end colour:"));
+		m_pBackgroundStartColourPicker =
 			new wxColourPickerCtrl(
 				pRulerPanel, wxID_ANY, pMainFrame->m_cRulerBackgroundStartColour,
 				wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
-		m_pBackgroundEndColour =
+		m_pBackgroundEndColourPicker =
 			new wxColourPickerCtrl(
 				pRulerPanel, wxID_ANY, pMainFrame->m_cRulerBackgroundEndColour,
 				wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
 
-		// Create Ruler Background Image.
+		// Create ruler background image picker.
 		m_pBackgroundImageText =
 			new wxStaticText(
 				pRulerPanel, wxID_ANY, wxString("Ruler background image:"));
@@ -142,22 +153,54 @@ namespace WinRuler
 			new wxFilePickerCtrl(
 				pRulerPanel, wxID_ANY, pMainFrame->m_sRulerBackgroundImage);
 
-		// Create new wxBoxSizer and apply this sizer to our items.
-		wxBoxSizer* pBoxSizer3 = new wxBoxSizer(wxVERTICAL);
-		pBoxSizer3->Add(pBackgroundTypeText, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->Add(m_pBackgroundTypeChoice, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->AddSpacer(5);
-		pBoxSizer3->Add(m_pBackgroundColourText, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->Add(m_pBackgroundColour, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->AddSpacer(5);
-		pBoxSizer3->Add(m_pBackgroundStartEndColourText, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->Add(m_pBackgroundStartColour, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->Add(m_pBackgroundEndColour, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->AddSpacer(5);
-		pBoxSizer3->Add(m_pBackgroundImageText, 0, wxEXPAND | wxALL, 5);
-		pBoxSizer3->Add(m_pBackgroundImagePicker, 0, wxEXPAND | wxALL, 5);
+		// Create ruler scale colour picker.
+		wxStaticText* pRulerScaleColourText =
+			new wxStaticText(
+				pRulerPanel, wxID_ANY, wxString("Ruler scale colour:"));
+		m_pRulerScaleColourPicker =
+			new wxColourPickerCtrl(
+				pRulerPanel, wxID_ANY, pMainFrame->m_cRulerScaleColour);
 
-		pRulerPanel->SetSizerAndFit(pBoxSizer3);
+		// Create ruler first and second marker colour.
+		wxStaticText* pRulerFirstMarkerColourText =
+			new wxStaticText(
+				pRulerPanel, wxID_ANY, wxString("Ruler first marker colour:"));
+		m_pFirstMarkerColourPicker =
+			new wxColourPickerCtrl(
+				pRulerPanel, wxID_ANY, pMainFrame->m_cFirstMarkerColour);
+
+		wxStaticText* pRulerSecondMarkerColourText =
+			new wxStaticText(
+				pRulerPanel, wxID_ANY, wxString("Ruler second marker colour:"));
+		m_pSecondMarkerColourPicker =
+			new wxColourPickerCtrl(
+				pRulerPanel, wxID_ANY, pMainFrame->m_cSecondMarkerColour);
+
+		// Create new wxBoxSizer and apply this sizer to our items.
+		wxBoxSizer* pRulerPanelBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		pRulerPanelBoxSizer->Add(pBackgroundTypeText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundTypeChoice, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundColourText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundStartEndColourText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundStartColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundEndColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundImageText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pBackgroundImagePicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(pRulerScaleColourText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pRulerScaleColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(pRulerFirstMarkerColourText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pFirstMarkerColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(pRulerSecondMarkerColourText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pSecondMarkerColourPicker, 0, wxEXPAND | wxALL, 5);
+
+		pRulerPanel->SetSizerAndFit(pRulerPanelBoxSizer);
 
 		// At end of Ruler page creation, enable proper items depending on
 		// current settings.
@@ -165,30 +208,30 @@ namespace WinRuler
 		{
 		case CMainFrame::btSolid:
 			m_pBackgroundColourText->Enable(true);
-			m_pBackgroundColour->Enable(true);
+			m_pBackgroundColourPicker->Enable(true);
 			m_pBackgroundStartEndColourText->Enable(false);
-			m_pBackgroundStartColour->Enable(false);
-			m_pBackgroundEndColour->Enable(false);
+			m_pBackgroundStartColourPicker->Enable(false);
+			m_pBackgroundEndColourPicker->Enable(false);
 			m_pBackgroundImageText->Enable(false);
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
 		case CMainFrame::btGradient:
 			m_pBackgroundColourText->Enable(false);
-			m_pBackgroundColour->Enable(false);
+			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
-			m_pBackgroundStartColour->Enable(true);
-			m_pBackgroundEndColour->Enable(true);
+			m_pBackgroundStartColourPicker->Enable(true);
+			m_pBackgroundEndColourPicker->Enable(true);
 			m_pBackgroundImageText->Enable(false);
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
 		case CMainFrame::btImage:
 			m_pBackgroundColourText->Enable(false);
-			m_pBackgroundColour->Enable(false);
+			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
-			m_pBackgroundStartColour->Enable(false);
-			m_pBackgroundEndColour->Enable(false);
+			m_pBackgroundStartColourPicker->Enable(false);
+			m_pBackgroundEndColourPicker->Enable(false);
 			m_pBackgroundImageText->Enable(true);
 			m_pBackgroundImagePicker->Enable(true);
 
@@ -213,12 +256,12 @@ namespace WinRuler
 		m_pOKButton->Centre();
 
 		// Create another wxBoxSizer and set our items.
-		wxBoxSizer* pBoxSizer2 = new wxBoxSizer(wxVERTICAL);
+		wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
 
-		pBoxSizer2->Add(m_pNotebook, 1, wxEXPAND | wxALL, 5);
-		pBoxSizer2->Add(m_pBottomPanel, 0, wxEXPAND | wxALL, 5);
+		pBoxSizer->Add(m_pNotebook, 1, wxEXPAND | wxALL, 5);
+		pBoxSizer->Add(m_pBottomPanel, 0, wxEXPAND | wxALL, 5);
 
-		SetSizerAndFit(pBoxSizer2);
+		SetSizerAndFit(pBoxSizer);
 	}
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)
@@ -227,30 +270,30 @@ namespace WinRuler
 		{
 		case CMainFrame::btSolid:
 			m_pBackgroundColourText->Enable(true);
-			m_pBackgroundColour->Enable(true);
+			m_pBackgroundColourPicker->Enable(true);
 			m_pBackgroundStartEndColourText->Enable(false);
-			m_pBackgroundStartColour->Enable(false);
-			m_pBackgroundEndColour->Enable(false);
+			m_pBackgroundStartColourPicker->Enable(false);
+			m_pBackgroundEndColourPicker->Enable(false);
 			m_pBackgroundImageText->Enable(false);
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
 		case CMainFrame::btGradient:
 			m_pBackgroundColourText->Enable(false);
-			m_pBackgroundColour->Enable(false);
+			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
-			m_pBackgroundStartColour->Enable(true);
-			m_pBackgroundEndColour->Enable(true);
+			m_pBackgroundStartColourPicker->Enable(true);
+			m_pBackgroundEndColourPicker->Enable(true);
 			m_pBackgroundImageText->Enable(false);
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
 		case CMainFrame::btImage:
 			m_pBackgroundColourText->Enable(false);
-			m_pBackgroundColour->Enable(false);
+			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(false);
-			m_pBackgroundStartColour->Enable(false);
-			m_pBackgroundEndColour->Enable(false);
+			m_pBackgroundStartColourPicker->Enable(false);
+			m_pBackgroundEndColourPicker->Enable(false);
 			m_pBackgroundImageText->Enable(true);
 			m_pBackgroundImagePicker->Enable(true);
 

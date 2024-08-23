@@ -66,40 +66,37 @@ namespace WinRuler
 
     void CNewRulerLengthDialog::CreateControls()
     {
-        // Retrieve our CAboutDialog.
-        CNewRulerLengthDialog* pDialog = this;
-
         // Retrieve our MainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*) pDialog->GetParent();
+        CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
 
-        // Create m_pContentPanel.
-        m_pContentPanel =
-            new wxPanel(
-                pDialog, wxID_ANY, wxDefaultPosition,
-                wxDefaultSize, wxNO_BORDER | wxTAB_TRAVERSAL);
+        SetClientSize(400, 200);
 
         // Create Choose static text.
         m_pChooseStaticText =
             new wxStaticText(
-                m_pContentPanel, wxID_ANY,
-                wxString("Enter new length of the ruler:"),
-                wxPoint(10, 10));
+                this, wxID_ANY,
+                wxString("Please enter the new length of the ruler (in pixels):"));
 
         // Create Spin control.
         m_pSpinCtrl =
             new wxSpinCtrl(
-                m_pContentPanel, wxID_ANY,
+                this, wxID_ANY,
                 wxString::Format(wxT("%d"), (int) pMainFrame->m_iRulerLength),
-                wxPoint(10, 40),
-                wxSize(m_pChooseStaticText->GetSize().GetWidth(), -1),
-                wxSP_ARROW_KEYS,
+                wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,
                 pMainFrame->m_iRulerMinimumLengthLimit, 2000);
 
         // Create OK button.
         m_pOKButton =
-            new wxButton(
-                m_pContentPanel, wxID_OK, "&OK",
-                wxPoint(60, 70), wxSize(60, 30));
+            new wxButton(this, wxID_OK, "&OK", wxDefaultPosition, wxSize(40, -1));
+        m_pOKButton->Centre();
+
+        wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+        pBoxSizer->Add(m_pChooseStaticText, 0, wxEXPAND | wxALL, 5);
+        pBoxSizer->Add(m_pSpinCtrl, 0, wxEXPAND | wxALL, 5);
+        pBoxSizer->Add(m_pOKButton, 0, wxEXPAND | wxALL, 5);
+        
+        SetSizerAndFit(pBoxSizer);
     }
 
     void CNewRulerLengthDialog::OnOKButtonClicked(wxCommandEvent& WXUNUSED(Event))

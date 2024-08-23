@@ -51,7 +51,7 @@ namespace WinRuler
 			wxWindow* Parent, wxWindowID Id = wxID_ANY,
 			const wxString& Title = wxString("Choose new ruler's length"),
 			const wxPoint& Pos = wxDefaultPosition,
-			const wxSize& Size = wxSize(200, 150),
+			const wxSize& Size = wxDefaultSize,
 			long Style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
 
 		/**
