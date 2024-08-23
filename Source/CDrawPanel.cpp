@@ -486,14 +486,299 @@ namespace WinRuler
             break;
         case CMainFrame::rpRight:
             // Draw first marker.
+            dc.DrawLine(
+                wxPoint(
+                    SurfaceRect.GetLeft(),
+                    SurfaceRect.GetTop() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition),
+                wxPoint(
+                    SurfaceRect.GetRight(),
+                    SurfaceRect.GetTop() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition));
 
-            // Draw second marker.
+            switch (pMainFrame->m_eRulerUnits)
+            {
+            case CMainFrame::ruCentimetres:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToCentimetresHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" cm");
+
+                break;
+            case CMainFrame::ruInches:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToInchesHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" in");
+
+                break;
+            case CMainFrame::ruPicas:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToPicasHorizontal(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" pica");
+
+                break;
+            case CMainFrame::ruPixels:
+                TmpS =
+                    wxString::Format(
+                        wxT("%d px"), pMainFrame->m_iFirstMarkerPosition);
+
+                break;
+            }
+
+            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+            if (SurfaceRect.GetTop() + 4 + pMainFrame->m_iFirstMarkerPosition +
+                4 + TextHeight > SurfaceRect.GetBottom())
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() +
+                        (SurfaceRect.GetWidth() / 3) - (TextWidth / 2),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition - 4 - TextHeight));
+            }
+            else
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() +
+                        (SurfaceRect.GetWidth() / 3) - (TextWidth / 2),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition + 4));
+            }
+
+            // Draw second marker if its value is other than -1.
+            if (pMainFrame->m_iSecondMarkerPosition != -1)
+            {
+                // Set pen colour to second marker's colour.
+                dc.SetPen(
+                    wxPen(
+                        pMainFrame->m_cSecondMarkerColour, 1, 
+                        wxPENSTYLE_SOLID));
+
+                dc.DrawLine(
+                    wxPoint(
+                        SurfaceRect.GetLeft(),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition),
+                    wxPoint(
+                        SurfaceRect.GetRight(),
+                        SurfaceRect.GetTop() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition));
+
+                switch (pMainFrame->m_eRulerUnits)
+                {
+                case CMainFrame::ruCentimetres:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToCentimetresHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" cm");
+
+                    break;
+                case CMainFrame::ruInches:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToInchesHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" in");
+
+                    break;
+                case CMainFrame::ruPicas:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToPicasHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" pica");
+
+                    break;
+                case CMainFrame::ruPixels:
+                    TmpS =
+                        wxString::Format(
+                            wxT("%d px"), pMainFrame->m_iSecondMarkerPosition);
+
+                    break;
+                }
+
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+                if (SurfaceRect.GetTop() + 4 + pMainFrame->m_iSecondMarkerPosition +
+                    4 + TextHeight > SurfaceRect.GetBottom())
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() +
+                            (SurfaceRect.GetWidth() / 3) - (TextWidth / 2),
+                            SurfaceRect.GetTop() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition - 4 - 
+                            TextHeight));
+                }
+                else
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() +
+                            (SurfaceRect.GetWidth() / 3) - (TextWidth / 2),
+                            SurfaceRect.GetTop() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition + 4));
+                }
+            }
 
             break;
         case CMainFrame::rpBottom:
             // Draw first marker.
+            dc.DrawLine(
+                wxPoint(
+                    SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition,
+                    SurfaceRect.GetTop()),
+                wxPoint(
+                    SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iFirstMarkerPosition,
+                    SurfaceRect.GetBottom()));
 
-            // Draw second marker.
+            switch (pMainFrame->m_eRulerUnits)
+            {
+            case CMainFrame::ruCentimetres:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToCentimetresVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" cm");
+
+                break;
+            case CMainFrame::ruInches:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToInchesVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" in");
+
+                break;
+            case CMainFrame::ruPicas:
+                TmpS =
+                    wxString::FromDouble(
+                        PixelsToPicasVertical(
+                            0, pMainFrame->m_iFirstMarkerPosition), 2) +
+                    wxString(" pica");
+
+                break;
+            case CMainFrame::ruPixels:
+                TmpS =
+                    wxString::Format(
+                        wxT("%d px"), pMainFrame->m_iFirstMarkerPosition);
+
+                break;
+            }
+
+            dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+            if (SurfaceRect.GetLeft() + 4 + pMainFrame->m_iFirstMarkerPosition +
+                4 + TextWidth > SurfaceRect.GetRight())
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition - 4 - TextWidth,
+                        SurfaceRect.GetTop() +
+                        (SurfaceRect.GetHeight() / 3) - TextHeight));
+            }
+            else
+            {
+                dc.DrawText(
+                    TmpS,
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iFirstMarkerPosition + 4,
+                        SurfaceRect.GetTop() +
+                        (SurfaceRect.GetHeight() / 3) - TextHeight));
+            }
+
+            // Draw second marker if its value is other than -1.
+            if (pMainFrame->m_iSecondMarkerPosition != -1)
+            {
+                // Set pen colour to second marker's colour.
+                dc.SetPen(wxPen(pMainFrame->m_cSecondMarkerColour, 1, wxPENSTYLE_SOLID));
+
+                dc.DrawLine(
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition,
+                        SurfaceRect.GetTop()),
+                    wxPoint(
+                        SurfaceRect.GetLeft() + 4 +
+                        pMainFrame->m_iSecondMarkerPosition,
+                        SurfaceRect.GetBottom()));
+
+                switch (pMainFrame->m_eRulerUnits)
+                {
+                case CMainFrame::ruCentimetres:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToCentimetresHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" cm");
+
+                    break;
+                case CMainFrame::ruInches:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToInchesHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" in");
+
+                    break;
+                case CMainFrame::ruPicas:
+                    TmpS =
+                        wxString::FromDouble(
+                            PixelsToPicasHorizontal(
+                                0, pMainFrame->m_iSecondMarkerPosition), 2) +
+                        wxString(" pica");
+
+                    break;
+                case CMainFrame::ruPixels:
+                    TmpS =
+                        wxString::Format(
+                            wxT("%d px"), pMainFrame->m_iSecondMarkerPosition);
+
+                    break;
+                }
+
+                dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
+
+                if (SurfaceRect.GetLeft() + 4 +
+                    pMainFrame->m_iSecondMarkerPosition + 4 +
+                    TextWidth > SurfaceRect.GetRight())
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition - 4 - TextWidth,
+                            SurfaceRect.GetTop() +
+                            (SurfaceRect.GetHeight() / 3) - TextHeight));
+                }
+                else
+                {
+                    dc.DrawText(
+                        TmpS,
+                        wxPoint(
+                            SurfaceRect.GetLeft() + 4 +
+                            pMainFrame->m_iSecondMarkerPosition + 4,
+                            SurfaceRect.GetTop() +
+                            (SurfaceRect.GetHeight() / 3) - TextHeight));
+                }
+            }
 
             break;
         }

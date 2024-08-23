@@ -85,15 +85,15 @@ namespace WinRuler
 
 	CMainFrame::~CMainFrame()
 	{
+		// Release m_pOptionsDialog.
+		wxDELETE(m_pOptionsDialog);
+
 		// Release m_pAboutDialog.
 		wxDELETE(m_pAboutDialog);
 
 		// Release m_pNewRulerLengthDialog.
 		wxDELETE(m_pNewRulerLengthDialog);
 
-		// Release m_pSizer.
-		//wxDELETE(m_pSizer);
-		
 		// Release m_pDrawPanel.
 		wxDELETE(m_pDrawPanel);
 
@@ -169,13 +169,40 @@ namespace WinRuler
 
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
 	{
-		// todo: Implement WinRuler's options dialog window.
+		// Create new COptionsDialog instance.
+		m_pOptionsDialog = new COptionsDialog((wxFrame*)this);
+
+		// Call COptionsDialog::ShowModal() method. If wxID_OK is returned,
+		// then save new options.
+		if (m_pOptionsDialog->ShowModal() == wxID_OK)
+		{
+			// Set Ruler Background Type.
+			m_eRulerBackgroundType = 
+				(ERulerBackgroundType)m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection();
+
+			// Set Ruler Background Colour.
+			m_cRulerBackgroundColour = (wxColour)m_pOptionsDialog->m_pBackgroundColour->GetColour();
+
+			// Set Ruler Background Start Colour and End Colour.
+			m_cRulerBackgroundStartColour = (wxColour)m_pOptionsDialog->m_pBackgroundStartColour->GetColour();
+			m_cRulerBackgroundEndColour = (wxColour)m_pOptionsDialog->m_pBackgroundEndColour->GetColour();
+
+			// Set Ruler Background Image.
+			wxFileName Filename = m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName();
+			m_sRulerBackgroundImage = (wxString)wxFileName::FileNameToURL(Filename);
+
+			// Refresh CMainFrame.
+			Refresh();
+		}
+
+		// Release create COptionsDialog instance.
+		wxDELETE(m_pOptionsDialog);
 	}
 
 	void CMainFrame::OnNewRulerLengthClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Create new CNewRulerLengthDialog instance.
-		m_pNewRulerLengthDialog = new CNewRulerLengthDialog(this);
+		m_pNewRulerLengthDialog = new CNewRulerLengthDialog((wxFrame*)this);
 
 		// Call CNewRulerLengthDialog::ShowModal() method.
 		m_pNewRulerLengthDialog->ShowModal();
@@ -241,7 +268,7 @@ namespace WinRuler
 	void CMainFrame::OnAboutClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Create new CAboutDialog instance.
-		m_pAboutDialog = new CAboutDialog(this);
+		m_pAboutDialog = new CAboutDialog((wxFrame*)this);
 		
 		// Call CAboutDialog::ShowModal() method.
 		m_pAboutDialog->ShowModal();

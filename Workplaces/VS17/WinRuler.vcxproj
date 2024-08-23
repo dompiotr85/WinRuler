@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\Source\CDrawPanel.cpp" />
     <ClCompile Include="..\..\Source\CLicenseDialog.cpp" />
     <ClCompile Include="..\..\Source\CNewRulerLengthDialog.cpp" />
+    <ClCompile Include="..\..\Source\COptionsDialog.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
     <ClCompile Include="..\..\Source\CMainFrame.cpp" />
     <ClCompile Include="..\..\Source\WRUtilities.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="..\..\Source\CLicenseDialog.h" />
     <ClInclude Include="..\..\Source\CMainFrame.h" />
     <ClInclude Include="..\..\Source\CNewRulerLengthDialog.h" />
+    <ClInclude Include="..\..\Source\COptionsDialog.h" />
     <ClInclude Include="..\..\Source\MainFrameUtilities.h" />
     <ClInclude Include="..\..\Source\WRUtilities.h" />
     <ClInclude Include="resource.h" />

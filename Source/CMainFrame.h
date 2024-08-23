@@ -26,6 +26,7 @@
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
+#include "COptionsDialog.h"
 
 enum HT_Pos
 {
@@ -40,18 +41,21 @@ enum HT_Pos
 	HT_bottomRight
 };
 
-#define ID_RULER_POSITION 2001
-#define ID_RULER_POSITION_SCALE_ON_LEFT 2002
-#define ID_RULER_POSITION_SCALE_ON_RIGHT 2003
-#define ID_RULER_POSITION_SCALE_ON_TOP 2004
-#define ID_RULER_POSITION_SCALE_ON_BOTTOM 2005
-#define ID_PIXELS_AS_UNIT 2006
-#define ID_CENTIMETRES_AS_UNIT 2007
-#define ID_INCHES_AS_UNIT 2008
-#define ID_PICAS_AS_UNIT 2009
-#define ID_ALWAYS_ON_TOP 2010
-#define ID_NEW_RULER_LENGTH 2011
-#define ID_OPTIONS 2012
+enum EMenuIDs
+{
+	ID_RULER_POSITION = 10,
+	ID_RULER_POSITION_SCALE_ON_LEFT = 11,
+	ID_RULER_POSITION_SCALE_ON_RIGHT = 12,
+	ID_RULER_POSITION_SCALE_ON_TOP = 13,
+	ID_RULER_POSITION_SCALE_ON_BOTTOM = 14,
+	ID_PIXELS_AS_UNIT = 15,
+	ID_CENTIMETRES_AS_UNIT = 16,
+	ID_INCHES_AS_UNIT = 17,
+	ID_PICAS_AS_UNIT = 18,
+	ID_ALWAYS_ON_TOP = 19,
+	ID_NEW_RULER_LENGTH = 20,
+	ID_OPTIONS = 21
+};
 
 namespace WinRuler
 {
@@ -256,6 +260,8 @@ namespace WinRuler
 		// Ruler's background end colour (used in btGradient background type).
 		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
 
+		wxString m_sRulerBackgroundImage = wxString("");
+
 		// Ruler's length.
 		int m_iRulerLength = 800;
 
@@ -288,6 +294,9 @@ namespace WinRuler
 
 		// New ruler's length dialog.
 		CNewRulerLengthDialog* m_pNewRulerLengthDialog;
+
+		// Options dialog.
+		COptionsDialog* m_pOptionsDialog;
 	public:
 		// This filed records if caption drag opertion. 
 		bool m_bCaptionDragStart;
