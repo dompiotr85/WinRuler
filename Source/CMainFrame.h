@@ -198,6 +198,14 @@ namespace WinRuler
 		 * @param NewLength		New ruler's length.
 		 **/
 		void ChangeRulerLength(int NewLength);
+
+		/**
+		 * Loads and prepare ruler's images for background image type drawing.
+		 * 
+		 * @return	Returns true if ruler's background image was loaded
+		 *			properly, otherwise false.
+		 **/
+		bool LoadAndPrepareRulerBackgroundImage();
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -260,7 +268,15 @@ namespace WinRuler
 		// Ruler's background end colour (used in btGradient background type).
 		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
 
+		// Ruler's background image that act as skin.
 		wxString m_sRulerBackgroundImage = wxString("");
+
+		wxBitmap m_bRulerBackgroundImageLeftHorizontal;
+		wxBitmap m_bRulerBackgroundImageMiddleHorizontal;
+		wxBitmap m_bRulerBackgroundImageRightHorizontal;
+		wxBitmap m_bRulerBackgroundImageTopVertical;
+		wxBitmap m_bRulerBackgroundImageMiddleVertical;
+		wxBitmap m_bRulerBackgroundImageBottomVertical;
 
 		// Ruler's length.
 		int m_iRulerLength = 800;

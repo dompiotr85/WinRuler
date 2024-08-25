@@ -152,6 +152,8 @@ namespace WinRuler
 
 		// Second marker colour.
 		m_cSecondMarkerColour = wxColour(255, 0, 0);
+
+		m_sRulerBackgroundImage = wxString("");
 	}
 
 	void CMainFrame::CreateControls()
@@ -171,6 +173,21 @@ namespace WinRuler
 
 		// Set CMainFrame auto layout.
 		this->SetAutoLayout(true);
+	}
+
+	bool CMainFrame::LoadAndPrepareRulerBackgroundImage()
+	{
+		wxBitmap Bitmap = wxBitmap(m_sRulerBackgroundImage, wxBITMAP_TYPE_PNG);
+
+		m_bRulerBackgroundImageLeftHorizontal = Bitmap.GetSubBitmap(wxRect(0, 0, 4, 60));
+		m_bRulerBackgroundImageMiddleHorizontal = Bitmap.GetSubBitmap(wxRect(4, 0, 2, 60));
+		m_bRulerBackgroundImageRightHorizontal = Bitmap.GetSubBitmap(wxRect(6, 0, 4, 60));
+
+		m_bRulerBackgroundImageTopVertical = wxBitmap(m_bRulerBackgroundImageLeftHorizontal.ConvertToImage().Rotate90());
+		m_bRulerBackgroundImageMiddleVertical = wxBitmap(m_bRulerBackgroundImageMiddleHorizontal.ConvertToImage().Rotate90());
+		m_bRulerBackgroundImageBottomVertical = wxBitmap(m_bRulerBackgroundImageRightHorizontal.ConvertToImage().Rotate90());
+
+		return true;
 	}
 
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
@@ -194,8 +211,13 @@ namespace WinRuler
 			m_cRulerBackgroundEndColour = (wxColour)m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour();
 
 			// Set ruler background image.
-			wxFileName Filename = m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName();
-			m_sRulerBackgroundImage = (wxString)wxFileName::FileNameToURL(Filename);
+			m_sRulerBackgroundImage = m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
+
+			// Load and prepare ruler background images.
+			if (!LoadAndPrepareRulerBackgroundImage())
+			{
+				wxMessageBox(wxString("Can not load ruler background images!"), wxString("Error"));
+			}
 
 			// Set ruler scale colour.
 			m_cRulerScaleColour = (wxColour)m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour();
