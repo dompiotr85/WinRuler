@@ -42,10 +42,11 @@ namespace WinRuler
 	}
 
 	BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
+
+	// Mouse events handler.
 	EVT_MOUSE_EVENTS(CMainFrame::OnMouseEvent)
 
 	// Catch menu events.
-	//EVT_MENU(ID_, CMainFrame::OnClick)
 	EVT_MENU(ID_OPTIONS, CMainFrame::OnOptionsClicked)
 	EVT_MENU(ID_NEW_RULER_LENGTH, CMainFrame::OnNewRulerLengthClicked)
 	EVT_MENU(ID_PIXELS_AS_UNIT, CMainFrame::OnPixelsAsUnitClicked)
@@ -85,6 +86,11 @@ namespace WinRuler
 
 	CMainFrame::~CMainFrame()
 	{
+		// Unbind command button clicked event.
+		this->Unbind(
+			wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this,
+			wxID_EXIT);
+
 		// Release m_pOptionsDialog.
 		wxDELETE(m_pOptionsDialog);
 
@@ -96,9 +102,6 @@ namespace WinRuler
 
 		// Release m_pDrawPanel.
 		wxDELETE(m_pDrawPanel);
-
-		// Unbind command button clicked event.
-		this->Unbind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
 	}
 
 	void CMainFrame::Init()
@@ -153,7 +156,7 @@ namespace WinRuler
 		// Second marker colour.
 		m_cSecondMarkerColour = wxColour(255, 0, 0);
 
-		m_sRulerBackgroundImage = wxString("");
+		m_sRulerBackgroundImagePath = wxString("");
 	}
 
 	void CMainFrame::CreateControls()
@@ -177,16 +180,35 @@ namespace WinRuler
 
 	bool CMainFrame::LoadAndPrepareRulerBackgroundImage()
 	{
-		wxBitmap Bitmap = wxBitmap(m_sRulerBackgroundImage, wxBITMAP_TYPE_PNG);
+		// Verify that there is image file that can be loaded from location
+		// specified in m_sRulerBackgroundImagePath.
+		if (!wxFile::Exists(m_sRulerBackgroundImagePath))
+		{
+			// There is no file at specified localization, so show message
+			// and return false.
+			wxMessageBox(
+				wxString("There is no file at specified localization!"),
+				wxString("WinRuler - Error"),
+				wxOK | wxICON_ERROR | wxCENTRE);
 
-		m_bRulerBackgroundImageLeftHorizontal = Bitmap.GetSubBitmap(wxRect(0, 0, 4, 60));
-		m_bRulerBackgroundImageMiddleHorizontal = Bitmap.GetSubBitmap(wxRect(4, 0, 2, 60));
-		m_bRulerBackgroundImageRightHorizontal = Bitmap.GetSubBitmap(wxRect(6, 0, 4, 60));
+			return false;
+		}
 
-		m_bRulerBackgroundImageTopVertical = wxBitmap(m_bRulerBackgroundImageLeftHorizontal.ConvertToImage().Rotate90());
-		m_bRulerBackgroundImageMiddleVertical = wxBitmap(m_bRulerBackgroundImageMiddleHorizontal.ConvertToImage().Rotate90());
-		m_bRulerBackgroundImageBottomVertical = wxBitmap(m_bRulerBackgroundImageRightHorizontal.ConvertToImage().Rotate90());
+		// Load image from m_sRulerBackgroundImagePath location to Bitmap
+		// instance.
+		wxBitmap Bitmap = wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
 
+		// Extract parts of loaded Bitmap into separete bitmaps.
+		m_bRulerBackgroundBitmapLeftH = Bitmap.GetSubBitmap(wxRect(0, 0, 4, 60));
+		m_bRulerBackgroundBitmapMiddleH = Bitmap.GetSubBitmap(wxRect(4, 0, 2, 60));
+		m_bRulerBackgroundBitmapRightH = Bitmap.GetSubBitmap(wxRect(6, 0, 4, 60));
+
+		// Rotate previously created bitmaps and store them in other bitmaps.
+		m_bRulerBackgroundBitmapTopV = wxBitmap(m_bRulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
+		m_bRulerBackgroundBitmapMiddleV = wxBitmap(m_bRulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
+		m_bRulerBackgroundBitmapBottomV = wxBitmap(m_bRulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
+
+		// All operation was successful, return true.
 		return true;
 	}
 
@@ -204,31 +226,43 @@ namespace WinRuler
 				(ERulerBackgroundType)m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection();
 
 			// Set ruler background colour.
-			m_cRulerBackgroundColour = (wxColour)m_pOptionsDialog->m_pBackgroundColourPicker->GetColour();
+			m_cRulerBackgroundColour = 
+				(wxColour)m_pOptionsDialog->m_pBackgroundColourPicker->GetColour();
 
 			// Set ruler background start colour and end colour.
-			m_cRulerBackgroundStartColour = (wxColour)m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour();
-			m_cRulerBackgroundEndColour = (wxColour)m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour();
+			m_cRulerBackgroundStartColour = 
+				(wxColour)m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour();
+			m_cRulerBackgroundEndColour = 
+				(wxColour)m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour();
 
 			// Set ruler background image.
-			m_sRulerBackgroundImage = m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
+			m_sRulerBackgroundImagePath = 
+				(wxString)m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
 
 			// Load and prepare ruler background images.
 			if (!LoadAndPrepareRulerBackgroundImage())
 			{
-				wxMessageBox(wxString("Can not load ruler background images!"), wxString("Error"));
+				wxMessageBox(
+					wxString("Can not load ruler background image!"),
+					wxString("WinRuler - Error"),
+					wxOK | wxICON_ERROR | wxCENTRE);
 			}
 
 			// Set ruler scale colour.
-			m_cRulerScaleColour = (wxColour)m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour();
+			m_cRulerScaleColour = 
+				(wxColour)m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour();
 
 			// Set first and second marker colour.
-			m_cFirstMarkerColour = (wxColour)m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour();
-			m_cSecondMarkerColour = (wxColour)m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour();
+			m_cFirstMarkerColour = 
+				(wxColour)m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour();
+			m_cSecondMarkerColour = 
+				(wxColour)m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour();
 
 			// Set ruler transparency.
-			m_bRulerTransparency = (bool)m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked();
-			m_iRulerTransparencyValue = (wxByte)m_pOptionsDialog->m_pRulerTransparencySlider->GetValue();
+			m_bRulerTransparency = 
+				(bool)m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked();
+			m_iRulerTransparencyValue = 
+				(wxByte)m_pOptionsDialog->m_pRulerTransparencySlider->GetValue();
 			if (m_bRulerTransparency)
 			{
 				if (CanSetTransparent())
@@ -329,7 +363,7 @@ namespace WinRuler
 
 	void CMainFrame::OnCloseClicked(wxCommandEvent& Event)
 	{
-		// Call OnExit evnet.
+		// Call OnExit event.
 		OnExit(Event);
 	}
 
@@ -337,8 +371,9 @@ namespace WinRuler
 	{
 		// If user decided that WinRuler should be closed, then ...
 		if (wxMessageBox(
-			"Are you sure that you want to exit the WinRuler?",
-			"WinRuler - Please confirm", wxICON_QUESTION | wxYES_NO) == wxYES)
+				"Are you sure that you want to exit the WinRuler?",
+				"WinRuler - Please confirm",
+				wxICON_QUESTION | wxYES_NO) == wxYES)
 		{
 			// ... close CMainFrame.
 			this->Close(true);
@@ -352,8 +387,9 @@ namespace WinRuler
 		{
 			// If user decided that WinRuler should be closed, then ...
 			if (wxMessageBox(
-				"Are you sure that you want to exit the WinRuler?",
-				"WinRuler - Plase confirm", wxICON_QUESTION | wxYES_NO) == wxYES)
+					"Are you sure that you want to exit the WinRuler?",
+					"WinRuler - Plase confirm",
+					wxICON_QUESTION | wxYES_NO) == wxYES)
 			{
 				// .. close CMainFrame.
 				this->Close(true);

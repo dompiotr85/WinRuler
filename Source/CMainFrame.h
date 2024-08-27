@@ -215,7 +215,7 @@ namespace WinRuler
 		/**
 		 * Performs border hit test and returns hit position.
 		 *
-		 * @param Pos	Reference to wxPoint instance.
+		 * @param Pos		Reference to wxPoint instance.
 		 *
 		 * @return	Returns hit position described as HT_Pos.
 		 **/
@@ -269,14 +269,16 @@ namespace WinRuler
 		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
 
 		// Ruler's background image that act as skin.
-		wxString m_sRulerBackgroundImage = wxString("");
+		wxString m_sRulerBackgroundImagePath = wxString("");
 
-		wxBitmap m_bRulerBackgroundImageLeftHorizontal;
-		wxBitmap m_bRulerBackgroundImageMiddleHorizontal;
-		wxBitmap m_bRulerBackgroundImageRightHorizontal;
-		wxBitmap m_bRulerBackgroundImageTopVertical;
-		wxBitmap m_bRulerBackgroundImageMiddleVertical;
-		wxBitmap m_bRulerBackgroundImageBottomVertical;
+		// wxBitmaps for clipped background image. Those bitmaps are used for
+		// drawing ruler when m_eRulerBackgroundType is in btImage mode.
+		wxBitmap m_bRulerBackgroundBitmapLeftH;
+		wxBitmap m_bRulerBackgroundBitmapMiddleH;
+		wxBitmap m_bRulerBackgroundBitmapRightH;
+		wxBitmap m_bRulerBackgroundBitmapTopV;
+		wxBitmap m_bRulerBackgroundBitmapMiddleV;
+		wxBitmap m_bRulerBackgroundBitmapBottomV;
 
 		// Ruler's length.
 		int m_iRulerLength = 800;

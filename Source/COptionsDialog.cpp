@@ -158,7 +158,7 @@ namespace WinRuler
 				pRulerPanel, wxID_ANY, wxString("Ruler background image:"));
 		m_pBackgroundImagePicker =
 			new wxFilePickerCtrl(
-				pRulerPanel, wxID_ANY, pMainFrame->m_sRulerBackgroundImage);
+				pRulerPanel, wxID_ANY, pMainFrame->m_sRulerBackgroundImagePath);
 
 		// Create ruler scale colour picker.
 		wxStaticText* pRulerScaleColourText =

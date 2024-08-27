@@ -1747,18 +1747,18 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageTopVertical,
+                    pMainFrame->m_bRulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
                 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundImageMiddleVertical,
+                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
                         wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
                 }
                 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageBottomVertical,
+                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
 
                 break;
@@ -1795,18 +1795,18 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageLeftHorizontal,
+                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundImageMiddleHorizontal,
+                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
                         wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageRightHorizontal,
+                    pMainFrame->m_bRulerBackgroundBitmapRightH,
                     wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
 
                 break;
@@ -1843,18 +1843,18 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageTopVertical,
+                    pMainFrame->m_bRulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundImageMiddleVertical,
+                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
                         wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageBottomVertical,
+                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
 
                 break;
@@ -1891,18 +1891,18 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageLeftHorizontal,
+                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundImageMiddleHorizontal,
+                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
                         wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundImageRightHorizontal,
+                    pMainFrame->m_bRulerBackgroundBitmapRightH,
                     wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
 
                 break;
