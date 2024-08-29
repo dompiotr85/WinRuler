@@ -28,6 +28,7 @@ namespace WinRuler
 	BEGIN_EVENT_TABLE(COptionsDialog, wxDialog)
 	EVT_CLOSE(COptionsDialog::OnClose)
 	EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
+	EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
 	END_EVENT_TABLE()
 
 	COptionsDialog::COptionsDialog(
@@ -48,6 +49,9 @@ namespace WinRuler
 	COptionsDialog::~COptionsDialog()
 	{
 		// Release all instances from heap.
+		wxDELETE(m_pRulerTransparencySlider);
+		wxDELETE(m_pRulerTransparencyText);
+		wxDELETE(m_pRulerTransparencyCheckBox);
 		wxDELETE(m_pFirstMarkerColourPicker);
 		wxDELETE(m_pSecondMarkerColourPicker);
 		wxDELETE(m_pRulerScaleColourPicker);
@@ -81,6 +85,9 @@ namespace WinRuler
 		m_pRulerScaleColourPicker = NULL;
 		m_pFirstMarkerColourPicker = NULL;
 		m_pSecondMarkerColourPicker = NULL;
+		m_pRulerTransparencyCheckBox = NULL;
+		m_pRulerTransparencyText = NULL;
+		m_pRulerTransparencySlider = NULL;
 	}
 
 	void COptionsDialog::CreateControls()
@@ -89,7 +96,7 @@ namespace WinRuler
 		CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
 
 		// Set client size.
-		SetClientSize(wxSize(700, 560));
+		SetClientSize(wxSize(700, 660));
 
 		// Create Notebook.
 		m_pNotebook =
@@ -151,7 +158,7 @@ namespace WinRuler
 				pRulerPanel, wxID_ANY, wxString("Ruler background image:"));
 		m_pBackgroundImagePicker =
 			new wxFilePickerCtrl(
-				pRulerPanel, wxID_ANY, pMainFrame->m_sRulerBackgroundImage);
+				pRulerPanel, wxID_ANY, pMainFrame->m_sRulerBackgroundImagePath);
 
 		// Create ruler scale colour picker.
 		wxStaticText* pRulerScaleColourText =
@@ -176,6 +183,22 @@ namespace WinRuler
 			new wxColourPickerCtrl(
 				pRulerPanel, wxID_ANY, pMainFrame->m_cSecondMarkerColour);
 
+		// Create new ruler transparency checkbox.
+		m_pRulerTransparencyCheckBox =
+			new wxCheckBox(pRulerPanel, ID_RulerTransparency, wxString("Ruler transparency"));
+		m_pRulerTransparencyCheckBox->SetValue(pMainFrame->m_bRulerTransparency);
+
+		// Create new ruler transparency slider.
+		m_pRulerTransparencyText =
+			new wxStaticText(pRulerPanel, wxID_ANY, wxString("Ruler transparency value:"));
+
+		m_pRulerTransparencySlider =
+			new wxSlider(
+				pRulerPanel, wxID_ANY, 
+				(int)pMainFrame->m_iRulerTransparencyValue, 0, 255,
+				wxDefaultPosition, wxDefaultSize,
+				wxSL_HORIZONTAL | wxSL_VALUE_LABEL);
+
 		// Create new wxBoxSizer and apply this sizer to our items.
 		wxBoxSizer* pRulerPanelBoxSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -199,6 +222,10 @@ namespace WinRuler
 		pRulerPanelBoxSizer->Add(m_pFirstMarkerColourPicker, 0, wxEXPAND | wxALL, 5);
 		pRulerPanelBoxSizer->Add(pRulerSecondMarkerColourText, 0, wxEXPAND | wxALL, 5);
 		pRulerPanelBoxSizer->Add(m_pSecondMarkerColourPicker, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->Add(m_pRulerTransparencyCheckBox, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pRulerTransparencyText, 0, wxEXPAND | wxALL, 5);
+		pRulerPanelBoxSizer->Add(m_pRulerTransparencySlider, 0, wxEXPAND | wxALL, 5);
 
 		pRulerPanel->SetSizerAndFit(pRulerPanelBoxSizer);
 
@@ -238,6 +265,17 @@ namespace WinRuler
 			break;
 		}
 
+		if (m_pRulerTransparencyCheckBox->IsChecked())
+		{
+			m_pRulerTransparencyText->Enable(true);
+			m_pRulerTransparencySlider->Enable(true);
+		}
+		else
+		{
+			m_pRulerTransparencyText->Enable(false);
+			m_pRulerTransparencySlider->Enable(false);
+		}
+
 		//////////////////////
 
 		// Add created notebook pages to notebook.
@@ -262,6 +300,21 @@ namespace WinRuler
 		pBoxSizer->Add(m_pBottomPanel, 0, wxEXPAND | wxALL, 5);
 
 		SetSizerAndFit(pBoxSizer);
+	}
+
+	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event)
+	{
+		wxCheckBox* pCheckBox = (wxCheckBox*)Event.GetEventObject();
+		if (pCheckBox->IsChecked())
+		{
+			m_pRulerTransparencyText->Enable(true);
+			m_pRulerTransparencySlider->Enable(true);
+		}
+		else
+		{
+			m_pRulerTransparencyText->Enable(false);
+			m_pRulerTransparencySlider->Enable(false);
+		}
 	}
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)

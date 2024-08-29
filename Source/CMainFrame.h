@@ -198,6 +198,14 @@ namespace WinRuler
 		 * @param NewLength		New ruler's length.
 		 **/
 		void ChangeRulerLength(int NewLength);
+
+		/**
+		 * Loads and prepare ruler's images for background image type drawing.
+		 * 
+		 * @return	Returns true if ruler's background image was loaded
+		 *			properly, otherwise false.
+		 **/
+		bool LoadAndPrepareRulerBackgroundImage();
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -207,7 +215,7 @@ namespace WinRuler
 		/**
 		 * Performs border hit test and returns hit position.
 		 *
-		 * @param Pos	Reference to wxPoint instance.
+		 * @param Pos		Reference to wxPoint instance.
 		 *
 		 * @return	Returns hit position described as HT_Pos.
 		 **/
@@ -260,7 +268,17 @@ namespace WinRuler
 		// Ruler's background end colour (used in btGradient background type).
 		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
 
-		wxString m_sRulerBackgroundImage = wxString("");
+		// Ruler's background image that act as skin.
+		wxString m_sRulerBackgroundImagePath = wxString("");
+
+		// wxBitmaps for clipped background image. Those bitmaps are used for
+		// drawing ruler when m_eRulerBackgroundType is in btImage mode.
+		wxBitmap m_bRulerBackgroundBitmapLeftH;
+		wxBitmap m_bRulerBackgroundBitmapMiddleH;
+		wxBitmap m_bRulerBackgroundBitmapRightH;
+		wxBitmap m_bRulerBackgroundBitmapTopV;
+		wxBitmap m_bRulerBackgroundBitmapMiddleV;
+		wxBitmap m_bRulerBackgroundBitmapBottomV;
 
 		// Ruler's length.
 		int m_iRulerLength = 800;
@@ -270,6 +288,12 @@ namespace WinRuler
 
 		// Ruler AlwaysOnTop state.
 		bool m_bAlwaysOnTop = true;
+
+		// Ruler transparency state.
+		bool m_bRulerTransparency = false;
+
+		// Ruler transparency value.
+		wxByte m_iRulerTransparencyValue = 255;
 
 		// First marker position.
 		int m_iFirstMarkerPosition = 0;

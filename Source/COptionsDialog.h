@@ -29,7 +29,8 @@
 
 enum EOptionsIDs
 {
-	ID_BackgroundTypeChoice = 40
+	ID_BackgroundTypeChoice = 40,
+	ID_RulerTransparency = 41
 };
 
 namespace WinRuler
@@ -86,6 +87,13 @@ namespace WinRuler
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnBackgroundTypeChoiceChanged(wxCommandEvent& Event);
+
+		/**
+		 * OnRulerTransparencyCheckBoxClicked() method event.
+		 * 
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
 	public:
 		// Bottom panel.
 		wxPanel* m_pBottomPanel;
@@ -112,11 +120,20 @@ namespace WinRuler
 		// Background image.
 		wxFilePickerCtrl* m_pBackgroundImagePicker;
 
-		// Ruler Scale colour.
+		// Ruler scale colour.
 		wxColourPickerCtrl* m_pRulerScaleColourPicker;
 
 		// First and second marker colour.
 		wxColourPickerCtrl* m_pFirstMarkerColourPicker;
 		wxColourPickerCtrl* m_pSecondMarkerColourPicker;
+
+		// Ruler transparency.
+		wxCheckBox* m_pRulerTransparencyCheckBox;
+
+		// Ruler transparency text.
+		wxStaticText* m_pRulerTransparencyText;
+
+		// Ruler transparency value.
+		wxSlider* m_pRulerTransparencySlider;
 	};
 } // end namespace WinRuler
