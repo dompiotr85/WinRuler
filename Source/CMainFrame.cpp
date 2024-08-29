@@ -91,16 +91,16 @@ namespace WinRuler
 			wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this,
 			wxID_EXIT);
 
-		// Release m_pOptionsDialog.
+		// Release COptionsDialog instance.
 		wxDELETE(m_pOptionsDialog);
 
-		// Release m_pAboutDialog.
+		// Release CAboutDialog instance.
 		wxDELETE(m_pAboutDialog);
 
-		// Release m_pNewRulerLengthDialog.
+		// Release CNewRulerLengthDialog instance.
 		wxDELETE(m_pNewRulerLengthDialog);
 
-		// Release m_pDrawPanel.
+		// Release CDrawPanel instance.
 		wxDELETE(m_pDrawPanel);
 	}
 
@@ -157,6 +157,9 @@ namespace WinRuler
 		m_cSecondMarkerColour = wxColour(255, 0, 0);
 
 		m_sRulerBackgroundImagePath = wxString("");
+
+		// Load all settings of the application from Database.
+		LoadSettingsFromDb();
 	}
 
 	void CMainFrame::CreateControls()
@@ -240,7 +243,8 @@ namespace WinRuler
 				(wxString)m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
 
 			// Load and prepare ruler background images.
-			if (!LoadAndPrepareRulerBackgroundImage())
+			if ((m_eRulerBackgroundType == btImage) &&
+				(!LoadAndPrepareRulerBackgroundImage()))
 			{
 				wxMessageBox(
 					wxString("Can not load ruler background image!"),
@@ -274,6 +278,9 @@ namespace WinRuler
 			{
 				SetTransparent(255);
 			}
+
+			// Save all settings of the application into database.
+			SaveSettingsToDb();
 
 			// Refresh CMainFrame.
 			Refresh();
@@ -497,6 +504,16 @@ namespace WinRuler
 
 			Refresh();
 		}
+	}
+
+	void CMainFrame::LoadSettingsFromDb()
+	{
+		//
+	}
+
+	void CMainFrame::SaveSettingsToDb()
+	{
+		//
 	}
 
 	void CMainFrame::OnMouseEvent(wxMouseEvent& Event)

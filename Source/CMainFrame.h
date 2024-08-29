@@ -23,6 +23,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <sqlite3.h>
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -206,6 +207,20 @@ namespace WinRuler
 		 *			properly, otherwise false.
 		 **/
 		bool LoadAndPrepareRulerBackgroundImage();
+
+		/**
+		 * This method loads all settings of the application from sqlite
+		 * database. If application is executed for the first time, there
+		 * aren't settings in sqltie database so new table and entries will be
+		 * create.
+		 **/
+		void LoadSettingsFromDb();
+
+		/**
+		 * This method save all settings of the application into sqlite
+		 * database.
+		 **/
+		void SaveSettingsToDb();
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -307,6 +322,9 @@ namespace WinRuler
 		// Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
 	public:
+		// SQLite handle.
+		sqlite3* m_pDb;
+
 		// DrawPanel which is used for all drawing of our ruler.
 		CDrawPanel* m_pDrawPanel;
 

@@ -62,8 +62,21 @@ namespace WinRuler
 		}
 		m_pMainFrame->SetIcon(*m_pIcon);
 
-		// Set mainFrame client size and center it on screen.
-		m_pMainFrame->SetClientSize(800, 60);
+		// Set mainFrame client size depending on Ruler scale position and
+		// center it on screen.
+		switch (m_pMainFrame->m_eRulerPosition)
+		{
+		case CMainFrame::rpLeft:
+		case CMainFrame::rpRight:
+			m_pMainFrame->SetClientSize(wxSize(60, m_pMainFrame->m_iRulerLength));
+
+			break;
+		case CMainFrame::rpTop:
+		case CMainFrame::rpBottom:
+			m_pMainFrame->SetClientSize(wxSize(m_pMainFrame->m_iRulerLength, 60));
+
+			break;
+		}
 		m_pMainFrame->Centre();
 
 		// Show mainFrame.
