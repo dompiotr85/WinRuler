@@ -158,8 +158,8 @@ namespace WinRuler
 
 		m_sRulerBackgroundImagePath = wxString("");
 
-		// Load all settings of the application from Database.
-		LoadSettingsFromDb();
+		// Load all settings of our application.
+		LoadApplicationSettings();
 	}
 
 	void CMainFrame::CreateControls()
@@ -187,12 +187,9 @@ namespace WinRuler
 		// specified in m_sRulerBackgroundImagePath.
 		if (!wxFile::Exists(m_sRulerBackgroundImagePath))
 		{
-			// There is no file at specified localization, so show message
-			// and return false.
-			wxMessageBox(
-				wxString("There is no file at specified localization!"),
-				wxString("WinRuler - Error"),
-				wxOK | wxICON_ERROR | wxCENTRE);
+			// There is no file at specified localization, so log error and
+			// return false.
+			wxLogError("There is no file at specified localization!");
 
 			return false;
 		}
@@ -246,10 +243,7 @@ namespace WinRuler
 			if ((m_eRulerBackgroundType == btImage) &&
 				(!LoadAndPrepareRulerBackgroundImage()))
 			{
-				wxMessageBox(
-					wxString("Can not load ruler background image!"),
-					wxString("WinRuler - Error"),
-					wxOK | wxICON_ERROR | wxCENTRE);
+				wxLogError("Can not load ruler background image!");
 			}
 
 			// Set ruler scale colour.
@@ -279,8 +273,8 @@ namespace WinRuler
 				SetTransparent(255);
 			}
 
-			// Save all settings of the application into database.
-			SaveSettingsToDb();
+			// Save all settings of our application.
+			SaveApplicationSettings();
 
 			// Refresh CMainFrame.
 			Refresh();
@@ -506,14 +500,282 @@ namespace WinRuler
 		}
 	}
 
-	void CMainFrame::LoadSettingsFromDb()
+	bool CMainFrame::LoadSettingsFromDatabase(
+		const wxString& dbPath, std::map<wxString, wxString>& Settings)
 	{
-		//
+		sqlite3* db = nullptr;
+		sqlite3_stmt* stmt = nullptr;
+		int rc;
+
+		// Open connection with database.
+		rc = 
+			sqlite3_open_v2(
+				dbPath.mb_str(), &db,
+				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+			
+			if (db)
+			{
+				sqlite3_close(db);
+			}
+
+			return false;
+		}
+
+		// Create table 'Settings' if not exists.
+		const char* CreateTableSQL = R"(
+			CREATE TABLE IF NOT EXISTS Settings (
+				Key TEXT PRIMARY KEY,
+				Value TEXT NOT NULL
+			);
+		)";
+
+		rc = sqlite3_exec(db, CreateTableSQL, nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not create table 'Settings': %s", sqlite3_errmsg(db));
+			
+			sqlite3_close(db);
+			
+			return false;
+		}
+
+		// Prepare SELECT query to retrieve all settings.
+		const char* SelectSQL = "SELECT Key, Value FROM Settings;";
+		rc = sqlite3_prepare_v2(db, SelectSQL, -1, &stmt, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("There was an error while SELECT query was prepared: %s", sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Execute query and load results into Settings map.
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+		{
+			wxString Key = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
+			wxString Value = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+			Settings[Key] = Value;
+
+			wxLogDebug("Setting loaded: %s = %s", Key, Value);
+		}
+
+		if (rc != SQLITE_DONE)
+		{
+			wxLogError("There was an error while SELECT query was executed: %s", sqlite3_errmsg(db));
+
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Release resources.
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+
+		wxLogMessage("All database settings was loaded successful.");
+
+		return true;
 	}
 
-	void CMainFrame::SaveSettingsToDb()
+	bool CMainFrame::SaveSettingsToDatabase(
+		const wxString& dbPath, const std::map<wxString, wxString>& Settings)
 	{
-		//
+		// If there is no settings in Settings map, then display warning
+		// message and return true.
+		if (Settings.empty())
+		{
+			wxLogWarning("There is no settings to save in database.");
+			
+			return true;
+		}
+
+		sqlite3* db = nullptr;
+		sqlite3_stmt* stmt = nullptr;
+		int rc;
+
+		// Open connection with SQLite database.
+		rc =
+			sqlite3_open_v2(
+				dbPath.mb_str(), &db,
+				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+
+			if (db)
+			{
+				sqlite3_close(db);
+			}
+
+			return false;
+		}
+
+		// Create table 'Settings' if not exists.
+		const char* CreateTableSQL = R"(
+			CREATE TABLE IF NOT EXISTS Settings (
+				Key TEXT PRIMARY KEY,
+				Value TEXT NOT NULL
+			);
+		)";
+
+		rc = sqlite3_exec(db, CreateTableSQL, nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"Can not create table 'Settings': %s", sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Prepare SQL query INSERT OR REPLACE.
+		const char* InsertSQL = 
+			"INSERT OR REPLACE INTO Settings (Key, Value) VALUES (?, ?);";
+		rc = sqlite3_prepare_v2(db, InsertSQL, -1, &stmt, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"There was an error while preparing SQL query INSERT: %s",
+				sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Starting transaction.
+		rc = sqlite3_exec(db, "BEGIN TRANSACTION;", nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"There was an error while beginning transaction: %s", 
+				sqlite3_errmsg(db));
+
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Inserting settings into dabase.
+		for (const auto& [Key, Value] : Settings)
+		{
+			sqlite3_reset(stmt);
+			sqlite3_clear_bindings(stmt);
+
+			rc = sqlite3_bind_text(stmt, 1, Key.mb_str(), -1, SQLITE_TRANSIENT);
+			if (rc != SQLITE_OK)
+			{
+				wxLogError(
+					"There was an error while binding Key '%s': %s",
+					Key, sqlite3_errmsg(db));
+				
+				continue;
+			}
+
+			rc = sqlite3_bind_text(stmt, 2, Value.mb_str(), -1, SQLITE_TRANSIENT);
+			if (rc != SQLITE_OK)
+			{
+				wxLogError(
+					"There was an error while binding Value for Key '%s': %s",
+					Key, sqlite3_errmsg(db));
+
+				continue;
+			}
+
+			rc = sqlite3_step(stmt);
+			if (rc != SQLITE_DONE)
+			{
+				wxLogError(
+					"There was an error while inserting setting '%s': %s",
+					Key, sqlite3_errmsg(db));
+			}
+			else
+			{
+				wxLogDebug("Setting saved: %s = %s", Key, Value);
+			}
+		}
+
+		// Ending transaction.
+		rc = sqlite3_exec(db, "END TRANSACTION;", nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not end transaction: %s", sqlite3_errmsg(db));
+			
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Release resources.
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+
+		wxLogMessage("Settings saved into database successfuly.");
+
+		return true;
+	}
+
+	void CMainFrame::LoadApplicationSettings()
+	{
+		wxString dbPath = wxGetCwd() + "/WinRuler.db";
+		std::map<wxString, wxString> Settings;
+
+		if (LoadSettingsFromDatabase(dbPath, Settings))
+		{
+			// Processing loaded settings.
+			for (const auto& [Key, Value] : Settings)
+			{
+				// 
+				wxLogMessage("Setting %s = %s was applied.", Key, Value);
+			}
+		}
+		else
+		{
+			wxLogError(
+				"There was an error while application settings was loaded "
+				"from database!");
+		}
+	}
+
+	void CMainFrame::SaveApplicationSettings()
+	{
+		wxString dbPath = wxGetCwd() + "/WinRuler.db";
+		std::map<wxString, wxString> Settings;
+
+		// Add all application settings into our map.
+		Settings["ruler_position"] = wxString::Format("%i", m_eRulerPosition);
+		Settings["ruler_units"] = wxString::Format("%i", m_eRulerUnits);
+		Settings["ruler_background_type"] = wxString::Format("%i", m_eRulerBackgroundType);
+		Settings["ruler_scale_colour"] = m_cRulerScaleColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_colour"] = m_cRulerBackgroundColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_start_colour"] = m_cRulerBackgroundStartColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_end_colour"] = m_cRulerBackgroundEndColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_length"] = wxString::Format("%i", m_iRulerLength);
+		Settings["ruler_minimum_length_limit"] = wxString::Format("%i", m_iRulerMinimumLengthLimit);
+		Settings["ruler_always_on_top"] = m_bAlwaysOnTop ? wxString("true") : wxString("false");
+		Settings["ruler_transparency"] = m_bRulerTransparency ? wxString("true") : wxString("false");
+		Settings["ruler_transparency_value"] = wxString::Format("%i", m_iRulerTransparencyValue);
+		Settings["ruler_first_marker_colour"] = m_cFirstMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_second_marker_colour"] = m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_image_path"] = m_sRulerBackgroundImagePath;
+
+		if (SaveSettingsToDatabase(dbPath, Settings))
+		{
+			wxLogMessage("Application settings saved successfuly");
+		}
+		else
+		{
+			wxLogError("There was an error while saving application settings!");
+		}
 	}
 
 	void CMainFrame::OnMouseEvent(wxMouseEvent& Event)

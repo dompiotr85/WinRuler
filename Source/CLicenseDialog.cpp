@@ -79,9 +79,7 @@ namespace WinRuler
 		if (!m_pTextCtrl->LoadFile(
 				wxString("../../../../LICENSE"), wxRICHTEXT_TYPE_TEXT))
 		{
-			wxMessageBox(
-				wxString("Can''t load LICENSE file!"),
-				wxString("WinRuler - Error"));
+			wxLogError("Can not load LICENSE file!");
 		}
 
 		// Create m_pCloseButton.

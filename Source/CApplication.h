@@ -55,5 +55,7 @@ namespace WinRuler
 
 		// Pointer to wxIcon.
 		wxIcon* m_pIcon;
+
+		wxLog* m_pLogger;
 	};
 } // end namespace WinRuler

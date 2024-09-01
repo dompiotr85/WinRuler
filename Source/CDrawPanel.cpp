@@ -105,7 +105,8 @@ namespace WinRuler
             pMenu->AppendSeparator();
 
             // Append AlwaysOnTop item separated.
-            wxMenuItem* pMenuItem = pMenu->AppendCheckItem(ID_ALWAYS_ON_TOP, wxString("&Always on top"));
+            wxMenuItem* pMenuItem = 
+                pMenu->AppendCheckItem(ID_ALWAYS_ON_TOP, wxString("&Always on top"));
             pMenuItem->Check(pMainFrame->m_bAlwaysOnTop);
             pMenu->AppendSeparator();
 

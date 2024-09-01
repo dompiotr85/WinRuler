@@ -24,6 +24,7 @@
 
 #include <wx/wx.h>
 #include <sqlite3.h>
+#include <map>
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -214,13 +215,25 @@ namespace WinRuler
 		 * aren't settings in sqltie database so new table and entries will be
 		 * create.
 		 **/
-		void LoadSettingsFromDb();
+		bool LoadSettingsFromDatabase(
+			const wxString& dbPath, std::map<wxString, wxString>& Settings);
 
 		/**
 		 * This method save all settings of the application into sqlite
 		 * database.
 		 **/
-		void SaveSettingsToDb();
+		bool SaveSettingsToDatabase(
+			const wxString& dbPath, const std::map<wxString, wxString>& Settings);
+
+		/**
+		 * Loads all settings of our application.
+		 **/
+		void LoadApplicationSettings();
+
+		/**
+		 * Saves all settings of our application.
+		 **/
+		void SaveApplicationSettings();
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -322,9 +335,6 @@ namespace WinRuler
 		// Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
 	public:
-		// SQLite handle.
-		sqlite3* m_pDb;
-
 		// DrawPanel which is used for all drawing of our ruler.
 		CDrawPanel* m_pDrawPanel;
 
