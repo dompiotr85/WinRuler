@@ -23,6 +23,8 @@
 #pragma once
 
 #include <wx/wx.h>
+#include <sqlite3.h>
+#include <map>
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -206,6 +208,32 @@ namespace WinRuler
 		 *			properly, otherwise false.
 		 **/
 		bool LoadAndPrepareRulerBackgroundImage();
+
+		/**
+		 * This method loads all settings of the application from sqlite
+		 * database. If application is executed for the first time, there
+		 * aren't settings in sqltie database so new table and entries will be
+		 * create.
+		 **/
+		bool LoadSettingsFromDatabase(
+			const wxString& dbPath, std::map<wxString, wxString>& Settings);
+
+		/**
+		 * This method save all settings of the application into sqlite
+		 * database.
+		 **/
+		bool SaveSettingsToDatabase(
+			const wxString& dbPath, const std::map<wxString, wxString>& Settings);
+
+		/**
+		 * Loads all settings of our application.
+		 **/
+		void LoadApplicationSettings();
+
+		/**
+		 * Saves all settings of our application.
+		 **/
+		void SaveApplicationSettings();
 	protected:
 		/**
 		 * Performs initialization of border dragging.

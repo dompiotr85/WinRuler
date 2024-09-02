@@ -32,6 +32,13 @@ namespace WinRuler
 		// Execute inherited method OnInit().
 		wxApp::OnInit();
 
+		// Only in Debug, create our wxLog instance and set it as active
+		// target.
+#ifdef _DEBUG
+		m_pLogger = new wxLogWindow(nullptr, "Log", true, false);
+		wxLog::SetActiveTarget(m_pLogger);
+#endif
+
 		// Initialize all supported image handlers. 
 		::wxInitAllImageHandlers();
 
@@ -49,22 +56,34 @@ namespace WinRuler
 		// mainFrame.
 		m_pMainFrame = new CMainFrame("WinRuler");
 
+		// Set mainFrame client size depending on Ruler scale position and
+		// center it on screen.
+		switch (m_pMainFrame->m_eRulerPosition)
+		{
+		case CMainFrame::rpLeft:
+		case CMainFrame::rpRight:
+			m_pMainFrame->SetClientSize(wxSize(60, m_pMainFrame->m_iRulerLength));
+
+			break;
+		case CMainFrame::rpTop:
+		case CMainFrame::rpBottom:
+			m_pMainFrame->SetClientSize(wxSize(m_pMainFrame->m_iRulerLength, 60));
+
+			break;
+		}
+		m_pMainFrame->Centre();
+
 		// Load application icon and set it on m_pMainFrame.
 		m_pIcon = new wxIcon();
-		if (!m_pIcon->LoadFile(wxString("../../../../Resources/WinRuler.ico"), wxBITMAP_TYPE_ICO))
+		if (!m_pIcon->LoadFile(
+				wxString("../../../../Resources/WinRuler.ico"),
+				wxBITMAP_TYPE_ICO))
 		{
-			wxMessageBox(
-				wxString("Can't load application icon!"),
-				wxString("WinRuler - Error"),
-				wxOK | wxCENTRE | wxICON_ERROR, m_pMainFrame);
+			wxLogError("Can't load application icon!");
 
 			return false;
 		}
 		m_pMainFrame->SetIcon(*m_pIcon);
-
-		// Set mainFrame client size and center it on screen.
-		m_pMainFrame->SetClientSize(800, 60);
-		m_pMainFrame->Centre();
 
 		// Show mainFrame.
 		m_pMainFrame->Show();
@@ -75,6 +94,10 @@ namespace WinRuler
 
 	int CApplication::OnExit()
 	{
+		// Clean our wxLog instance.
+		wxLog::SetActiveTarget(nullptr);
+		wxDELETE(m_pLogger);
+
 		// Clear h_vPixelPerInch vector.
 		g_vPixelPerInch.clear();
 

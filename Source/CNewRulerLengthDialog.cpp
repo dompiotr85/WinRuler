@@ -67,7 +67,7 @@ namespace WinRuler
     void CNewRulerLengthDialog::CreateControls()
     {
         // Retrieve our MainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
 
         SetClientSize(400, 200);
 

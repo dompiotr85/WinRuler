@@ -74,6 +74,32 @@ namespace WinRuler
 		// Create CMainFrame controls.
 		CreateControls();
 
+		// Load all settings of our application.
+		LoadApplicationSettings();
+
+		// Try to apply all loaded settings now when everything is stored and
+		// our MainFrame need special changes.
+		ChangeRulerLength(m_iRulerLength);
+		ChangeRulerPosition(m_eRulerPosition);
+		ChangeRulerUnitOfMeasurement(m_eRulerUnits);
+		StayOnTop(m_bAlwaysOnTop);
+		if ((m_eRulerBackgroundType == btImage) &&
+			(!LoadAndPrepareRulerBackgroundImage()))
+		{
+			wxLogError("Can not load ruler background image!");
+		}
+		if (m_bRulerTransparency)
+		{
+			if (CanSetTransparent())
+			{
+				SetTransparent(m_iRulerTransparencyValue);
+			}
+		}
+		else
+		{
+			SetTransparent(255);
+		}
+
 		// Bind OnExit method for command button clicked event.
 		this->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
 
@@ -91,16 +117,16 @@ namespace WinRuler
 			wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this,
 			wxID_EXIT);
 
-		// Release m_pOptionsDialog.
+		// Release COptionsDialog instance.
 		wxDELETE(m_pOptionsDialog);
 
-		// Release m_pAboutDialog.
+		// Release CAboutDialog instance.
 		wxDELETE(m_pAboutDialog);
 
-		// Release m_pNewRulerLengthDialog.
+		// Release CNewRulerLengthDialog instance.
 		wxDELETE(m_pNewRulerLengthDialog);
 
-		// Release m_pDrawPanel.
+		// Release CDrawPanel instance.
 		wxDELETE(m_pDrawPanel);
 	}
 
@@ -184,12 +210,9 @@ namespace WinRuler
 		// specified in m_sRulerBackgroundImagePath.
 		if (!wxFile::Exists(m_sRulerBackgroundImagePath))
 		{
-			// There is no file at specified localization, so show message
-			// and return false.
-			wxMessageBox(
-				wxString("There is no file at specified localization!"),
-				wxString("WinRuler - Error"),
-				wxOK | wxICON_ERROR | wxCENTRE);
+			// There is no file at specified localization, so log error and
+			// return false.
+			wxLogError("There is no file at specified localization!");
 
 			return false;
 		}
@@ -240,12 +263,10 @@ namespace WinRuler
 				(wxString)m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
 
 			// Load and prepare ruler background images.
-			if (!LoadAndPrepareRulerBackgroundImage())
+			if ((m_eRulerBackgroundType == btImage) &&
+				(!LoadAndPrepareRulerBackgroundImage()))
 			{
-				wxMessageBox(
-					wxString("Can not load ruler background image!"),
-					wxString("WinRuler - Error"),
-					wxOK | wxICON_ERROR | wxCENTRE);
+				wxLogError("Can not load ruler background image!");
 			}
 
 			// Set ruler scale colour.
@@ -275,6 +296,9 @@ namespace WinRuler
 				SetTransparent(255);
 			}
 
+			// Save all settings of our application.
+			SaveApplicationSettings();
+
 			// Refresh CMainFrame.
 			Refresh();
 		}
@@ -289,7 +313,11 @@ namespace WinRuler
 		m_pNewRulerLengthDialog = new CNewRulerLengthDialog((wxFrame*)this);
 
 		// Call CNewRulerLengthDialog::ShowModal() method.
-		m_pNewRulerLengthDialog->ShowModal();
+		if (m_pNewRulerLengthDialog->ShowModal() == wxID_OK)
+		{
+			// Save all settings of our application.
+			SaveApplicationSettings();
+		}
 
 		// Release created CNewRulerLengthDialog instance.
 		wxDELETE(m_pNewRulerLengthDialog);
@@ -299,54 +327,81 @@ namespace WinRuler
 	{
 		// Change ruler's unit of measurement to pixels.
 		ChangeRulerUnitOfMeasurement(ruPixels);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnCentimetresAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's unit of measurement to centimetres.
 		ChangeRulerUnitOfMeasurement(ruCentimetres);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnInchesAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's unit of measurement to inches.
 		ChangeRulerUnitOfMeasurement(ruInches);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnPicasAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's unit of measurement to picas.
 		ChangeRulerUnitOfMeasurement(ruPicas);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnAlwaysOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's StayOnTop state to negative one.
 		StayOnTop(!m_bAlwaysOnTop);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnScaleOnLeftClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's position to left.
 		ChangeRulerPosition(rpLeft);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnScaleOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's position to top.
 		ChangeRulerPosition(rpTop);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnScaleOnRightClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's position to right.
 		ChangeRulerPosition(rpRight);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnScaleOnBottomClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Change ruler's position to bottom.
 		ChangeRulerPosition(rpBottom);
+
+		// Save all settings of our application.
+		SaveApplicationSettings();
 	}
 
 	void CMainFrame::OnAboutClicked(wxCommandEvent& WXUNUSED(Event))
@@ -405,32 +460,26 @@ namespace WinRuler
 
 	void CMainFrame::ChangeRulerPosition(ERulerPosition NewPosition)
 	{
-		// If current ruler's position is different than proposed ruler's
-		// position, then ...
-		if (m_eRulerPosition != NewPosition)
+		// Set proposed ruler's position as current ruler's position and ...
+		m_eRulerPosition = NewPosition;
+
+		// ... set new size of CMainFrame.
+		switch (NewPosition)
 		{
-			// ... set proposed ruler's position as current ruler's
-			// position and ...
-			m_eRulerPosition = NewPosition;
+		case rpLeft:
+		case rpRight:
+			SetSize(60, m_iRulerLength);
 
-			// ... set new size of CMainFrame.
-			switch (NewPosition)
-			{
-			case rpLeft:
-			case rpRight:
-				SetSize(60, m_iRulerLength);
+			break;
+		case rpTop:
+		case rpBottom:
+			SetSize(m_iRulerLength, 60);
 
-				break;
-			case rpTop:
-			case rpBottom:
-				SetSize(m_iRulerLength, 60);
-
-				break;
-			}
-
-			// At end refresh CMainFrame.
-			Refresh();
+			break;
 		}
+
+		// At end refresh CMainFrame.
+		Refresh();
 	}
 
 	void CMainFrame::StayOnTop(bool State)
@@ -497,6 +546,356 @@ namespace WinRuler
 
 			Refresh();
 		}
+	}
+
+	bool CMainFrame::LoadSettingsFromDatabase(
+		const wxString& dbPath, std::map<wxString, wxString>& Settings)
+	{
+		sqlite3* db = nullptr;
+		sqlite3_stmt* stmt = nullptr;
+		int rc;
+
+		// Open connection with database.
+		rc = 
+			sqlite3_open_v2(
+				dbPath.mb_str(), &db,
+				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+			
+			if (db)
+			{
+				sqlite3_close(db);
+			}
+
+			return false;
+		}
+
+		// Create table 'Settings' if not exists.
+		const char* CreateTableSQL = R"(
+			CREATE TABLE IF NOT EXISTS Settings (
+				Key TEXT PRIMARY KEY,
+				Value TEXT NOT NULL
+			);
+		)";
+
+		rc = sqlite3_exec(db, CreateTableSQL, nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not create table 'Settings': %s", sqlite3_errmsg(db));
+			
+			sqlite3_close(db);
+			
+			return false;
+		}
+
+		// Prepare SELECT query to retrieve all settings.
+		const char* SelectSQL = "SELECT Key, Value FROM Settings;";
+		rc = sqlite3_prepare_v2(db, SelectSQL, -1, &stmt, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("There was an error while SELECT query was prepared: %s", sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Execute query and load results into Settings map.
+		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+		{
+			wxString Key = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
+			wxString Value = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+			Settings[Key] = Value;
+
+#ifdef _DEBUG
+			wxLogDebug("Setting loaded: %s = %s", Key, Value);
+#endif
+		}
+
+		if (rc != SQLITE_DONE)
+		{
+			wxLogError("There was an error while SELECT query was executed: %s", sqlite3_errmsg(db));
+
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Release resources.
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+
+#ifdef _DEBUG
+		wxLogDebug("All database settings was loaded successful.");
+#endif
+
+		return true;
+	}
+
+	bool CMainFrame::SaveSettingsToDatabase(
+		const wxString& dbPath, const std::map<wxString, wxString>& Settings)
+	{
+		// If there is no settings in Settings map, then display warning
+		// message and return true.
+		if (Settings.empty())
+		{
+			wxLogWarning("There is no settings to save in database.");
+			
+			return true;
+		}
+
+		sqlite3* db = nullptr;
+		sqlite3_stmt* stmt = nullptr;
+		int rc;
+
+		// Open connection with SQLite database.
+		rc =
+			sqlite3_open_v2(
+				dbPath.mb_str(), &db,
+				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+
+			if (db)
+			{
+				sqlite3_close(db);
+			}
+
+			return false;
+		}
+
+		// Create table 'Settings' if not exists.
+		const char* CreateTableSQL = R"(
+			CREATE TABLE IF NOT EXISTS Settings (
+				Key TEXT PRIMARY KEY,
+				Value TEXT NOT NULL
+			);
+		)";
+
+		rc = sqlite3_exec(db, CreateTableSQL, nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"Can not create table 'Settings': %s", sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Prepare SQL query INSERT OR REPLACE.
+		const char* InsertSQL = 
+			"INSERT OR REPLACE INTO Settings (Key, Value) VALUES (?, ?);";
+		rc = sqlite3_prepare_v2(db, InsertSQL, -1, &stmt, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"There was an error while preparing SQL query INSERT: %s",
+				sqlite3_errmsg(db));
+
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Starting transaction.
+		rc = sqlite3_exec(db, "BEGIN TRANSACTION;", nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError(
+				"There was an error while beginning transaction: %s", 
+				sqlite3_errmsg(db));
+
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Inserting settings into dabase.
+		for (const auto& [Key, Value] : Settings)
+		{
+			sqlite3_reset(stmt);
+			sqlite3_clear_bindings(stmt);
+
+			rc = sqlite3_bind_text(stmt, 1, Key.mb_str(), -1, SQLITE_TRANSIENT);
+			if (rc != SQLITE_OK)
+			{
+				wxLogError(
+					"There was an error while binding Key '%s': %s",
+					Key, sqlite3_errmsg(db));
+				
+				continue;
+			}
+
+			rc = sqlite3_bind_text(stmt, 2, Value.mb_str(), -1, SQLITE_TRANSIENT);
+			if (rc != SQLITE_OK)
+			{
+				wxLogError(
+					"There was an error while binding Value for Key '%s': %s",
+					Key, sqlite3_errmsg(db));
+
+				continue;
+			}
+
+			rc = sqlite3_step(stmt);
+			if (rc != SQLITE_DONE)
+			{
+				wxLogError(
+					"There was an error while inserting setting '%s': %s",
+					Key, sqlite3_errmsg(db));
+			}
+#ifdef _DEBUG
+			else
+			{
+				wxLogDebug("Setting saved: %s = %s", Key, Value);
+			}
+#endif
+		}
+
+		// Ending transaction.
+		rc = sqlite3_exec(db, "END TRANSACTION;", nullptr, nullptr, nullptr);
+		if (rc != SQLITE_OK)
+		{
+			wxLogError("Can not end transaction: %s", sqlite3_errmsg(db));
+			
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+
+			return false;
+		}
+
+		// Release resources.
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+
+#ifdef _DEBUG
+		wxLogMessage("Settings saved into database successfuly.");
+#endif
+
+		return true;
+	}
+
+	void CMainFrame::LoadApplicationSettings()
+	{
+		wxString dbPath = wxGetCwd() + "/WinRuler.db";
+		std::map<wxString, wxString> Settings;
+
+		if (LoadSettingsFromDatabase(dbPath, Settings))
+		{
+			// Processing loaded settings.
+			for (const auto& [Key, Value] : Settings)
+			{
+				if (Key == "ruler_position")
+				{
+					m_eRulerPosition = ERulerPosition(wxAtoi(Value));
+				}
+				else if (Key == "ruler_units")
+				{
+					m_eRulerUnits = ERulerUnits(wxAtoi(Value));
+				}
+				else if (Key == "ruler_background_type")
+				{
+					m_eRulerBackgroundType = ERulerBackgroundType(wxAtoi(Value));
+				}
+				else if (Key == "ruler_scale_colour")
+				{
+					m_cRulerScaleColour = wxColour(Value);
+				}
+				else if (Key == "ruler_background_colour")
+				{
+					m_cRulerBackgroundColour = wxColour(Value);
+				}
+				else if (Key == "ruler_background_start_colour")
+				{
+					m_cRulerBackgroundStartColour = wxColour(Value);
+				}
+				else if (Key == "ruler_background_end_colour")
+				{
+					m_cRulerBackgroundEndColour = wxColour(Value);
+				}
+				else if (Key == "ruler_length")
+				{
+					m_iRulerLength = wxAtoi(Value);
+				}
+				else if (Key == "ruler_minimum_length_limit")
+				{
+					m_iRulerMinimumLengthLimit = wxAtoi(Value);
+				}
+				else if (Key == "ruler_always_on_top")
+				{
+					m_bAlwaysOnTop = (Value == wxString("true"));
+				}
+				else if (Key == "ruler_transparency")
+				{
+					m_bRulerTransparency = (Value == wxString("true"));
+				}
+				else if (Key == "ruler_transparency_value")
+				{
+					m_iRulerTransparencyValue = wxAtoi(Value);
+				}
+				else if (Key == "ruler_first_marker_colour")
+				{
+					m_cFirstMarkerColour = wxColour(Value);
+				}
+				else if (Key == "ruler_second_marker_colour")
+				{
+					m_cSecondMarkerColour = wxColour(Value);
+				}
+				else if (Key == "ruler_background_image_path")
+				{
+					m_sRulerBackgroundImagePath = Value;
+				}
+
+#ifdef _DEBUG
+				wxLogMessage("Setting %s = %s was applied.", Key, Value);
+#endif
+			}
+		}
+		else
+		{
+			wxLogError(
+				"There was an error while application settings was loaded "
+				"from database!");
+		}
+	}
+
+	void CMainFrame::SaveApplicationSettings()
+	{
+		wxString dbPath = wxGetCwd() + "/WinRuler.db";
+		std::map<wxString, wxString> Settings;
+
+		// Add all application settings into our map.
+		Settings["ruler_position"] = wxString::Format("%i", m_eRulerPosition);
+		Settings["ruler_units"] = wxString::Format("%i", m_eRulerUnits);
+		Settings["ruler_background_type"] = wxString::Format("%i", m_eRulerBackgroundType);
+		Settings["ruler_scale_colour"] = m_cRulerScaleColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_colour"] = m_cRulerBackgroundColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_start_colour"] = m_cRulerBackgroundStartColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_end_colour"] = m_cRulerBackgroundEndColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_length"] = wxString::Format("%i", m_iRulerLength);
+		Settings["ruler_minimum_length_limit"] = wxString::Format("%i", m_iRulerMinimumLengthLimit);
+		Settings["ruler_always_on_top"] = m_bAlwaysOnTop ? wxString("true") : wxString("false");
+		Settings["ruler_transparency"] = m_bRulerTransparency ? wxString("true") : wxString("false");
+		Settings["ruler_transparency_value"] = wxString::Format("%i", m_iRulerTransparencyValue);
+		Settings["ruler_first_marker_colour"] = m_cFirstMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_second_marker_colour"] = m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_image_path"] = m_sRulerBackgroundImagePath;
+
+		if (!SaveSettingsToDatabase(dbPath, Settings))
+		{
+			wxLogError("There was an error while saving application settings!");
+		}
+#ifdef _DEBUG
+		else
+		{
+			wxLogMessage("Application settings saved successfuly");
+		}
+#endif
 	}
 
 	void CMainFrame::OnMouseEvent(wxMouseEvent& Event)
