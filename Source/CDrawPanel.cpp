@@ -57,7 +57,7 @@ namespace WinRuler
         if (Event.RightDown())
         {
             // Retrieve pointer to CMainFrame class.
-            CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+            CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
 
             // Create pMenu, pRulerPositionMenu.
             wxMenu* pMenu = new wxMenu();

@@ -32,7 +32,8 @@ namespace WinRuler
 		// Execute inherited method OnInit().
 		wxApp::OnInit();
 
-		// Only in Debug, create our wxLog instance and set it as active target.
+		// Only in Debug, create our wxLog instance and set it as active
+		// target.
 #ifdef _DEBUG
 		m_pLogger = new wxLogWindow(nullptr, "Log", true, false);
 		wxLog::SetActiveTarget(m_pLogger);
@@ -74,7 +75,9 @@ namespace WinRuler
 
 		// Load application icon and set it on m_pMainFrame.
 		m_pIcon = new wxIcon();
-		if (!m_pIcon->LoadFile(wxString("../../../../Resources/WinRuler.ico"), wxBITMAP_TYPE_ICO))
+		if (!m_pIcon->LoadFile(
+				wxString("../../../../Resources/WinRuler.ico"),
+				wxBITMAP_TYPE_ICO))
 		{
 			wxLogError("Can't load application icon!");
 
