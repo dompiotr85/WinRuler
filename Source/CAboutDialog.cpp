@@ -56,13 +56,10 @@ namespace WinRuler
 
     void CAboutDialog::CreateControls()
     {
-        // Retrieve our CAboutDialog.
-        CAboutDialog* pDialog = this;
-
         // Create m_pContentPanel.
         m_pContentPanel = 
             new wxPanel(
-                    pDialog, wxID_ANY, wxDefaultPosition,
+                    this, wxID_ANY, wxDefaultPosition,
                     wxDefaultSize, wxNO_BORDER | wxTAB_TRAVERSAL);
 
         // Create static bitmap on top.

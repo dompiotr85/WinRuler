@@ -50,7 +50,7 @@ namespace WinRuler
     void CNewRulerLengthDialog::CreateControls()
     {
         // Retrieve our MainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         SetClientSize(400, 200);
 
@@ -85,7 +85,7 @@ namespace WinRuler
     void CNewRulerLengthDialog::OnOKButtonClicked(wxCommandEvent& WXUNUSED(Event))
     {
         // Retrieve CMainFrame instance.
-        CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Change ruler's length.
         pMainFrame->ChangeRulerLength(m_pSpinCtrl->GetValue());

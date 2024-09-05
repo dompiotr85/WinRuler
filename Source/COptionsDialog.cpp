@@ -76,7 +76,7 @@ namespace WinRuler
 	void COptionsDialog::CreateControls()
 	{
 		// Retrieve pointer to CMainFrame.
-		CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 		// Set client size.
 		SetClientSize(wxSize(700, 660));
@@ -178,7 +178,7 @@ namespace WinRuler
 		m_pRulerTransparencySlider =
 			new wxSlider(
 				pRulerPanel, wxID_ANY, 
-				(int)pMainFrame->m_iRulerTransparencyValue, 0, 255,
+				static_cast<int>(pMainFrame->m_iRulerTransparencyValue), 0, 255,
 				wxDefaultPosition, wxDefaultSize,
 				wxSL_HORIZONTAL | wxSL_VALUE_LABEL);
 
@@ -287,7 +287,7 @@ namespace WinRuler
 
 	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event)
 	{
-		wxCheckBox* pCheckBox = (wxCheckBox*)Event.GetEventObject();
+		wxCheckBox* pCheckBox = static_cast<wxCheckBox*>(Event.GetEventObject());
 		if (pCheckBox->IsChecked())
 		{
 			m_pRulerTransparencyText->Enable(true);

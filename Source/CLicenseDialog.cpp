@@ -44,19 +44,16 @@ namespace WinRuler
 
 	void CLicenseDialog::CreateControls()
 	{
-		// Retrieve our CLicenseDialog.
-		CLicenseDialog* pDialog = this;
-
 		// Create m_pContentPanel.
 		m_pContentPanel =
 			new wxPanel(
-					pDialog, wxID_ANY, wxDefaultPosition,
+					this, wxID_ANY, wxDefaultPosition,
 					wxDefaultSize, wxNO_BORDER | wxTAB_TRAVERSAL);
 
 		// Create m_pTextCtrl and load it content from LICENSE file.
 		m_pTextCtrl =
 			new wxRichTextCtrl(
-					pDialog, wxID_ANY, wxEmptyString,
+					this, wxID_ANY, wxEmptyString,
 					wxPoint(10, 10), wxSize(470, 215),
 					wxRE_MULTILINE | wxRE_READONLY);
 		if (!m_pTextCtrl->LoadFile(
@@ -68,7 +65,7 @@ namespace WinRuler
 		// Create m_pCloseButton.
 		m_pCloseButton =
 			new wxButton(
-					pDialog, wxID_OK, wxString("&Close"),
+					this, wxID_OK, wxString("&Close"),
 					wxPoint(420, 235),
 					wxSize(60, 30));
 	}
