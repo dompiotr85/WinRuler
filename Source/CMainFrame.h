@@ -1,23 +1,6 @@
 /**
  * Copyright © 2024 Piotr Domañski
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files(the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions :
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Licensed under the MIT license.
  **/
 
 #pragma once
@@ -301,12 +284,12 @@ namespace WinRuler
 
 		// wxBitmaps for clipped background image. Those bitmaps are used for
 		// drawing ruler when m_eRulerBackgroundType is in btImage mode.
-		wxBitmap m_bRulerBackgroundBitmapLeftH;
-		wxBitmap m_bRulerBackgroundBitmapMiddleH;
-		wxBitmap m_bRulerBackgroundBitmapRightH;
-		wxBitmap m_bRulerBackgroundBitmapTopV;
-		wxBitmap m_bRulerBackgroundBitmapMiddleV;
-		wxBitmap m_bRulerBackgroundBitmapBottomV;
+		wxBitmap m_RulerBackgroundBitmapLeftH;
+		wxBitmap m_RulerBackgroundBitmapMiddleH;
+		wxBitmap m_RulerBackgroundBitmapRightH;
+		wxBitmap m_RulerBackgroundBitmapTopV;
+		wxBitmap m_RulerBackgroundBitmapMiddleV;
+		wxBitmap m_RulerBackgroundBitmapBottomV;
 
 		// Ruler's length.
 		int m_iRulerLength = 800;
@@ -357,7 +340,7 @@ namespace WinRuler
 		wxPoint m_ptDragStart;
 
 		// Default width of the border.
-		int	m_nOffsetBorder;
+		int	m_iOffsetBorder;
 
 		// Record the hit position when resizing the frame.
 		int m_eBorderDragMode;

@@ -1,23 +1,6 @@
 /**
  * Copyright © 2024 Piotr Domañski
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files(the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions :
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Licensed under the MIT license.
  **/
 
 #include <wx/wx.h>
@@ -88,6 +71,7 @@ namespace WinRuler
 		{
 			wxLogError("Can not load ruler background image!");
 		}
+
 		if (m_bRulerTransparency)
 		{
 			if (CanSetTransparent())
@@ -191,7 +175,7 @@ namespace WinRuler
 		m_pSizer = new wxBoxSizer(wxHORIZONTAL);
 
 		// Create new CDrawPanel and store it in m_pDrawPanel. 
-		m_pDrawPanel = new CDrawPanel((wxFrame*)this);
+		m_pDrawPanel = new CDrawPanel(static_cast<wxFrame*>(this));
 		m_pDrawPanel->SetDoubleBuffered(true);
 
 		// Add m_pDrawPanel to our m_pSizer.
@@ -219,17 +203,25 @@ namespace WinRuler
 
 		// Load image from m_sRulerBackgroundImagePath location to Bitmap
 		// instance.
-		wxBitmap Bitmap = wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
+		wxBitmap* Bitmap = new wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
 
 		// Extract parts of loaded Bitmap into separete bitmaps.
-		m_bRulerBackgroundBitmapLeftH = Bitmap.GetSubBitmap(wxRect(0, 0, 4, 60));
-		m_bRulerBackgroundBitmapMiddleH = Bitmap.GetSubBitmap(wxRect(4, 0, 2, 60));
-		m_bRulerBackgroundBitmapRightH = Bitmap.GetSubBitmap(wxRect(6, 0, 4, 60));
+		m_RulerBackgroundBitmapLeftH = Bitmap->GetSubBitmap(wxRect(0, 0, 4, 60));
+		m_RulerBackgroundBitmapMiddleH = Bitmap->GetSubBitmap(wxRect(4, 0, 2, 60));
+		m_RulerBackgroundBitmapRightH = Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
 
 		// Rotate previously created bitmaps and store them in other bitmaps.
-		m_bRulerBackgroundBitmapTopV = wxBitmap(m_bRulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
-		m_bRulerBackgroundBitmapMiddleV = wxBitmap(m_bRulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
-		m_bRulerBackgroundBitmapBottomV = wxBitmap(m_bRulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapTopV = 
+			static_cast<wxBitmap>(
+				m_RulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapMiddleV = 
+			static_cast<wxBitmap>(
+				m_RulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapBottomV = 
+			static_cast<wxBitmap>(
+				m_RulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
+
+		wxDELETE(Bitmap);
 
 		// All operation was successful, return true.
 		return true;
@@ -238,7 +230,7 @@ namespace WinRuler
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Create new COptionsDialog instance.
-		m_pOptionsDialog = new COptionsDialog((wxFrame*)this);
+		m_pOptionsDialog = new COptionsDialog(static_cast<wxFrame*>(this));
 
 		// Call COptionsDialog::ShowModal() method. If wxID_OK is returned,
 		// then save new options.
@@ -246,21 +238,26 @@ namespace WinRuler
 		{
 			// Set ruler background type.
 			m_eRulerBackgroundType = 
-				(ERulerBackgroundType)m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection();
+				static_cast<ERulerBackgroundType>(
+					m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection());
 
 			// Set ruler background colour.
 			m_cRulerBackgroundColour = 
-				(wxColour)m_pOptionsDialog->m_pBackgroundColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pBackgroundColourPicker->GetColour());
 
 			// Set ruler background start colour and end colour.
 			m_cRulerBackgroundStartColour = 
-				(wxColour)m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour());
 			m_cRulerBackgroundEndColour = 
-				(wxColour)m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour());
 
 			// Set ruler background image.
 			m_sRulerBackgroundImagePath = 
-				(wxString)m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath();
+				static_cast<wxString>(
+					m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath());
 
 			// Load and prepare ruler background images.
 			if ((m_eRulerBackgroundType == btImage) &&
@@ -271,19 +268,24 @@ namespace WinRuler
 
 			// Set ruler scale colour.
 			m_cRulerScaleColour = 
-				(wxColour)m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour());
 
 			// Set first and second marker colour.
 			m_cFirstMarkerColour = 
-				(wxColour)m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour());
 			m_cSecondMarkerColour = 
-				(wxColour)m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour();
+				static_cast<wxColour>(
+					m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour());
 
 			// Set ruler transparency.
 			m_bRulerTransparency = 
-				(bool)m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked();
+				static_cast<bool>(
+					m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked());
 			m_iRulerTransparencyValue = 
-				(wxByte)m_pOptionsDialog->m_pRulerTransparencySlider->GetValue();
+				static_cast<wxByte>(
+					m_pOptionsDialog->m_pRulerTransparencySlider->GetValue());
 			if (m_bRulerTransparency)
 			{
 				if (CanSetTransparent())
@@ -310,7 +312,7 @@ namespace WinRuler
 	void CMainFrame::OnNewRulerLengthClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Create new CNewRulerLengthDialog instance.
-		m_pNewRulerLengthDialog = new CNewRulerLengthDialog((wxFrame*)this);
+		m_pNewRulerLengthDialog = new CNewRulerLengthDialog(static_cast<wxFrame*>(this));
 
 		// Call CNewRulerLengthDialog::ShowModal() method.
 		if (m_pNewRulerLengthDialog->ShowModal() == wxID_OK)
@@ -407,7 +409,7 @@ namespace WinRuler
 	void CMainFrame::OnAboutClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 		// Create new CAboutDialog instance.
-		m_pAboutDialog = new CAboutDialog((wxFrame*)this);
+		m_pAboutDialog = new CAboutDialog(static_cast<wxFrame*>(this));
 		
 		// Call CAboutDialog::ShowModal() method.
 		m_pAboutDialog->ShowModal();
@@ -562,7 +564,8 @@ namespace WinRuler
 				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 		if (rc != SQLITE_OK)
 		{
-			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+			wxLogError(
+				"Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
 			
 			if (db)
 			{
@@ -583,7 +586,8 @@ namespace WinRuler
 		rc = sqlite3_exec(db, CreateTableSQL, nullptr, nullptr, nullptr);
 		if (rc != SQLITE_OK)
 		{
-			wxLogError("Can not create table 'Settings': %s", sqlite3_errmsg(db));
+			wxLogError(
+				"Can not create table 'Settings': %s", sqlite3_errmsg(db));
 			
 			sqlite3_close(db);
 			
@@ -595,7 +599,9 @@ namespace WinRuler
 		rc = sqlite3_prepare_v2(db, SelectSQL, -1, &stmt, nullptr);
 		if (rc != SQLITE_OK)
 		{
-			wxLogError("There was an error while SELECT query was prepared: %s", sqlite3_errmsg(db));
+			wxLogError(
+				"There was an error while SELECT query was prepared: %s",
+				sqlite3_errmsg(db));
 
 			sqlite3_close(db);
 
@@ -605,8 +611,15 @@ namespace WinRuler
 		// Execute query and load results into Settings map.
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
 		{
-			wxString Key = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)));
-			wxString Value = wxString::FromUTF8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+			wxString Key = 
+				wxString::FromUTF8(
+					reinterpret_cast<const char*>(
+						sqlite3_column_text(stmt, 0)));
+			wxString Value = 
+				wxString::FromUTF8(
+					reinterpret_cast<const char*>(
+						sqlite3_column_text(stmt, 1)));
+			
 			Settings[Key] = Value;
 
 #ifdef _DEBUG
@@ -616,7 +629,9 @@ namespace WinRuler
 
 		if (rc != SQLITE_DONE)
 		{
-			wxLogError("There was an error while SELECT query was executed: %s", sqlite3_errmsg(db));
+			wxLogError(
+				"There was an error while SELECT query was executed: %s",
+				sqlite3_errmsg(db));
 
 			sqlite3_finalize(stmt);
 			sqlite3_close(db);
@@ -658,7 +673,8 @@ namespace WinRuler
 				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 		if (rc != SQLITE_OK)
 		{
-			wxLogError("Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
+			wxLogError(
+				"Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
 
 			if (db)
 			{
@@ -722,7 +738,9 @@ namespace WinRuler
 			sqlite3_reset(stmt);
 			sqlite3_clear_bindings(stmt);
 
-			rc = sqlite3_bind_text(stmt, 1, Key.mb_str(), -1, SQLITE_TRANSIENT);
+			rc = 
+				sqlite3_bind_text(
+					stmt, 1, Key.mb_str(), -1, SQLITE_TRANSIENT);
 			if (rc != SQLITE_OK)
 			{
 				wxLogError(
@@ -732,7 +750,9 @@ namespace WinRuler
 				continue;
 			}
 
-			rc = sqlite3_bind_text(stmt, 2, Value.mb_str(), -1, SQLITE_TRANSIENT);
+			rc = 
+				sqlite3_bind_text(
+					stmt, 2, Value.mb_str(), -1, SQLITE_TRANSIENT);
 			if (rc != SQLITE_OK)
 			{
 				wxLogError(
@@ -792,39 +812,48 @@ namespace WinRuler
 			{
 				if (Key == "ruler_position")
 				{
-					m_eRulerPosition = ERulerPosition(wxAtoi(Value));
+					m_eRulerPosition = static_cast<ERulerPosition>(wxAtoi(Value));
+					//m_eRulerPosition = ERulerPosition(wxAtoi(Value));
 				}
 				else if (Key == "ruler_units")
 				{
-					m_eRulerUnits = ERulerUnits(wxAtoi(Value));
+					m_eRulerUnits = static_cast<ERulerUnits>(wxAtoi(Value));
+					//m_eRulerUnits = ERulerUnits(wxAtoi(Value));
 				}
 				else if (Key == "ruler_background_type")
 				{
-					m_eRulerBackgroundType = ERulerBackgroundType(wxAtoi(Value));
+					m_eRulerBackgroundType = static_cast<ERulerBackgroundType>(wxAtoi(Value));
+					//m_eRulerBackgroundType = ERulerBackgroundType(wxAtoi(Value));
 				}
 				else if (Key == "ruler_scale_colour")
 				{
-					m_cRulerScaleColour = wxColour(Value);
+					m_cRulerScaleColour = static_cast<wxColour>(Value);
+					//m_cRulerScaleColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_colour")
 				{
-					m_cRulerBackgroundColour = wxColour(Value);
+					m_cRulerBackgroundColour = static_cast<wxColour>(Value);
+					//m_cRulerBackgroundColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_start_colour")
 				{
-					m_cRulerBackgroundStartColour = wxColour(Value);
+					m_cRulerBackgroundStartColour = static_cast<wxColour>(Value);
+					//m_cRulerBackgroundStartColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_end_colour")
 				{
-					m_cRulerBackgroundEndColour = wxColour(Value);
+					m_cRulerBackgroundEndColour = static_cast<wxColour>(Value);
+					//m_cRulerBackgroundEndColour = wxColour(Value);
 				}
 				else if (Key == "ruler_length")
 				{
-					m_iRulerLength = wxAtoi(Value);
+					m_iRulerLength = static_cast<int>(wxAtoi(Value));
+					//m_iRulerLength = wxAtoi(Value);
 				}
 				else if (Key == "ruler_minimum_length_limit")
 				{
-					m_iRulerMinimumLengthLimit = wxAtoi(Value);
+					m_iRulerMinimumLengthLimit = static_cast<int>(wxAtoi(Value));
+					//m_iRulerMinimumLengthLimit = wxAtoi(Value);
 				}
 				else if (Key == "ruler_always_on_top")
 				{
@@ -836,19 +865,23 @@ namespace WinRuler
 				}
 				else if (Key == "ruler_transparency_value")
 				{
-					m_iRulerTransparencyValue = wxAtoi(Value);
+					m_iRulerTransparencyValue = static_cast<int>(wxAtoi(Value));
+					//m_iRulerTransparencyValue = wxAtoi(Value);
 				}
 				else if (Key == "ruler_first_marker_colour")
 				{
-					m_cFirstMarkerColour = wxColour(Value);
+					m_cFirstMarkerColour = static_cast<wxColour>(Value);
+					//m_cFirstMarkerColour = wxColour(Value);
 				}
 				else if (Key == "ruler_second_marker_colour")
 				{
-					m_cSecondMarkerColour = wxColour(Value);
+					m_cSecondMarkerColour = static_cast<wxColour>(Value);
+					//m_cSecondMarkerColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_image_path")
 				{
-					m_sRulerBackgroundImagePath = Value;
+					m_sRulerBackgroundImagePath = static_cast<wxString>(Value);
+					//m_sRulerBackgroundImagePath = Value;
 				}
 
 #ifdef _DEBUG
@@ -958,8 +991,8 @@ namespace WinRuler
 		wxRect Rect = GetRect();
 
 		// Calculate x and y values.
-		int x = Clamp(Pos.x, Rect.GetX() + m_nOffsetBorder, Rect.GetX() + Rect.GetWidth() - m_nOffsetBorder);
-		int y = Clamp(Pos.y, Rect.GetY() + m_nOffsetBorder, Rect.GetY() + Rect.GetHeight() - m_nOffsetBorder);
+		int x = Clamp(Pos.x, Rect.GetX() + m_iOffsetBorder, Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
+		int y = Clamp(Pos.y, Rect.GetY() + m_iOffsetBorder, Rect.GetY() + Rect.GetHeight() - m_iOffsetBorder);
 
 		// Create default HotArea array.
 		static int HotArea[3][3] =
@@ -1012,7 +1045,7 @@ namespace WinRuler
 	{
 		// Initialize border dragging values.
 		m_eBorderDragMode = HT_client;
-		m_nOffsetBorder = 10;
+		m_iOffsetBorder = 10;
 	}
 
 	void CMainFrame::OnLeaveBorder(int HitPos)

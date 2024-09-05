@@ -1,23 +1,6 @@
 /**
  * Copyright © 2024 Piotr Domañski
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files(the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions :
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Licensed under the MIT license.
  **/
 
 #include <cmath>
@@ -57,7 +40,7 @@ namespace WinRuler
         if (Event.RightDown())
         {
             // Retrieve pointer to CMainFrame class.
-            CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+            CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
             // Create pMenu, pRulerPositionMenu.
             wxMenu* pMenu = new wxMenu();
@@ -175,7 +158,7 @@ namespace WinRuler
         wxCoord TextWidth, TextHeight;
 
         // Retrieve pointer to CMainFrame and store it in pMainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Set DC's brush to transparent.
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
@@ -266,7 +249,10 @@ namespace WinRuler
             if (pMainFrame->m_iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
-                dc.SetPen(wxPen(pMainFrame->m_cSecondMarkerColour, 1, wxPENSTYLE_SOLID));
+                dc.SetPen(
+                    wxPen(
+                        pMainFrame->m_cSecondMarkerColour, 1,
+                        wxPENSTYLE_SOLID));
 
                 dc.DrawLine(
                     wxPoint(
@@ -314,8 +300,9 @@ namespace WinRuler
 
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
-                if (SurfaceRect.GetTop() + 4 + pMainFrame->m_iSecondMarkerPosition +
-                    4 + TextHeight > SurfaceRect.GetBottom())
+                if (SurfaceRect.GetTop() + 4 +
+                    pMainFrame->m_iSecondMarkerPosition + 4 +
+                    TextHeight > SurfaceRect.GetBottom())
                 {
                     dc.DrawText(
                         TmpS,
@@ -323,7 +310,8 @@ namespace WinRuler
                             SurfaceRect.GetLeft() +
                             ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
                             SurfaceRect.GetTop() + 4 +
-                            pMainFrame->m_iSecondMarkerPosition - 4 - TextHeight));
+                            pMainFrame->m_iSecondMarkerPosition - 4 -
+                            TextHeight));
                 }
                 else
                 {
@@ -709,7 +697,10 @@ namespace WinRuler
             if (pMainFrame->m_iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
-                dc.SetPen(wxPen(pMainFrame->m_cSecondMarkerColour, 1, wxPENSTYLE_SOLID));
+                dc.SetPen(
+                    wxPen(
+                        pMainFrame->m_cSecondMarkerColour, 1,
+                        wxPENSTYLE_SOLID));
 
                 dc.DrawLine(
                     wxPoint(
@@ -794,7 +785,7 @@ namespace WinRuler
         wxCoord TextWidth, TextHeight;
 
         // Retrieve our CMainFrame from CDrawPanel's parent instance.
-        CMainFrame* pMainFrame = ((CMainFrame*) this->GetParent());
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Set DC's brush to transparent.
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
@@ -1713,7 +1704,7 @@ namespace WinRuler
     void CDrawPanel::DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect)
     {
         // Retrieve pointer to our CMainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Draw surface of ruler:
         switch (pMainFrame->m_eRulerPosition)
@@ -1725,7 +1716,8 @@ namespace WinRuler
                 // Prepare DC's brush.
                 dc.SetBrush(
                     wxBrush(
-                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                        pMainFrame->m_cRulerBackgroundColour,
+                        wxBRUSHSTYLE_SOLID));
                 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -1748,19 +1740,21 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapTopV,
+                    pMainFrame->m_RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
                 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
-                        wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
+                        pMainFrame->m_RulerBackgroundBitmapMiddleV,
+                        wxPoint(
+                            SurfaceRect.GetX(),
+                            SurfaceRect.GetY() + 4 + (2 * i)));
                 }
                 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
-                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
+                    pMainFrame->m_RulerBackgroundBitmapBottomV,
+                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 3));
 
                 break;
             }
@@ -1773,7 +1767,8 @@ namespace WinRuler
                 // Prepare DC's brush.
                 dc.SetBrush(
                     wxBrush(
-                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                        pMainFrame->m_cRulerBackgroundColour,
+                        wxBRUSHSTYLE_SOLID));
 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -1796,19 +1791,21 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
+                    pMainFrame->m_RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
-                        wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
+                        pMainFrame->m_RulerBackgroundBitmapMiddleH,
+                        wxPoint(
+                            SurfaceRect.GetX() + 4 + (2 * i),
+                            SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapRightH,
-                    wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
+                    pMainFrame->m_RulerBackgroundBitmapRightH,
+                    wxPoint(SurfaceRect.GetRight() - 3, SurfaceRect.GetTop()));
 
                 break;
             }
@@ -1821,7 +1818,8 @@ namespace WinRuler
                 // Prepare DC's brush.
                 dc.SetBrush(
                     wxBrush(
-                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                        pMainFrame->m_cRulerBackgroundColour,
+                        wxBRUSHSTYLE_SOLID));
                 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -1844,19 +1842,21 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapTopV,
+                    pMainFrame->m_RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
-                        wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
+                        pMainFrame->m_RulerBackgroundBitmapMiddleV,
+                        wxPoint(
+                            SurfaceRect.GetX(),
+                            SurfaceRect.GetY() + 4 + (2 * i)));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
-                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
+                    pMainFrame->m_RulerBackgroundBitmapBottomV,
+                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 3));
 
                 break;
             }
@@ -1869,7 +1869,8 @@ namespace WinRuler
                 // Prepare DC's brush.
                 dc.SetBrush(
                     wxBrush(
-                        pMainFrame->m_cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
+                        pMainFrame->m_cRulerBackgroundColour,
+                        wxBRUSHSTYLE_SOLID));
 
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
@@ -1892,19 +1893,21 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
+                    pMainFrame->m_RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
-                        wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
+                        pMainFrame->m_RulerBackgroundBitmapMiddleH,
+                        wxPoint(
+                            SurfaceRect.GetX() + 4 + (2 * i),
+                            SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapRightH,
-                    wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
+                    pMainFrame->m_RulerBackgroundBitmapRightH,
+                    wxPoint(SurfaceRect.GetRight() - 3, SurfaceRect.GetTop()));
 
                 break;
             }
@@ -1912,11 +1915,14 @@ namespace WinRuler
             break;
         }
 
-        // Draw black outline.
-        dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
-        dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
-        dc.DrawRectangle(
-            wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
+        // If m_eRulerBackgroundType wasn't btImage, then draw black outline.
+        if (pMainFrame->m_eRulerBackgroundType != CMainFrame::btImage)
+        {
+            dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
+            dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
+            dc.DrawRectangle(
+                wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
+        }
     }
 
     void CDrawPanel::OnLeftDown(wxMouseEvent& Event)
@@ -1925,14 +1931,14 @@ namespace WinRuler
         wxPoint Pos = Event.GetPosition();
 
         // Get pointer to our CMainFrame from CDrawPanel parent instance.
-        CMainFrame* pMainFrame = (CMainFrame*) this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Retrieve CMainFrame ClientWidth and ClientHeight.
         int Width, Height, Offset;
         pMainFrame->GetClientSize(&Width, &Height);
 
         // Retrieve CMainFrame m_nOffsetBorder.
-        Offset = pMainFrame->m_nOffsetBorder;
+        Offset = pMainFrame->m_iOffsetBorder;
 
         // If mouse left button is down, then we can set second marker position
         // for measurement.
@@ -2005,7 +2011,7 @@ namespace WinRuler
         wxPoint Pos = Event.GetPosition();
 
         // Retrieve pointer to CMainFrame.
-        CMainFrame* pMainFrame = (CMainFrame*)this->GetParent();
+        CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
         // Update marker position depending on current ruler's position.
         switch (pMainFrame->m_eRulerPosition)
