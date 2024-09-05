@@ -59,9 +59,6 @@
     <ClInclude Include="..\..\Source\CMainFrame.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MainFrameUtilities.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\CDrawPanel.h">
       <Filter>Header files</Filter>
     </ClInclude>

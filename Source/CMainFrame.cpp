@@ -1,23 +1,6 @@
 /**
  * Copyright © 2024 Piotr Domañski
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files(the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions :
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Licensed under the MIT license.
  **/
 
 #include <wx/wx.h>
@@ -88,6 +71,7 @@ namespace WinRuler
 		{
 			wxLogError("Can not load ruler background image!");
 		}
+
 		if (m_bRulerTransparency)
 		{
 			if (CanSetTransparent())
@@ -219,17 +203,19 @@ namespace WinRuler
 
 		// Load image from m_sRulerBackgroundImagePath location to Bitmap
 		// instance.
-		wxBitmap Bitmap = wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
+		wxBitmap* Bitmap = new wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
 
 		// Extract parts of loaded Bitmap into separete bitmaps.
-		m_bRulerBackgroundBitmapLeftH = Bitmap.GetSubBitmap(wxRect(0, 0, 4, 60));
-		m_bRulerBackgroundBitmapMiddleH = Bitmap.GetSubBitmap(wxRect(4, 0, 2, 60));
-		m_bRulerBackgroundBitmapRightH = Bitmap.GetSubBitmap(wxRect(6, 0, 4, 60));
+		m_RulerBackgroundBitmapLeftH = Bitmap->GetSubBitmap(wxRect(0, 0, 4, 60));
+		m_RulerBackgroundBitmapMiddleH = Bitmap->GetSubBitmap(wxRect(4, 0, 2, 60));
+		m_RulerBackgroundBitmapRightH = Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
 
 		// Rotate previously created bitmaps and store them in other bitmaps.
-		m_bRulerBackgroundBitmapTopV = wxBitmap(m_bRulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
-		m_bRulerBackgroundBitmapMiddleV = wxBitmap(m_bRulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
-		m_bRulerBackgroundBitmapBottomV = wxBitmap(m_bRulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapTopV = wxBitmap(m_RulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapMiddleV = wxBitmap(m_RulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
+		m_RulerBackgroundBitmapBottomV = wxBitmap(m_RulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
+
+		wxDELETE(Bitmap);
 
 		// All operation was successful, return true.
 		return true;
@@ -958,8 +944,8 @@ namespace WinRuler
 		wxRect Rect = GetRect();
 
 		// Calculate x and y values.
-		int x = Clamp(Pos.x, Rect.GetX() + m_nOffsetBorder, Rect.GetX() + Rect.GetWidth() - m_nOffsetBorder);
-		int y = Clamp(Pos.y, Rect.GetY() + m_nOffsetBorder, Rect.GetY() + Rect.GetHeight() - m_nOffsetBorder);
+		int x = Clamp(Pos.x, Rect.GetX() + m_iOffsetBorder, Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
+		int y = Clamp(Pos.y, Rect.GetY() + m_iOffsetBorder, Rect.GetY() + Rect.GetHeight() - m_iOffsetBorder);
 
 		// Create default HotArea array.
 		static int HotArea[3][3] =
@@ -1012,7 +998,7 @@ namespace WinRuler
 	{
 		// Initialize border dragging values.
 		m_eBorderDragMode = HT_client;
-		m_nOffsetBorder = 10;
+		m_iOffsetBorder = 10;
 	}
 
 	void CMainFrame::OnLeaveBorder(int HitPos)

@@ -1,23 +1,6 @@
 /**
  * Copyright © 2024 Piotr Domañski
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files(the “Software”), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions :
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Licensed under the MIT license.
  **/
 
 #include <cmath>
@@ -1748,19 +1731,19 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapTopV,
+                    pMainFrame->m_RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
                 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
+                        pMainFrame->m_RulerBackgroundBitmapMiddleV,
                         wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
                 }
                 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
-                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
+                    pMainFrame->m_RulerBackgroundBitmapBottomV,
+                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 3));
 
                 break;
             }
@@ -1796,19 +1779,19 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
+                    pMainFrame->m_RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
+                        pMainFrame->m_RulerBackgroundBitmapMiddleH,
                         wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapRightH,
-                    wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
+                    pMainFrame->m_RulerBackgroundBitmapRightH,
+                    wxPoint(SurfaceRect.GetRight() - 3, SurfaceRect.GetTop()));
 
                 break;
             }
@@ -1844,19 +1827,19 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapTopV,
+                    pMainFrame->m_RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleV,
+                        pMainFrame->m_RulerBackgroundBitmapMiddleV,
                         wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY() + 4 + (2 * i)));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapBottomV,
-                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 4));
+                    pMainFrame->m_RulerBackgroundBitmapBottomV,
+                    wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 3));
 
                 break;
             }
@@ -1892,19 +1875,19 @@ namespace WinRuler
                 break;
             case CMainFrame::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapLeftH,
+                    pMainFrame->m_RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
 
                 for (int i = 0; i <= (SurfaceRect.GetWidth() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
-                        pMainFrame->m_bRulerBackgroundBitmapMiddleH,
+                        pMainFrame->m_RulerBackgroundBitmapMiddleH,
                         wxPoint(SurfaceRect.GetX() + 4 + (2 * i), SurfaceRect.GetY()));
                 }
 
                 dc.DrawBitmap(
-                    pMainFrame->m_bRulerBackgroundBitmapRightH,
-                    wxPoint(SurfaceRect.GetRight() - 4, SurfaceRect.GetTop()));
+                    pMainFrame->m_RulerBackgroundBitmapRightH,
+                    wxPoint(SurfaceRect.GetRight() - 3, SurfaceRect.GetTop()));
 
                 break;
             }
@@ -1912,11 +1895,14 @@ namespace WinRuler
             break;
         }
 
-        // Draw black outline.
-        dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
-        dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
-        dc.DrawRectangle(
-            wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
+        // If m_eRulerBackgroundType wasn't btImage, then draw black outline.
+        if (pMainFrame->m_eRulerBackgroundType != CMainFrame::btImage)
+        {
+            dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
+            dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
+            dc.DrawRectangle(
+                wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
+        }
     }
 
     void CDrawPanel::OnLeftDown(wxMouseEvent& Event)
@@ -1932,7 +1918,7 @@ namespace WinRuler
         pMainFrame->GetClientSize(&Width, &Height);
 
         // Retrieve CMainFrame m_nOffsetBorder.
-        Offset = pMainFrame->m_nOffsetBorder;
+        Offset = pMainFrame->m_iOffsetBorder;
 
         // If mouse left button is down, then we can set second marker position
         // for measurement.
