@@ -530,3 +530,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+############################################################
+# Code::Blocks IDE temporary files.
+############################################################
+
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+# generated directories
+bin/
+obj/

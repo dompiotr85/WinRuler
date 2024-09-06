@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="WinRuler" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Windows-Debug">
+				<Option platforms="Windows;" />
+				<Option output="../../Binaries/Windows/x64/GCC-Debug/WinRuler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/x64/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`wx-config --cxxflags`" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../Resources" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="$(#wx)/lib/gcc_dll/libwxbase32ud.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32ud_core.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32ud_richtext.a" />
+				</Linker>
+			</Target>
+			<Target title="Windows-Release">
+				<Option platforms="Windows;" />
+				<Option output="../../Binaries/Windows/x64/GCC-Release/WinRuler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/x64/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../Resources" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxbase32u.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32u_core.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32u_richtext.a" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++17" />
+			<Add option="-std=c17" />
+			<Add option="`wx-config --cxxflags`" />
+			<Add directory="../../Source" />
+			<Add directory="../../ThirdParty/sqlite" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
+			<Add option="-static" />
+		</Linker>
+		<Unit filename="../../Source/CAboutDialog.cpp" />
+		<Unit filename="../../Source/CAboutDialog.h" />
+		<Unit filename="../../Source/CApplication.cpp" />
+		<Unit filename="../../Source/CApplication.h" />
+		<Unit filename="../../Source/CDrawPanel.cpp" />
+		<Unit filename="../../Source/CDrawPanel.h" />
+		<Unit filename="../../Source/CLicenseDialog.cpp" />
+		<Unit filename="../../Source/CLicenseDialog.h" />
+		<Unit filename="../../Source/CMainFrame.cpp" />
+		<Unit filename="../../Source/CMainFrame.h" />
+		<Unit filename="../../Source/CNewRulerLengthDialog.cpp" />
+		<Unit filename="../../Source/CNewRulerLengthDialog.h" />
+		<Unit filename="../../Source/COptionsDialog.cpp" />
+		<Unit filename="../../Source/COptionsDialog.h" />
+		<Unit filename="../../Source/WRUtilities.cpp" />
+		<Unit filename="../../Source/WRUtilities.h" />
+		<Unit filename="../../Source/main.cpp" />
+		<Unit filename="../../ThirdParty/sqlite/sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../ThirdParty/sqlite/sqlite3.h" />
+		<Unit filename="WinRuler.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

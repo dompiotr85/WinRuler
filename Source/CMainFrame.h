@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domañski
+ * Copyright Â© 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -72,9 +72,9 @@ namespace WinRuler
 		 **/
 		typedef enum ERulerUnits
 		{
-			// Centimeters as unit of measurement.
+			// Centimetres as unit of measurement.
 			ruCentimetres,
-			// Unches as unit of measurement.
+			// Inches as unit of measurement.
 			ruInches,
 			// Picas as unit of measurement.
 			ruPicas,
@@ -87,9 +87,9 @@ namespace WinRuler
 		 **/
 		typedef enum ERulerBackgroundType
 		{
-			// Solid color as ruler's background.
+			// Solid colour as ruler's background.
 			btSolid,
-			// Gradient color as ruler's background.
+			// Gradient colour as ruler's background.
 			btGradient,
 			// Image as ruler's background.
 			btImage
@@ -157,7 +157,7 @@ namespace WinRuler
 
 		/**
 		 * This method should be called for proper change of ruler's position.
-		 * 
+		 *
 		 * @param NewPosition		New ruler's position that will be set.
 		 **/
 		void ChangeRulerPosition(ERulerPosition NewPosition);
@@ -178,15 +178,15 @@ namespace WinRuler
 		void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
 
 		/**
-		 * This method sould be called for proper change of the ruler's length.
-		 * 
+		 * This method should be called for proper change of the ruler's length.
+		 *
 		 * @param NewLength		New ruler's length.
 		 **/
 		void ChangeRulerLength(int NewLength);
 
 		/**
 		 * Loads and prepare ruler's images for background image type drawing.
-		 * 
+		 *
 		 * @return	Returns true if ruler's background image was loaded
 		 *			properly, otherwise false.
 		 **/
@@ -195,7 +195,7 @@ namespace WinRuler
 		/**
 		 * This method loads all settings of the application from sqlite
 		 * database. If application is executed for the first time, there
-		 * aren't settings in sqltie database so new table and entries will be
+		 * are no settings in sqltie database so new table and entries will be
 		 * create.
 		 **/
 		bool LoadSettingsFromDatabase(
@@ -253,7 +253,7 @@ namespace WinRuler
 		void OnEnterBorder();
 
 		/**
-		 * This method is called when 
+		 * This method is called when
 		 **/
 		void ResizeSize(const wxPoint& Pos);
 	public:
@@ -269,7 +269,7 @@ namespace WinRuler
 		// Ruler's scale colour.
 		wxColour m_cRulerScaleColour = wxColour(0, 0, 0);
 
-		// Ruler's background color (used in btSolid background type).
+		// Ruler's background colour (used in btSolid background type).
 		wxColour m_cRulerBackgroundColour = wxColour(255, 164, 119);
 
 		// Ruler's background start colour (used in btGradient background
@@ -318,22 +318,23 @@ namespace WinRuler
 		// Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
 	public:
-		// DrawPanel which is used for all drawing of our ruler.
+		// Pointer to CDrawPanel instance, which is used for all drawing of our
+		// ruler.
 		CDrawPanel* m_pDrawPanel;
 
-		// Box sizer.
+		// Pointer to wxBoxSizer instance.
 		wxBoxSizer* m_pSizer;
 
-		// About dialog.
+		// Pointer to CAboutDialog instance.
 		CAboutDialog* m_pAboutDialog;
 
-		// New ruler's length dialog.
+		// Pointer to CNewRulerLengthDialog instance.
 		CNewRulerLengthDialog* m_pNewRulerLengthDialog;
 
-		// Options dialog.
+		// Pointer to COptionsDialog instance.
 		COptionsDialog* m_pOptionsDialog;
 	public:
-		// This filed records if caption drag opertion. 
+		// Is caption drag starts operation.
 		bool m_bCaptionDragStart;
 
 		// Mouse position when dragging started.
@@ -345,7 +346,7 @@ namespace WinRuler
 		// Record the hit position when resizing the frame.
 		int m_eBorderDragMode;
 
-		// This filed record frame rect when drag beginning. 
+		// Border rectangle values when drag beginning.
 		wxRect m_rectBorder;
 
 		// Direction vector.
