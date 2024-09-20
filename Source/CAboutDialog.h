@@ -61,9 +61,6 @@ namespace WinRuler
 
 		void OnLicenseButtonClicked(wxCommandEvent& Event);
 	private:
-		// Content panel.
-		wxPanel* m_pContentPanel;
-
 		// Header static bitmap.
 		wxStaticBitmap* m_pHeaderStaticBitmap;
 

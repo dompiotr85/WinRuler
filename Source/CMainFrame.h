@@ -5,9 +5,10 @@
 
 #pragma once
 
+#include <map>
 #include <wx/wx.h>
 #include <sqlite3.h>
-#include <map>
+
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -195,7 +196,7 @@ namespace WinRuler
 		/**
 		 * This method loads all settings of the application from sqlite
 		 * database. If application is executed for the first time, there
-		 * are no settings in sqltie database so new table and entries will be
+		 * are no settings in sqlite database so new table and entries will be
 		 * create.
 		 **/
 		bool LoadSettingsFromDatabase(
@@ -321,9 +322,6 @@ namespace WinRuler
 		// Pointer to CDrawPanel instance, which is used for all drawing of our
 		// ruler.
 		CDrawPanel* m_pDrawPanel;
-
-		// Pointer to wxBoxSizer instance.
-		wxBoxSizer* m_pSizer;
 
 		// Pointer to CAboutDialog instance.
 		CAboutDialog* m_pAboutDialog;

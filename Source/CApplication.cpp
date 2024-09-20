@@ -3,10 +3,11 @@
  * Licensed under the MIT license.
  **/
 
-#include "CApplication.h"
-#include "WRUtilities.h"
 #include <wx/wx.h>
 #include <wx/display.h>
+
+#include "CApplication.h"
+#include "WRUtilities.h"
 
 namespace WinRuler
 {

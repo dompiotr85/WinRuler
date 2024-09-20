@@ -171,18 +171,18 @@ namespace WinRuler
 
 	void CMainFrame::CreateControls()
 	{
-		// Create new wxBoxSizer and store it in m_pSizer.
-		m_pSizer = new wxBoxSizer(wxHORIZONTAL);
+		// Create new wxBoxSizer.
+		wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
 
-		// Create new CDrawPanel and store it in m_pDrawPanel. 
+		// Create new CDrawPanel and store it in m_pDrawPanel.
 		m_pDrawPanel = new CDrawPanel(static_cast<wxFrame*>(this));
 		m_pDrawPanel->SetDoubleBuffered(true);
 
-		// Add m_pDrawPanel to our m_pSizer.
-		m_pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
+		// Add m_pDrawPanel to our pSizer.
+		pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
 
 		// Set our m_pSizer in CMainFrame.
-		this->SetSizer(m_pSizer);
+		this->SetSizer(pSizer);
 
 		// Set CMainFrame auto layout.
 		this->SetAutoLayout(true);
@@ -211,13 +211,13 @@ namespace WinRuler
 		m_RulerBackgroundBitmapRightH = Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
 
 		// Rotate previously created bitmaps and store them in other bitmaps.
-		m_RulerBackgroundBitmapTopV = 
+		m_RulerBackgroundBitmapTopV =
 			static_cast<wxBitmap>(
 				m_RulerBackgroundBitmapLeftH.ConvertToImage().Rotate90());
-		m_RulerBackgroundBitmapMiddleV = 
+		m_RulerBackgroundBitmapMiddleV =
 			static_cast<wxBitmap>(
 				m_RulerBackgroundBitmapMiddleH.ConvertToImage().Rotate90());
-		m_RulerBackgroundBitmapBottomV = 
+		m_RulerBackgroundBitmapBottomV =
 			static_cast<wxBitmap>(
 				m_RulerBackgroundBitmapRightH.ConvertToImage().Rotate90());
 
@@ -237,25 +237,25 @@ namespace WinRuler
 		if (m_pOptionsDialog->ShowModal() == wxID_OK)
 		{
 			// Set ruler background type.
-			m_eRulerBackgroundType = 
+			m_eRulerBackgroundType =
 				static_cast<ERulerBackgroundType>(
 					m_pOptionsDialog->m_pBackgroundTypeChoice->GetSelection());
 
 			// Set ruler background colour.
-			m_cRulerBackgroundColour = 
+			m_cRulerBackgroundColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pBackgroundColourPicker->GetColour());
 
 			// Set ruler background start colour and end colour.
-			m_cRulerBackgroundStartColour = 
+			m_cRulerBackgroundStartColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour());
-			m_cRulerBackgroundEndColour = 
+			m_cRulerBackgroundEndColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour());
 
 			// Set ruler background image.
-			m_sRulerBackgroundImagePath = 
+			m_sRulerBackgroundImagePath =
 				static_cast<wxString>(
 					m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath());
 
@@ -267,23 +267,23 @@ namespace WinRuler
 			}
 
 			// Set ruler scale colour.
-			m_cRulerScaleColour = 
+			m_cRulerScaleColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour());
 
 			// Set first and second marker colour.
-			m_cFirstMarkerColour = 
+			m_cFirstMarkerColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour());
-			m_cSecondMarkerColour = 
+			m_cSecondMarkerColour =
 				static_cast<wxColour>(
 					m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour());
 
 			// Set ruler transparency.
-			m_bRulerTransparency = 
+			m_bRulerTransparency =
 				static_cast<bool>(
 					m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked());
-			m_iRulerTransparencyValue = 
+			m_iRulerTransparencyValue =
 				static_cast<wxByte>(
 					m_pOptionsDialog->m_pRulerTransparencySlider->GetValue());
 			if (m_bRulerTransparency)
@@ -410,7 +410,7 @@ namespace WinRuler
 	{
 		// Create new CAboutDialog instance.
 		m_pAboutDialog = new CAboutDialog(static_cast<wxFrame*>(this));
-		
+
 		// Call CAboutDialog::ShowModal() method.
 		m_pAboutDialog->ShowModal();
 
@@ -534,7 +534,7 @@ namespace WinRuler
 			case rpLeft:
 			case rpRight:
 				NewSize = wxSize(60, NewLength);
-				
+
 				break;
 			case rpTop:
 			case rpBottom:
@@ -558,7 +558,7 @@ namespace WinRuler
 		int rc;
 
 		// Open connection with database.
-		rc = 
+		rc =
 			sqlite3_open_v2(
 				dbPath.mb_str(), &db,
 				SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
@@ -566,7 +566,7 @@ namespace WinRuler
 		{
 			wxLogError(
 				"Can not open database '%s': %s", dbPath, sqlite3_errmsg(db));
-			
+
 			if (db)
 			{
 				sqlite3_close(db);
@@ -588,9 +588,9 @@ namespace WinRuler
 		{
 			wxLogError(
 				"Can not create table 'Settings': %s", sqlite3_errmsg(db));
-			
+
 			sqlite3_close(db);
-			
+
 			return false;
 		}
 
@@ -611,15 +611,15 @@ namespace WinRuler
 		// Execute query and load results into Settings map.
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
 		{
-			wxString Key = 
+			wxString Key =
 				wxString::FromUTF8(
 					reinterpret_cast<const char*>(
 						sqlite3_column_text(stmt, 0)));
-			wxString Value = 
+			wxString Value =
 				wxString::FromUTF8(
 					reinterpret_cast<const char*>(
 						sqlite3_column_text(stmt, 1)));
-			
+
 			Settings[Key] = Value;
 
 #ifdef _DEBUG
@@ -658,7 +658,7 @@ namespace WinRuler
 		if (Settings.empty())
 		{
 			wxLogWarning("There is no settings to save in database.");
-			
+
 			return true;
 		}
 
@@ -704,7 +704,7 @@ namespace WinRuler
 		}
 
 		// Prepare SQL query INSERT OR REPLACE.
-		const char* InsertSQL = 
+		const char* InsertSQL =
 			"INSERT OR REPLACE INTO Settings (Key, Value) VALUES (?, ?);";
 		rc = sqlite3_prepare_v2(db, InsertSQL, -1, &stmt, nullptr);
 		if (rc != SQLITE_OK)
@@ -723,7 +723,7 @@ namespace WinRuler
 		if (rc != SQLITE_OK)
 		{
 			wxLogError(
-				"There was an error while beginning transaction: %s", 
+				"There was an error while beginning transaction: %s",
 				sqlite3_errmsg(db));
 
 			sqlite3_finalize(stmt);
@@ -738,7 +738,7 @@ namespace WinRuler
 			sqlite3_reset(stmt);
 			sqlite3_clear_bindings(stmt);
 
-			rc = 
+			rc =
 				sqlite3_bind_text(
 					stmt, 1, Key.mb_str(), -1, SQLITE_TRANSIENT);
 			if (rc != SQLITE_OK)
@@ -746,11 +746,11 @@ namespace WinRuler
 				wxLogError(
 					"There was an error while binding Key '%s': %s",
 					Key, sqlite3_errmsg(db));
-				
+
 				continue;
 			}
 
-			rc = 
+			rc =
 				sqlite3_bind_text(
 					stmt, 2, Value.mb_str(), -1, SQLITE_TRANSIENT);
 			if (rc != SQLITE_OK)
@@ -782,7 +782,7 @@ namespace WinRuler
 		if (rc != SQLITE_OK)
 		{
 			wxLogError("Can not end transaction: %s", sqlite3_errmsg(db));
-			
+
 			sqlite3_finalize(stmt);
 			sqlite3_close(db);
 
@@ -813,47 +813,38 @@ namespace WinRuler
 				if (Key == "ruler_position")
 				{
 					m_eRulerPosition = static_cast<ERulerPosition>(wxAtoi(Value));
-					//m_eRulerPosition = ERulerPosition(wxAtoi(Value));
 				}
 				else if (Key == "ruler_units")
 				{
 					m_eRulerUnits = static_cast<ERulerUnits>(wxAtoi(Value));
-					//m_eRulerUnits = ERulerUnits(wxAtoi(Value));
 				}
 				else if (Key == "ruler_background_type")
 				{
 					m_eRulerBackgroundType = static_cast<ERulerBackgroundType>(wxAtoi(Value));
-					//m_eRulerBackgroundType = ERulerBackgroundType(wxAtoi(Value));
 				}
 				else if (Key == "ruler_scale_colour")
 				{
 					m_cRulerScaleColour = static_cast<wxColour>(Value);
-					//m_cRulerScaleColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_colour")
 				{
 					m_cRulerBackgroundColour = static_cast<wxColour>(Value);
-					//m_cRulerBackgroundColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_start_colour")
 				{
 					m_cRulerBackgroundStartColour = static_cast<wxColour>(Value);
-					//m_cRulerBackgroundStartColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_end_colour")
 				{
 					m_cRulerBackgroundEndColour = static_cast<wxColour>(Value);
-					//m_cRulerBackgroundEndColour = wxColour(Value);
 				}
 				else if (Key == "ruler_length")
 				{
 					m_iRulerLength = static_cast<int>(wxAtoi(Value));
-					//m_iRulerLength = wxAtoi(Value);
 				}
 				else if (Key == "ruler_minimum_length_limit")
 				{
 					m_iRulerMinimumLengthLimit = static_cast<int>(wxAtoi(Value));
-					//m_iRulerMinimumLengthLimit = wxAtoi(Value);
 				}
 				else if (Key == "ruler_always_on_top")
 				{
@@ -866,22 +857,18 @@ namespace WinRuler
 				else if (Key == "ruler_transparency_value")
 				{
 					m_iRulerTransparencyValue = static_cast<int>(wxAtoi(Value));
-					//m_iRulerTransparencyValue = wxAtoi(Value);
 				}
 				else if (Key == "ruler_first_marker_colour")
 				{
 					m_cFirstMarkerColour = static_cast<wxColour>(Value);
-					//m_cFirstMarkerColour = wxColour(Value);
 				}
 				else if (Key == "ruler_second_marker_colour")
 				{
 					m_cSecondMarkerColour = static_cast<wxColour>(Value);
-					//m_cSecondMarkerColour = wxColour(Value);
 				}
 				else if (Key == "ruler_background_image_path")
 				{
 					m_sRulerBackgroundImagePath = static_cast<wxString>(Value);
-					//m_sRulerBackgroundImagePath = Value;
 				}
 
 #ifdef _DEBUG
@@ -1016,7 +1003,7 @@ namespace WinRuler
 			HotArea[2][0] = HT_client;
 			HotArea[2][1] = HT_bottom;
 			HotArea[2][2] = HT_client;
-			
+
 			break;
 		case rpTop:
 		case rpBottom:
@@ -1029,7 +1016,7 @@ namespace WinRuler
 			HotArea[2][0] = HT_client;
 			HotArea[2][1] = HT_client;
 			HotArea[2][2] = HT_client;
-			
+
 			break;
 		}
 
@@ -1119,7 +1106,7 @@ namespace WinRuler
 				std::max<int>(m_iRulerMinimumLengthLimit, Rect.GetWidth()));
 			break;
 		}
-		
+
 		Rect.SetX(Offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x);
 		Rect.SetY(Offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y);
 

@@ -14,12 +14,15 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Og" />
 					<Add option="-g" />
-					<Add option="`wx-config --cxxflags`" />
 					<Add option="-D_DEBUG" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add directory="$(#wx)/lib/gcc_dll/mswud" />
 				</Compiler>
 				<ResourceCompiler>
+					<Add directory="$(#wx)/include" />
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>
@@ -38,9 +41,12 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DNDEBUG" />
+					<Add option="-D__WXMSW__" />
+					<Add option="-DWXUSINGDLL" />
 					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
+					<Add directory="$(#wx)/include" />
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>
@@ -96,9 +102,13 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++17" />
 			<Add option="-std=c17" />
+			<Add option="-m64" />
 			<Add directory="../../Source" />
 			<Add directory="../../ThirdParty/sqlite" />
 		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+		</Linker>
 		<Unit filename="../../Source/CAboutDialog.cpp" />
 		<Unit filename="../../Source/CAboutDialog.h" />
 		<Unit filename="../../Source/CApplication.cpp" />

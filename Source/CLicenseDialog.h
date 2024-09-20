@@ -59,9 +59,6 @@ namespace WinRuler
 		 **/
 		void OnClose(wxCloseEvent& Event);
 	public:
-		// Content panel.
-		wxPanel* m_pContentPanel;
-
 		// Rich text control.
 		wxRichTextCtrl* m_pTextCtrl;
 

@@ -6,12 +6,13 @@
 #pragma once
 
 #include <wx/wx.h>
+
 #include <CMainFrame.h>
 
 namespace WinRuler
 {
 	/**
-	 * Application class definition. 
+	 * Application class definition.
 	 **/
 	class CApplication :
 		public wxApp
@@ -39,6 +40,7 @@ namespace WinRuler
 		// Pointer to wxIcon.
 		wxIcon* m_pIcon;
 
+		// Pointer to wxLog.
 		wxLog* m_pLogger;
 	};
 } // end namespace WinRuler

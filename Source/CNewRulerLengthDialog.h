@@ -66,9 +66,6 @@ namespace WinRuler
 		 **/
 		void OnOKButtonClicked(wxCommandEvent& Event);
 	private:
-		// Content panel.
-		wxPanel* m_pContentPanel;
-
 		// Choose static text.
 		wxStaticText* m_pChooseStaticText;
 

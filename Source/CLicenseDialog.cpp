@@ -32,29 +32,25 @@ namespace WinRuler
 		// Release all instances from heap.
 		wxDELETE(m_pCloseButton);
 		wxDELETE(m_pTextCtrl);
-		wxDELETE(m_pContentPanel);
 	}
 
 	void CLicenseDialog::Init()
 	{
 		// Set all class instances as NULL.
-		m_pContentPanel = NULL;
+		m_pTextCtrl = NULL;
 		m_pCloseButton = NULL;
 	}
 
 	void CLicenseDialog::CreateControls()
 	{
-		// Create m_pContentPanel.
-		m_pContentPanel =
-			new wxPanel(
-					this, wxID_ANY, wxDefaultPosition,
-					wxDefaultSize, wxNO_BORDER | wxTAB_TRAVERSAL);
+	    // Set client size.
+	    //SetClientSize(wxSize(400, 300));
 
 		// Create m_pTextCtrl and load it content from LICENSE file.
 		m_pTextCtrl =
 			new wxRichTextCtrl(
 					this, wxID_ANY, wxEmptyString,
-					wxPoint(10, 10), wxSize(470, 215),
+					wxDefaultPosition, wxSize(400, 200),
 					wxRE_MULTILINE | wxRE_READONLY);
 		if (!m_pTextCtrl->LoadFile(
 				wxString("../../../../LICENSE"), wxRICHTEXT_TYPE_TEXT))
@@ -66,8 +62,15 @@ namespace WinRuler
 		m_pCloseButton =
 			new wxButton(
 					this, wxID_OK, wxString("&Close"),
-					wxPoint(420, 235),
-					wxSize(60, 30));
+					wxDefaultPosition, wxDefaultSize);
+
+        // Create wxBoxSizer and apply layout.
+        wxBoxSizer* pSizer = new wxBoxSizer(wxVERTICAL);
+
+        pSizer->Add(m_pTextCtrl, 0, wxEXPAND | wxALL, 5);
+        pSizer->Add(m_pCloseButton, 0, wxEXPAND | wxALL, 5);
+
+        SetSizerAndFit(pSizer);
 	}
 
 	void CLicenseDialog::OnClose(wxCloseEvent& Event)

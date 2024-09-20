@@ -35,13 +35,11 @@ namespace WinRuler
         wxDELETE(m_pOKButton);
         wxDELETE(m_pSpinCtrl);
         wxDELETE(m_pChooseStaticText);
-        wxDELETE(m_pContentPanel);
     }
 
     void CNewRulerLengthDialog::Init()
     {
         // Set all class instances as NULL.
-        m_pContentPanel = NULL;
         m_pChooseStaticText = NULL;
         m_pSpinCtrl = NULL;
         m_pOKButton = NULL;
@@ -78,7 +76,7 @@ namespace WinRuler
         pBoxSizer->Add(m_pChooseStaticText, 0, wxEXPAND | wxALL, 5);
         pBoxSizer->Add(m_pSpinCtrl, 0, wxEXPAND | wxALL, 5);
         pBoxSizer->Add(m_pOKButton, 0, wxEXPAND | wxALL, 5);
-        
+
         SetSizerAndFit(pBoxSizer);
     }
 

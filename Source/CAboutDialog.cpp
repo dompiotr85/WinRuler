@@ -39,13 +39,11 @@ namespace WinRuler
         wxDELETE(m_pVersionStaticText);
         wxDELETE(m_pCopyrightStaticText);
         wxDELETE(m_pHeaderStaticBitmap);
-        wxDELETE(m_pContentPanel);
     }
 
     void CAboutDialog::Init()
     {
         // Set all class instances as NULL.
-        m_pContentPanel = NULL;
         m_pHeaderStaticBitmap = NULL;
         m_pCopyrightStaticText = NULL;
         m_pVersionStaticText = NULL;
@@ -56,42 +54,55 @@ namespace WinRuler
 
     void CAboutDialog::CreateControls()
     {
-        // Create m_pContentPanel.
-        m_pContentPanel = 
-            new wxPanel(
-                    this, wxID_ANY, wxDefaultPosition,
-                    wxDefaultSize, wxNO_BORDER | wxTAB_TRAVERSAL);
+        // Set client size.
+        SetClientSize(wxSize(600, 500));
 
         // Create static bitmap on top.
-        m_pHeaderStaticBitmap = 
+        m_pHeaderStaticBitmap =
             new wxStaticBitmap(
-                m_pContentPanel,
-                wxID_ANY,
+                this, wxID_ANY,
                 wxBitmap("../../../../Resources/About.png", wxBITMAP_TYPE_PNG),
-                wxPoint(0, 0), wxSize(600, 300), 0);
+                wxDefaultPosition, wxSize(600, 300), 0);
 
         // Create static texts.
         m_pVersionStaticText =
             new wxStaticText(
-                    m_pContentPanel, wxID_ANY,
-                    wxString("Version 0.0.1"), wxPoint(15, 300));
+                    this, wxID_ANY,
+                    wxString("Version 0.0.1"));
         m_pCopyrightStaticText =
             new wxStaticText(
-                    m_pContentPanel, wxID_ANY,
-                    wxString("Copyright © 2024 Piotr Domanski and WinRuler programmers team."),
-                    wxPoint(15, 320));
+                    this, wxID_ANY,
+                    wxString("Copyright © 2024 Piotr Domanski and WinRuler programmers team."));
+
+        // Create bottom panel.
+        wxPanel* pBottomPanel =
+            new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
 
         // Create License button.
         m_pLicenseButton =
-            new wxButton(
-                    m_pContentPanel, ID_LICENSE_BUTTON, "&License",
-                    wxPoint(20, 350), wxSize(60, 30));
+            new wxButton(pBottomPanel, ID_LICENSE_BUTTON, "&License");
 
         // Create Close button.
         m_pCloseButton =
-            new wxButton(
-                    m_pContentPanel, wxID_OK, "&Close",
-                    wxPoint(500, 350), wxSize(60, 30));
+            new wxButton(pBottomPanel, wxID_OK, "&Close");
+
+        // Create 2 wxBoxSizer and set layout.
+        wxBoxSizer* pSizer1 = new wxBoxSizer(wxVERTICAL);
+
+        pSizer1->Add(m_pHeaderStaticBitmap, 0, wxEXPAND | wxALL, 5);
+        pSizer1->Add(m_pVersionStaticText, 0, wxEXPAND | wxALL, 5);
+        pSizer1->Add(m_pCopyrightStaticText, 0, wxEXPAND | wxALL, 5);
+        pSizer1->Add(pBottomPanel, 0, wxEXPAND | wxALL, 5);
+
+        SetSizerAndFit(pSizer1);
+
+        wxBoxSizer* pSizer2 = new wxBoxSizer(wxHORIZONTAL);
+
+        pSizer2->Add(m_pLicenseButton, 0, wxEXPAND | wxALL, 5);
+        pSizer2->AddSpacer(425);
+        pSizer2->Add(m_pCloseButton, 0, wxEXPAND | wxALL, 5);
+
+        pBottomPanel->SetSizerAndFit(pSizer2);
     }
 
     void CAboutDialog::OnLicenseButtonClicked(wxCommandEvent& WXUNUSED(Event))
