@@ -65,15 +65,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-I/usr/local/lib/wx/include/gtk3-unicode-3.2 -I/usr/local/include/wx-3.2 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread" />
+					<Add option="`wx-config --cflags`" />
+					<Add option="-D_DEBUG" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="wx_gtk3u_core-3.2" />
-					<Add library="wx_baseu-3.2" />
-					<Add library="libwx_gtk3u_richtext-3.2" />
+					<Add option="`wx-config --libs`" />
+					<Add library="wx_gtk3u_richtext-3.2" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
@@ -85,16 +85,16 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-I/usr/local/lib/wx/include/gtk3-unicode-3.2 -I/usr/local/include/wx-3.2 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread" />
+					<Add option="`wx-config --cflags`" />
+					<Add option="-DNDEBUG" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="wx_gtk3u_core-3.2" />
-					<Add library="wx_baseu-3.2" />
-					<Add library="libwx_gtk3u_richtext-3.2" />
+					<Add option="`wx-config --libs`" />
+					<Add library="wx_gtk3u_richtext-3.2" />
 				</Linker>
 			</Target>
 		</Build>
