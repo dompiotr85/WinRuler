@@ -530,3 +530,31 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+############################################################
+# Code::Blocks IDE temporary files.
+############################################################
+
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+# generated directories
+bin/
+obj/
+
+############################################################
+# CMake temporary files.
+############################################################
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+build

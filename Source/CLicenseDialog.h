@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domañski
+ * Copyright © 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -59,9 +59,6 @@ namespace WinRuler
 		 **/
 		void OnClose(wxCloseEvent& Event);
 	public:
-		// Content panel.
-		wxPanel* m_pContentPanel;
-
 		// Rich text control.
 		wxRichTextCtrl* m_pTextCtrl;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domañski
+ * Copyright © 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -177,7 +177,7 @@ namespace WinRuler
 
 		m_pRulerTransparencySlider =
 			new wxSlider(
-				pRulerPanel, wxID_ANY, 
+				pRulerPanel, wxID_ANY,
 				static_cast<int>(pMainFrame->m_iRulerTransparencyValue), 0, 255,
 				wxDefaultPosition, wxDefaultSize,
 				wxSL_HORIZONTAL | wxSL_VALUE_LABEL);
@@ -187,7 +187,7 @@ namespace WinRuler
 
 		pRulerPanelBoxSizer->Add(pBackgroundTypeText, 0, wxEXPAND | wxALL, 5);
 		pRulerPanelBoxSizer->Add(m_pBackgroundTypeChoice, 0, wxEXPAND | wxALL, 5);
-		pRulerPanelBoxSizer->AddSpacer(5);
+		pRulerPanelBoxSizer->AddSpacer(6);
 		pRulerPanelBoxSizer->Add(m_pBackgroundColourText, 0, wxEXPAND | wxALL, 5);
 		pRulerPanelBoxSizer->Add(m_pBackgroundColourPicker, 0, wxEXPAND | wxALL, 5);
 		pRulerPanelBoxSizer->AddSpacer(5);

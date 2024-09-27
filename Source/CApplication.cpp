@@ -1,12 +1,13 @@
 /**
- * Copyright © 2024 Piotr Domañski
+ * Copyright Â© 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
-#include "CApplication.h"
-#include "WRUtilities.h"
 #include <wx/wx.h>
 #include <wx/display.h>
+
+#include "CApplication.h"
+#include "WRUtilities.h"
 
 namespace WinRuler
 {
@@ -22,7 +23,7 @@ namespace WinRuler
 		wxLog::SetActiveTarget(m_pLogger);
 #endif
 
-		// Initialize all supported image handlers. 
+		// Initialize all supported image handlers.
 		::wxInitAllImageHandlers();
 
 		// Retrieve PPI information for all screen detected.

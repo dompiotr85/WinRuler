@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domañski
+ * Copyright © 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -61,9 +61,6 @@ namespace WinRuler
 
 		void OnLicenseButtonClicked(wxCommandEvent& Event);
 	private:
-		// Content panel.
-		wxPanel* m_pContentPanel;
-
 		// Header static bitmap.
 		wxStaticBitmap* m_pHeaderStaticBitmap;
 
