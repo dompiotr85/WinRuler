@@ -9,9 +9,11 @@
 namespace WinRuler
 {
 	BEGIN_EVENT_TABLE(COptionsDialog, wxDialog)
+
 	EVT_CLOSE(COptionsDialog::OnClose)
 	EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
 	EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
+
 	END_EVENT_TABLE()
 
 	COptionsDialog::COptionsDialog(
@@ -79,7 +81,7 @@ namespace WinRuler
 		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 		// Set client size.
-		SetClientSize(wxSize(700, 660));
+		SetClientSize(wxSize(700, 760));
 
 		// Create Notebook.
 		m_pNotebook =

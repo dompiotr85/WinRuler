@@ -205,7 +205,7 @@ namespace WinRuler
 		// instance.
 		wxBitmap* Bitmap = new wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
 
-		// Extract parts of loaded Bitmap into separete bitmaps.
+		// Extract parts of loaded Bitmap into separate bitmaps.
 		m_RulerBackgroundBitmapLeftH = Bitmap->GetSubBitmap(wxRect(0, 0, 4, 60));
 		m_RulerBackgroundBitmapMiddleH = Bitmap->GetSubBitmap(wxRect(4, 0, 2, 60));
 		m_RulerBackgroundBitmapRightH = Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
@@ -229,6 +229,8 @@ namespace WinRuler
 
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Options frame requested."));
+
 		// Create new COptionsDialog instance.
 		m_pOptionsDialog = new COptionsDialog(static_cast<wxFrame*>(this));
 
@@ -311,6 +313,8 @@ namespace WinRuler
 
 	void CMainFrame::OnNewRulerLengthClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("NewRulerLength frame requested"));
+
 		// Create new CNewRulerLengthDialog instance.
 		m_pNewRulerLengthDialog = new CNewRulerLengthDialog(static_cast<wxFrame*>(this));
 
@@ -327,6 +331,8 @@ namespace WinRuler
 
 	void CMainFrame::OnPixelsAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+		wxLogInfo(wxString("Pixels as unit of measurement selected."));
+
 		// Change ruler's unit of measurement to pixels.
 		ChangeRulerUnitOfMeasurement(ruPixels);
 
@@ -336,6 +342,8 @@ namespace WinRuler
 
 	void CMainFrame::OnCentimetresAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Centimetres as unit of measurement selected."));
+
 		// Change ruler's unit of measurement to centimetres.
 		ChangeRulerUnitOfMeasurement(ruCentimetres);
 
@@ -345,6 +353,8 @@ namespace WinRuler
 
 	void CMainFrame::OnInchesAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Inches as unit of measurement selected."));
+
 		// Change ruler's unit of measurement to inches.
 		ChangeRulerUnitOfMeasurement(ruInches);
 
@@ -354,6 +364,8 @@ namespace WinRuler
 
 	void CMainFrame::OnPicasAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Picas as unit of measurement selected."));
+
 		// Change ruler's unit of measurement to picas.
 		ChangeRulerUnitOfMeasurement(ruPicas);
 
@@ -363,6 +375,8 @@ namespace WinRuler
 
 	void CMainFrame::OnAlwaysOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(m_bAlwaysOnTop ? wxString("AlwaysOnTop enabled.") : wxString("AlwaysOnTop disabled."));
+
 		// Change ruler's StayOnTop state to negative one.
 		StayOnTop(!m_bAlwaysOnTop);
 
@@ -372,6 +386,8 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnLeftClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Scale on left selected."));
+
 		// Change ruler's position to left.
 		ChangeRulerPosition(rpLeft);
 
@@ -381,6 +397,8 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Scale on top selected."));
+
 		// Change ruler's position to top.
 		ChangeRulerPosition(rpTop);
 
@@ -390,6 +408,8 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnRightClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Scale on right selected."));
+
 		// Change ruler's position to right.
 		ChangeRulerPosition(rpRight);
 
@@ -399,6 +419,8 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnBottomClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("Scale on bottom selected."));
+
 		// Change ruler's position to bottom.
 		ChangeRulerPosition(rpBottom);
 
@@ -408,6 +430,8 @@ namespace WinRuler
 
 	void CMainFrame::OnAboutClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+	    wxLogInfo(wxString("About dialog requested."));
+
 		// Create new CAboutDialog instance.
 		m_pAboutDialog = new CAboutDialog(static_cast<wxFrame*>(this));
 
@@ -420,6 +444,8 @@ namespace WinRuler
 
 	void CMainFrame::OnCloseClicked(wxCommandEvent& Event)
 	{
+	    wxLogInfo(wxString("Application close requested."));
+
 		// Call OnExit event.
 		OnExit(Event);
 	}
@@ -913,7 +939,7 @@ namespace WinRuler
 #ifdef _DEBUG
 		else
 		{
-			wxLogMessage("Application settings saved successfuly");
+			wxLogMessage("Application settings saved successful.");
 		}
 #endif
 	}
@@ -1079,6 +1105,8 @@ namespace WinRuler
 			}
 
 			break;
+        default:
+            SetCursor(*wxSTANDARD_CURSOR);
 		}
 	}
 
@@ -1107,8 +1135,8 @@ namespace WinRuler
 			break;
 		}
 
-		Rect.SetX(Offset.x * (m_ptDirection.x == -1 ? 1 : 0) + m_rectBorder.x);
-		Rect.SetY(Offset.y * (m_ptDirection.y == -1 ? 1 : 0) + m_rectBorder.y);
+		Rect.SetX((Offset.x * (m_ptDirection.x == -1 ? 1 : -1)) + m_rectBorder.x);
+		Rect.SetY((Offset.y * (m_ptDirection.y == -1 ? 1 : -1)) + m_rectBorder.y);
 
 		// Set new size.
 		SetSize(Rect);

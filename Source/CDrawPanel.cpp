@@ -88,7 +88,7 @@ namespace WinRuler
             pMenu->AppendSeparator();
 
             // Append AlwaysOnTop item separated.
-            wxMenuItem* pMenuItem = 
+            wxMenuItem* pMenuItem =
                 pMenu->AppendCheckItem(ID_ALWAYS_ON_TOP, wxString("&Always on top"));
             pMenuItem->Check(pMainFrame->m_bAlwaysOnTop);
             pMenu->AppendSeparator();
@@ -227,11 +227,11 @@ namespace WinRuler
                 4 + TextHeight > SurfaceRect.GetBottom())
             {
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        SurfaceRect.GetLeft() + 
+                        SurfaceRect.GetLeft() +
                         ((SurfaceRect.GetWidth() / 3) * 2) - (TextWidth / 2),
-                        SurfaceRect.GetTop() + 4 + 
+                        SurfaceRect.GetTop() + 4 +
                         pMainFrame->m_iFirstMarkerPosition - 4 - TextHeight));
             }
             else
@@ -324,7 +324,7 @@ namespace WinRuler
                             pMainFrame->m_iSecondMarkerPosition + 4));
                 }
             }
-            
+
             break;
         case CMainFrame::rpTop:
             // Draw first marker.
@@ -380,7 +380,7 @@ namespace WinRuler
                 dc.DrawText(
                     TmpS,
                     wxPoint(
-                        SurfaceRect.GetLeft() + 4 + 
+                        SurfaceRect.GetLeft() + 4 +
                         pMainFrame->m_iFirstMarkerPosition - 4 - TextWidth,
                         SurfaceRect.GetTop() +
                         ((SurfaceRect.GetHeight() / 3) * 2)));
@@ -455,7 +455,7 @@ namespace WinRuler
                     dc.DrawText(
                         TmpS,
                         wxPoint(
-                            SurfaceRect.GetLeft() + 4 + 
+                            SurfaceRect.GetLeft() + 4 +
                             pMainFrame->m_iSecondMarkerPosition - 4 - TextWidth,
                             SurfaceRect.GetTop() +
                             ((SurfaceRect.GetHeight() / 3) * 2)));
@@ -549,7 +549,7 @@ namespace WinRuler
                 // Set pen colour to second marker's colour.
                 dc.SetPen(
                     wxPen(
-                        pMainFrame->m_cSecondMarkerColour, 1, 
+                        pMainFrame->m_cSecondMarkerColour, 1,
                         wxPENSTYLE_SOLID));
 
                 dc.DrawLine(
@@ -607,7 +607,7 @@ namespace WinRuler
                             SurfaceRect.GetLeft() +
                             (SurfaceRect.GetWidth() / 3) - (TextWidth / 2),
                             SurfaceRect.GetTop() + 4 +
-                            pMainFrame->m_iSecondMarkerPosition - 4 - 
+                            pMainFrame->m_iSecondMarkerPosition - 4 -
                             TextHeight));
                 }
                 else
@@ -791,7 +791,7 @@ namespace WinRuler
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
 
         // Set DC's pen to SOLID, with width equal 1 and colour equal
-        // m_RulerScaleColour. 
+        // m_RulerScaleColour.
         dc.SetPen(wxPen(pMainFrame->m_cRulerScaleColour, 1, wxPENSTYLE_SOLID));
 
         // Set DC's font size to 6 and font colour.
@@ -1183,9 +1183,9 @@ namespace WinRuler
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                                 pT - 2));
                     }
                     else
@@ -1193,21 +1193,21 @@ namespace WinRuler
                         if (AreSame(std::fmod(ID, 1.0), 0.0))
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth,
                                     pT - (TextHeight / 2)));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
                         }
                     }
@@ -1217,17 +1217,17 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT),
                     wxPoint(SurfaceRect.GetRight(), 4 + sT));
 
-                TmpS = 
+                TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresVertical(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                         4 + sT - TextHeight));
 
                 break;
@@ -1242,15 +1242,15 @@ namespace WinRuler
                     if (AreSame(ID, 0.0))
                     {
                         dc.DrawLine(
-                            wxPoint(SurfaceRect.GetRight(), pT), 
+                            wxPoint(SurfaceRect.GetRight(), pT),
                             wxPoint(SurfaceRect.GetRight() - 1 - 12, pT));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                                 pT - 2));
                     }
                     else
@@ -1258,21 +1258,21 @@ namespace WinRuler
                         if (AreSame(std::fmod(ID, 1.0), 0.0))
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight(), pT), 
+                                wxPoint(SurfaceRect.GetRight(), pT),
                                 wxPoint(SurfaceRect.GetRight() - 1 - 5, pT));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth,
                                     pT - (TextHeight / 2)));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
                         }
                     }
@@ -1282,15 +1282,15 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT),
                     wxPoint(SurfaceRect.GetRight(), 4 + sT));
 
                 TmpS = wxString::FromDouble(PixelsToInchesVertical(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                         4 + sT - TextHeight));
 
                 break;
@@ -1304,7 +1304,7 @@ namespace WinRuler
                     if ((I == 0) || (I == sT - 1))
                     {
                         dc.DrawLine(
-                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT), 
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT),
                             wxPoint(SurfaceRect.GetRight(), pT));
 
                         if (I == 0)
@@ -1312,9 +1312,9 @@ namespace WinRuler
                             TmpS = wxString("0");
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 15 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 15 - TextWidth,
                                     pT - 2));
                         }
 
@@ -1323,9 +1323,9 @@ namespace WinRuler
                             TmpS = wxString::Format(wxT("%d"), (sT - 1) * 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 17 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 17 - TextWidth,
                                     pT - TextHeight + 2));
                         }
                     }
@@ -1334,20 +1334,20 @@ namespace WinRuler
                         if (I % 10 == 0)
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
                             TmpS = wxString::Format(wxT("%d"), I * 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth,
                                     pT - (TextHeight / 2)));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 3, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
                         }
                     }
@@ -1365,15 +1365,15 @@ namespace WinRuler
                     if (AreSame(ID, 0.0))
                     {
                         dc.DrawLine(
-                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT), 
+                            wxPoint(SurfaceRect.GetRight() - 1 - 12, pT),
                             wxPoint(SurfaceRect.GetRight(), pT));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                                SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                                 pT - 2));
                     }
                     else
@@ -1381,15 +1381,15 @@ namespace WinRuler
                         if (AreSame(std::fmod(ID, 6.0), 0.0))
                         {
                             dc.DrawLine(
-                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT), 
+                                wxPoint(SurfaceRect.GetRight() - 1 - 5, pT),
                                 wxPoint(SurfaceRect.GetRight(), pT));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth, 
+                                    SurfaceRect.GetRight() - 1 - 5 - TextWidth,
                                     pT - (TextHeight / 2)));
                         }
                         else
@@ -1397,13 +1397,13 @@ namespace WinRuler
                             if (AreSame(std::fmod(ID, 1.0), 0.0))
                             {
                                 dc.DrawLine(
-                                    wxPoint(SurfaceRect.GetRight() - 1 - 8, pT), 
+                                    wxPoint(SurfaceRect.GetRight() - 1 - 8, pT),
                                     wxPoint(SurfaceRect.GetRight(), pT));
                             }
                             else
                             {
                                 dc.DrawLine(
-                                    wxPoint(SurfaceRect.GetRight() - 1 - 3, pT), 
+                                    wxPoint(SurfaceRect.GetRight() - 1 - 3, pT),
                                     wxPoint(SurfaceRect.GetRight(), pT));
                             }
                         }
@@ -1414,15 +1414,15 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT), 
+                    wxPoint(SurfaceRect.GetRight() - 1 - 12, 4 + sT),
                     wxPoint(SurfaceRect.GetRight(), 4 + sT));
 
                 TmpS = wxString::FromDouble(PixelsToPicasVertical(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        SurfaceRect.GetRight() - 1 - 14 - TextWidth, 
+                        SurfaceRect.GetRight() - 1 - 14 - TextWidth,
                         4 + sT - TextHeight));
 
                 break;
@@ -1443,15 +1443,15 @@ namespace WinRuler
                     if (AreSame(ID, 0.0))
                     {
                         dc.DrawLine(
-                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12),
                             wxPoint(pT, SurfaceRect.GetBottom()));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                pT, 
+                                pT,
                                 SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
                     }
                     else
@@ -1465,15 +1465,15 @@ namespace WinRuler
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT - (TextWidth / 2), 
+                                    pT - (TextWidth / 2),
                                     SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3),
                                 wxPoint(pT, SurfaceRect.GetBottom()));
                         }
                     }
@@ -1483,17 +1483,17 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12),
                     wxPoint(4 + sT, SurfaceRect.GetBottom()));
 
-                TmpS = 
+                TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresHorizontal(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        4 + sT - TextWidth, 
+                        4 + sT - TextWidth,
                         SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
@@ -1508,15 +1508,15 @@ namespace WinRuler
                     if (AreSame(ID, 0.0))
                     {
                         dc.DrawLine(
-                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12),
                             wxPoint(pT, SurfaceRect.GetBottom()));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                pT, 
+                                pT,
                                 SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
                     }
                     else
@@ -1530,15 +1530,15 @@ namespace WinRuler
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT - (TextWidth / 2), 
+                                    pT - (TextWidth / 2),
                                     SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3),
                                 wxPoint(pT, SurfaceRect.GetBottom()));
                         }
                     }
@@ -1548,16 +1548,16 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12),
                     wxPoint(4 + sT, SurfaceRect.GetBottom()));
 
-                TmpS = 
+                TmpS =
                     wxString::FromDouble(PixelsToInchesHorizontal(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        4 + sT - TextWidth, 
+                        4 + sT - TextWidth,
                         SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
@@ -1571,7 +1571,7 @@ namespace WinRuler
                     if ((I == 0) || (I == sT - 1))
                     {
                         dc.DrawLine(
-                            wxPoint(pT, SurfaceRect.GetBottom() - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom() - 12),
                             wxPoint(pT, SurfaceRect.GetBottom()));
 
                         if (I == 0)
@@ -1579,9 +1579,9 @@ namespace WinRuler
                             TmpS = wxString("0");
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT, 
+                                    pT,
                                     SurfaceRect.GetBottom() - 12 - TextHeight));
                         }
 
@@ -1590,9 +1590,9 @@ namespace WinRuler
                             TmpS = wxString::Format(wxT("%d"), (sT - 1) * 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT - TextWidth, 
+                                    pT - TextWidth,
                                     SurfaceRect.GetBottom() - 12 - TextHeight));
                         }
                     }
@@ -1601,21 +1601,21 @@ namespace WinRuler
                         if (I % 10 == 0)
                         {
                             dc.DrawLine(
-                                wxPoint(pT, SurfaceRect.GetBottom() - 6), 
+                                wxPoint(pT, SurfaceRect.GetBottom() - 6),
                                 wxPoint(pT, SurfaceRect.GetBottom()));
 
                             TmpS = wxString::Format(wxT("%d"), I * 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT - (TextWidth / 2) + 2, 
+                                    pT - (TextWidth / 2) + 2,
                                     SurfaceRect.GetBottom() - 5 - TextHeight));
                         }
                         else
                         {
                             dc.DrawLine(
-                                wxPoint(pT, SurfaceRect.GetBottom() - 4), 
+                                wxPoint(pT, SurfaceRect.GetBottom() - 4),
                                 wxPoint(pT, SurfaceRect.GetBottom()));
                         }
                     }
@@ -1633,15 +1633,15 @@ namespace WinRuler
                     if (AreSame(ID, 0.0))
                     {
                         dc.DrawLine(
-                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12), 
+                            wxPoint(pT, SurfaceRect.GetBottom() - 1 - 12),
                             wxPoint(pT, SurfaceRect.GetBottom()));
 
                         TmpS = wxString("0.00");
                         dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                         dc.DrawText(
-                            TmpS, 
+                            TmpS,
                             wxPoint(
-                                pT, 
+                                pT,
                                 SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
                     }
                     else
@@ -1649,15 +1649,15 @@ namespace WinRuler
                         if (AreSame(std::fmod(ID, 6.0), 0.0))
                         {
                             dc.DrawLine(
-                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 5), 
+                                wxPoint(pT, SurfaceRect.GetBottom() - 1 - 5),
                                 wxPoint(pT, SurfaceRect.GetBottom()));
 
                             TmpS = wxString::FromDouble(ID, 2);
                             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                             dc.DrawText(
-                                TmpS, 
+                                TmpS,
                                 wxPoint(
-                                    pT - (TextWidth / 2), 
+                                    pT - (TextWidth / 2),
                                     SurfaceRect.GetBottom() - 1 - 5 - TextHeight));
                         }
                         else
@@ -1665,13 +1665,13 @@ namespace WinRuler
                             if (AreSame(std::fmod(ID, 1.0), 0.0))
                             {
                                 dc.DrawLine(
-                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 8), 
+                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 8),
                                     wxPoint(pT, SurfaceRect.GetBottom()));
                             }
                             else
                             {
                                 dc.DrawLine(
-                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3), 
+                                    wxPoint(pT, SurfaceRect.GetBottom() - 1 - 3),
                                     wxPoint(pT, SurfaceRect.GetBottom()));
                             }
                         }
@@ -1682,16 +1682,16 @@ namespace WinRuler
                 }
 
                 dc.DrawLine(
-                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12), 
+                    wxPoint(4 + sT, SurfaceRect.GetBottom() - 1 - 12),
                     wxPoint(4 + sT, SurfaceRect.GetBottom()));
 
-                TmpS = 
+                TmpS =
                     wxString::FromDouble(PixelsToPicasHorizontal(0, sT), 2);
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
                 dc.DrawText(
-                    TmpS, 
+                    TmpS,
                     wxPoint(
-                        4 + sT - TextWidth, 
+                        4 + sT - TextWidth,
                         SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
@@ -1718,7 +1718,7 @@ namespace WinRuler
                     wxBrush(
                         pMainFrame->m_cRulerBackgroundColour,
                         wxBRUSHSTYLE_SOLID));
-                
+
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1742,7 +1742,7 @@ namespace WinRuler
                 dc.DrawBitmap(
                     pMainFrame->m_RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
-                
+
                 for (int i = 0; i <= (SurfaceRect.GetHeight() - 8) / 2; i++)
                 {
                     dc.DrawBitmap(
@@ -1751,7 +1751,7 @@ namespace WinRuler
                             SurfaceRect.GetX(),
                             SurfaceRect.GetY() + 4 + (2 * i)));
                 }
-                
+
                 dc.DrawBitmap(
                     pMainFrame->m_RulerBackgroundBitmapBottomV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetBottom() - 3));
@@ -1820,7 +1820,7 @@ namespace WinRuler
                     wxBrush(
                         pMainFrame->m_cRulerBackgroundColour,
                         wxBRUSHSTYLE_SOLID));
-                
+
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1951,6 +1951,7 @@ namespace WinRuler
                 if ((Pos.y >= 4) && (Pos.y < pMainFrame->m_iRulerLength - 5))
                 {
                     pMainFrame->m_iSecondMarkerPosition = Pos.y - 4;
+                    wxLogInfo(wxString("New position of second marker was set."));
                 }
 
                 break;
@@ -1959,6 +1960,7 @@ namespace WinRuler
                 if ((Pos.x >= 4) && (Pos.x < pMainFrame->m_iRulerLength - 5))
                 {
                     pMainFrame->m_iSecondMarkerPosition = Pos.x - 4;
+                    wxLogInfo(wxString("New position of second marker was set."));
                 }
 
                 break;
@@ -1969,8 +1971,10 @@ namespace WinRuler
         // dragging space, then ...
         if (Event.LeftDown() &&
             ((Pos.x >= Offset && Pos.y >= Offset) &&
-                (Pos.x < Width - Offset && Pos.y < Height - Offset)))
+             (Pos.x < Width - Offset && Pos.y < Height - Offset)))
         {
+            wxLogInfo(wxString("Dragging started."));
+
             // ... signal that we are in dragging mode.
             m_bDragging = true;
 
@@ -1997,6 +2001,8 @@ namespace WinRuler
 
             // ... release mouse.
             ReleaseMouse();
+
+            wxLogInfo(wxString("Dragging ended."));
         }
         else
         {
@@ -2047,7 +2053,7 @@ namespace WinRuler
 
             // Move parent frame which is our CMainFrame to new position which
             // is current position + our calculated diff.
-            GetParent()->Move(GetParent()->GetPosition() + diff);
+            pMainFrame->Move(pMainFrame->GetPosition() + diff, wxSIZE_AUTO);
 
             // Update starting position.
             m_DragStartPos = Pos;
