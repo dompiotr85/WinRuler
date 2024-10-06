@@ -1951,7 +1951,10 @@ namespace WinRuler
                 if ((Pos.y >= 4) && (Pos.y < pMainFrame->m_iRulerLength - 5))
                 {
                     pMainFrame->m_iSecondMarkerPosition = Pos.y - 4;
+
+#ifdef _DEBUG
                     wxLogInfo(wxString("New position of second marker was set."));
+#endif
                 }
 
                 break;
@@ -1960,7 +1963,10 @@ namespace WinRuler
                 if ((Pos.x >= 4) && (Pos.x < pMainFrame->m_iRulerLength - 5))
                 {
                     pMainFrame->m_iSecondMarkerPosition = Pos.x - 4;
+
+#ifdef _DEBUG
                     wxLogInfo(wxString("New position of second marker was set."));
+#endif
                 }
 
                 break;
@@ -1973,7 +1979,9 @@ namespace WinRuler
             ((Pos.x >= Offset && Pos.y >= Offset) &&
              (Pos.x < Width - Offset && Pos.y < Height - Offset)))
         {
+#ifdef _DEBUG
             wxLogInfo(wxString("Dragging started."));
+#endif
 
             // ... signal that we are in dragging mode.
             m_bDragging = true;
@@ -2002,7 +2010,9 @@ namespace WinRuler
             // ... release mouse.
             ReleaseMouse();
 
+#ifdef _DEBUG
             wxLogInfo(wxString("Dragging ended."));
+#endif
         }
         else
         {
@@ -2053,7 +2063,7 @@ namespace WinRuler
 
             // Move parent frame which is our CMainFrame to new position which
             // is current position + our calculated diff.
-            pMainFrame->Move(pMainFrame->GetPosition() + diff, wxSIZE_AUTO);
+            pMainFrame->Move(pMainFrame->GetPosition() + diff);
 
             // Update starting position.
             m_DragStartPos = Pos;

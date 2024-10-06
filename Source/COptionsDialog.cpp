@@ -81,7 +81,11 @@ namespace WinRuler
 		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 		// Set client size.
+#ifdef __unix__	// If platform is Linux.
 		SetClientSize(wxSize(700, 760));
+#elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
+		SetClientSize(wxSize(700, 660));
+#endif
 
 		// Create Notebook.
 		m_pNotebook =

@@ -229,7 +229,9 @@ namespace WinRuler
 
 	void CMainFrame::OnOptionsClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Options frame requested."));
+#endif
 
 		// Create new COptionsDialog instance.
 		m_pOptionsDialog = new COptionsDialog(static_cast<wxFrame*>(this));
@@ -313,7 +315,9 @@ namespace WinRuler
 
 	void CMainFrame::OnNewRulerLengthClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("NewRulerLength frame requested"));
+#endif
 
 		// Create new CNewRulerLengthDialog instance.
 		m_pNewRulerLengthDialog = new CNewRulerLengthDialog(static_cast<wxFrame*>(this));
@@ -331,7 +335,9 @@ namespace WinRuler
 
 	void CMainFrame::OnPixelsAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 		wxLogInfo(wxString("Pixels as unit of measurement selected."));
+#endif
 
 		// Change ruler's unit of measurement to pixels.
 		ChangeRulerUnitOfMeasurement(ruPixels);
@@ -342,7 +348,9 @@ namespace WinRuler
 
 	void CMainFrame::OnCentimetresAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Centimetres as unit of measurement selected."));
+#endif
 
 		// Change ruler's unit of measurement to centimetres.
 		ChangeRulerUnitOfMeasurement(ruCentimetres);
@@ -353,7 +361,9 @@ namespace WinRuler
 
 	void CMainFrame::OnInchesAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Inches as unit of measurement selected."));
+#endif
 
 		// Change ruler's unit of measurement to inches.
 		ChangeRulerUnitOfMeasurement(ruInches);
@@ -364,7 +374,9 @@ namespace WinRuler
 
 	void CMainFrame::OnPicasAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Picas as unit of measurement selected."));
+#endif
 
 		// Change ruler's unit of measurement to picas.
 		ChangeRulerUnitOfMeasurement(ruPicas);
@@ -375,7 +387,9 @@ namespace WinRuler
 
 	void CMainFrame::OnAlwaysOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
-	    wxLogInfo(m_bAlwaysOnTop ? wxString("AlwaysOnTop enabled.") : wxString("AlwaysOnTop disabled."));
+#ifdef _DEBUG
+	    wxLogInfo(!m_bAlwaysOnTop ? wxString("AlwaysOnTop enabled.") : wxString("AlwaysOnTop disabled."));
+#endif
 
 		// Change ruler's StayOnTop state to negative one.
 		StayOnTop(!m_bAlwaysOnTop);
@@ -386,7 +400,9 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnLeftClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Scale on left selected."));
+#endif
 
 		// Change ruler's position to left.
 		ChangeRulerPosition(rpLeft);
@@ -397,7 +413,9 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Scale on top selected."));
+#endif
 
 		// Change ruler's position to top.
 		ChangeRulerPosition(rpTop);
@@ -408,7 +426,9 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnRightClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Scale on right selected."));
+#endif
 
 		// Change ruler's position to right.
 		ChangeRulerPosition(rpRight);
@@ -419,7 +439,9 @@ namespace WinRuler
 
 	void CMainFrame::OnScaleOnBottomClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Scale on bottom selected."));
+#endif
 
 		// Change ruler's position to bottom.
 		ChangeRulerPosition(rpBottom);
@@ -430,7 +452,9 @@ namespace WinRuler
 
 	void CMainFrame::OnAboutClicked(wxCommandEvent& WXUNUSED(Event))
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("About dialog requested."));
+#endif
 
 		// Create new CAboutDialog instance.
 		m_pAboutDialog = new CAboutDialog(static_cast<wxFrame*>(this));
@@ -444,7 +468,9 @@ namespace WinRuler
 
 	void CMainFrame::OnCloseClicked(wxCommandEvent& Event)
 	{
+#ifdef _DEBUG
 	    wxLogInfo(wxString("Application close requested."));
+#endif
 
 		// Call OnExit event.
 		OnExit(Event);
@@ -488,6 +514,10 @@ namespace WinRuler
 
 	void CMainFrame::ChangeRulerPosition(ERulerPosition NewPosition)
 	{
+		// If requested ruler position is already set, return from this method.
+		if (NewPosition == m_eRulerPosition)
+			return;
+
 		// Set proposed ruler's position as current ruler's position and ...
 		m_eRulerPosition = NewPosition;
 
@@ -512,68 +542,71 @@ namespace WinRuler
 
 	void CMainFrame::StayOnTop(bool State)
 	{
-		// If current StayOnTop state is different than proposed state, then...
-		if (m_bAlwaysOnTop != State)
+		// If requested State is already set, return from this method.
+		if (State == m_bAlwaysOnTop)
+			return;
+
+		// Update current StayOnTop state and ...
+		m_bAlwaysOnTop = State;
+
+		// ... set CMainFrame window style according to the current StayOnTop
+		// state.
+		if (m_bAlwaysOnTop)
 		{
-			// .. update current StayOnTop state and ...
-			m_bAlwaysOnTop = State;
-
-			// ... set CMainFrame window style according to current StayOnTop
-			// state.
-			if (m_bAlwaysOnTop)
-			{
-				SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN | wxSTAY_ON_TOP);
-			}
-			else
-			{
-				SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN);
-			}
-
-			Refresh();
+			SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN | wxSTAY_ON_TOP);
 		}
+		else
+		{
+			SetWindowStyle(wxBORDER_NONE | wxCLIP_CHILDREN);
+		}
+
+		// Refresh CMainFrame.
+		Refresh();
 	}
 
 	void CMainFrame::ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit)
 	{
-		// If NewUnit is different than current unit of measurement, then
-		// change it and refresh ruler.
-		if (m_eRulerUnits != NewUnit)
-		{
-			m_eRulerUnits = NewUnit;
+		// If requested NewUnit is already set, return from this method.
+		if (NewUnit == m_eRulerUnits)
+			return;
 
-			Refresh();
-		}
+		// Set new ruler units.
+		m_eRulerUnits = NewUnit;
+
+		// Refresh CMainFrame.
+		Refresh();
 	}
 
 	void CMainFrame::ChangeRulerLength(int NewLength)
 	{
-		// If NewLength is different than current ruler's length, then ...
-		if (m_iRulerLength != NewLength && NewLength >= m_iRulerMinimumLengthLimit)
+		// If requested NewLength is already set or requested NewLength is
+		// smaller than m_iRulerMinimumLengthLimit, then return from this
+		// method.
+		if (NewLength == m_iRulerLength || NewLength < m_iRulerMinimumLengthLimit)
+			return;
+
+		// Set NewLength as current ruler's length.
+		m_iRulerLength = NewLength;
+
+		// Prepare new size for the ruler.
+		wxSize NewSize;
+		switch (m_eRulerPosition)
 		{
-			// ... set NewLength as current ruler's length.
-			m_iRulerLength = NewLength;
-
-			// Prepare new size for the ruler.
-			wxSize NewSize;
-			switch (m_eRulerPosition)
-			{
-			case rpLeft:
-			case rpRight:
-				NewSize = wxSize(60, NewLength);
-
-				break;
-			case rpTop:
-			case rpBottom:
-				NewSize = wxSize(NewLength, 60);
-
-				break;
-			}
-
-			// Update size.
-			SetSize(NewSize);
-
-			Refresh();
+		case rpLeft:
+		case rpRight:
+			NewSize = wxSize(60, NewLength);
+			break;
+		case rpTop:
+		case rpBottom:
+			NewSize = wxSize(NewLength, 60);
+			break;
 		}
+
+		// Update size.
+		SetSize(NewSize);
+
+		// Refresh CMainFrame.
+		Refresh();
 	}
 
 	bool CMainFrame::LoadSettingsFromDatabase(
@@ -670,7 +703,7 @@ namespace WinRuler
 		sqlite3_close(db);
 
 #ifdef _DEBUG
-		wxLogDebug("All database settings was loaded successful.");
+		wxLogInfo("All database settings was loaded successful.");
 #endif
 
 		return true;
@@ -683,7 +716,9 @@ namespace WinRuler
 		// message and return true.
 		if (Settings.empty())
 		{
+#ifdef _DEBUG
 			wxLogWarning("There is no settings to save in database.");
+#endif
 
 			return true;
 		}
@@ -820,7 +855,7 @@ namespace WinRuler
 		sqlite3_close(db);
 
 #ifdef _DEBUG
-		wxLogMessage("Settings saved into database successfuly.");
+		wxLogInfo("Settings saved into database successfuly.");
 #endif
 
 		return true;
@@ -828,94 +863,99 @@ namespace WinRuler
 
 	void CMainFrame::LoadApplicationSettings()
 	{
+		// SQLite database file is stored in "$(CURRENT_DIRECTORY)/WinRuler.db".
 		wxString dbPath = wxGetCwd() + "/WinRuler.db";
 		std::map<wxString, wxString> Settings;
 
-		if (LoadSettingsFromDatabase(dbPath, Settings))
-		{
-			// Processing loaded settings.
-			for (const auto& [Key, Value] : Settings)
-			{
-				if (Key == "ruler_position")
-				{
-					m_eRulerPosition = static_cast<ERulerPosition>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_units")
-				{
-					m_eRulerUnits = static_cast<ERulerUnits>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_background_type")
-				{
-					m_eRulerBackgroundType = static_cast<ERulerBackgroundType>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_scale_colour")
-				{
-					m_cRulerScaleColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_background_colour")
-				{
-					m_cRulerBackgroundColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_background_start_colour")
-				{
-					m_cRulerBackgroundStartColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_background_end_colour")
-				{
-					m_cRulerBackgroundEndColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_length")
-				{
-					m_iRulerLength = static_cast<int>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_minimum_length_limit")
-				{
-					m_iRulerMinimumLengthLimit = static_cast<int>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_always_on_top")
-				{
-					m_bAlwaysOnTop = (Value == wxString("true"));
-				}
-				else if (Key == "ruler_transparency")
-				{
-					m_bRulerTransparency = (Value == wxString("true"));
-				}
-				else if (Key == "ruler_transparency_value")
-				{
-					m_iRulerTransparencyValue = static_cast<int>(wxAtoi(Value));
-				}
-				else if (Key == "ruler_first_marker_colour")
-				{
-					m_cFirstMarkerColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_second_marker_colour")
-				{
-					m_cSecondMarkerColour = static_cast<wxColour>(Value);
-				}
-				else if (Key == "ruler_background_image_path")
-				{
-					m_sRulerBackgroundImagePath = static_cast<wxString>(Value);
-				}
-
-#ifdef _DEBUG
-				wxLogMessage("Setting %s = %s was applied.", Key, Value);
-#endif
-			}
-		}
-		else
+		// If LoadSettingsFromDatabase() failed, display error and return from
+		// this method.
+		if (!LoadSettingsFromDatabase(dbPath, Settings))
 		{
 			wxLogError(
 				"There was an error while application settings was loaded "
 				"from database!");
+
+			return;
+		}
+
+		// Process loaded settings.
+		for (const auto& [Key, Value] : Settings)
+		{
+			if (Key == "ruler_position")
+			{
+				m_eRulerPosition = static_cast<ERulerPosition>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_units")
+			{
+				m_eRulerUnits = static_cast<ERulerUnits>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_background_type")
+			{
+				m_eRulerBackgroundType = static_cast<ERulerBackgroundType>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_scale_colour")
+			{
+				m_cRulerScaleColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_background_colour")
+			{
+				m_cRulerBackgroundColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_background_start_colour")
+			{
+				m_cRulerBackgroundStartColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_background_end_colour")
+			{
+				m_cRulerBackgroundEndColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_length")
+			{
+				m_iRulerLength = static_cast<int>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_minimum_length_limit")
+			{
+				m_iRulerMinimumLengthLimit = static_cast<int>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_always_on_top")
+			{
+				m_bAlwaysOnTop = (Value == wxString("true"));
+			}
+			else if (Key == "ruler_transparency")
+			{
+				m_bRulerTransparency = (Value == wxString("true"));
+			}
+			else if (Key == "ruler_transparency_value")
+			{
+				m_iRulerTransparencyValue = static_cast<int>(wxAtoi(Value));
+			}
+			else if (Key == "ruler_first_marker_colour")
+			{
+				m_cFirstMarkerColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_second_marker_colour")
+			{
+				m_cSecondMarkerColour = static_cast<wxColour>(Value);
+			}
+			else if (Key == "ruler_background_image_path")
+			{
+				m_sRulerBackgroundImagePath = static_cast<wxString>(Value);
+			}
+
+#ifdef _DEBUG
+			// Log that specified setting was applied.
+			wxLogMessage("Setting %s = %s was applied.", Key, Value);
+#endif
 		}
 	}
 
 	void CMainFrame::SaveApplicationSettings()
 	{
+		// SQLite database file is stored in "$(CURRENT_DIRECTORY)/WinRuler.db".
 		wxString dbPath = wxGetCwd() + "/WinRuler.db";
 		std::map<wxString, wxString> Settings;
 
-		// Add all application settings into our map.
+		// Add all application settings into our Settings map.
 		Settings["ruler_position"] = wxString::Format("%i", m_eRulerPosition);
 		Settings["ruler_units"] = wxString::Format("%i", m_eRulerUnits);
 		Settings["ruler_background_type"] = wxString::Format("%i", m_eRulerBackgroundType);
@@ -932,15 +972,17 @@ namespace WinRuler
 		Settings["ruler_second_marker_colour"] = m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
 		Settings["ruler_background_image_path"] = m_sRulerBackgroundImagePath;
 
+		// If SaveSettingsToDatabase() failed, display error and return from
+		// this method.
 		if (!SaveSettingsToDatabase(dbPath, Settings))
 		{
 			wxLogError("There was an error while saving application settings!");
+			return;
 		}
+
 #ifdef _DEBUG
-		else
-		{
-			wxLogMessage("Application settings saved successful.");
-		}
+		// Log that application settings was saved sucessful.
+		wxLogMessage("Application settings saved successful.");
 #endif
 	}
 
@@ -974,7 +1016,8 @@ namespace WinRuler
 			ReleaseMouse();
 			SetCursor(*wxSTANDARD_CURSOR);
 		}  // Left up && dragging.
-		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) && (m_eBorderDragMode == HT_client))
+		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) && 
+				 (m_eBorderDragMode == HT_client))
 		{
 			int hitPos = BorderHitTest(Pos);
 			if (Event.Leaving() || m_eBorderDragMode == HT_client)
@@ -1004,8 +1047,16 @@ namespace WinRuler
 		wxRect Rect = GetRect();
 
 		// Calculate x and y values.
-		int x = Clamp(Pos.x, Rect.GetX() + m_iOffsetBorder, Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
-		int y = Clamp(Pos.y, Rect.GetY() + m_iOffsetBorder, Rect.GetY() + Rect.GetHeight() - m_iOffsetBorder);
+		int x = 
+			Clamp(
+				Pos.x, 
+				Rect.GetX() + m_iOffsetBorder,
+				Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
+		int y = 
+			Clamp(
+				Pos.y,
+				Rect.GetY() + m_iOffsetBorder,
+				Rect.GetY() + Rect.GetHeight() - m_iOffsetBorder);
 
 		// Create default HotArea array.
 		static int HotArea[3][3] =
@@ -1135,8 +1186,10 @@ namespace WinRuler
 			break;
 		}
 
-		Rect.SetX((Offset.x * (m_ptDirection.x == -1 ? 1 : -1)) + m_rectBorder.x);
-		Rect.SetY((Offset.y * (m_ptDirection.y == -1 ? 1 : -1)) + m_rectBorder.y);
+		Rect.SetX(
+			(Offset.x * (m_ptDirection.x == -1 ? 1 : 0)) + m_rectBorder.x);
+		Rect.SetY(
+			(Offset.y * (m_ptDirection.y == -1 ? 1 : 0)) + m_rectBorder.y);
 
 		// Set new size.
 		SetSize(Rect);
