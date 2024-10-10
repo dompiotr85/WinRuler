@@ -16,10 +16,6 @@ namespace WinRuler
         public wxPanel
     {
         DECLARE_EVENT_TABLE()
-    private:
-        void DrawRulerMarkers(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerScale(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect);
     public:
         CDrawPanel(wxFrame* pParent);
 
@@ -49,6 +45,10 @@ namespace WinRuler
         void Render(wxDC& dc);
 
         void OnMouseEvent(wxMouseEvent& Event);
+    public:
+        void DrawRulerMarkers(wxDC& dc, wxRect& SurfaceRect);
+        void DrawRulerScale(wxDC& dc, wxRect& SurfaceRect);
+        void DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect);
     private:
         void OnLeftDown(wxMouseEvent& Event);
         void OnLeftUp(wxMouseEvent& Event);

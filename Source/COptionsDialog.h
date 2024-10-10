@@ -39,7 +39,7 @@ namespace WinRuler
 			wxWindow* Parent, wxWindowID Id = wxID_ANY,
 			const wxString& Title = wxString("Options"),
 			const wxPoint& Pos = wxDefaultPosition,
-			const wxSize& Size = wxSize(700, 560),
+			const wxSize& Size = wxDefaultSize,
 			long Style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
 
 		/**
