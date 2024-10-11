@@ -48,14 +48,19 @@ namespace WinRuler
 		~COptionsDialog();
 
 		/**
-		 * Initialize about dialog.
+		 * Initialize options dialog.
 		 **/
 		void Init();
 
 		/**
-		 * Creates all controls for this about dialog.
+		 * Creates all controls for this options dialog.
 		 **/
 		void CreateControls();
+
+		/**
+		 * Setup sizers.
+		 **/
+		void SetupSizers();
 	private:
 		/**
 		 * OnClose() method event.
@@ -78,6 +83,12 @@ namespace WinRuler
 		 **/
 		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
 	public:
+		// Ruler panel.
+		wxPanel* m_pRulerPanel;
+
+		// Unit of measurement panel.
+		wxPanel* m_pUOMPanel;
+
 		// Bottom panel.
 		wxPanel* m_pBottomPanel;
 
@@ -86,6 +97,11 @@ namespace WinRuler
 
 		// Notebook.
 		wxNotebook* m_pNotebook;
+
+		// Background static box.
+		wxStaticBox* m_pBackgroundStaticBox;
+
+		wxStaticText* m_pBackgroundTypeText;
 
 		// Background type choice.
 		wxChoice* m_pBackgroundTypeChoice;
@@ -103,12 +119,25 @@ namespace WinRuler
 		// Background image.
 		wxFilePickerCtrl* m_pBackgroundImagePicker;
 
+		// Scale and markers static box.
+		wxStaticBox* m_pScaleAndMarkersStaticBox;
+
+		// Ruler scale colour text.
+		wxStaticText* m_pRulerScaleColourText;
+
 		// Ruler scale colour.
 		wxColourPickerCtrl* m_pRulerScaleColourPicker;
+
+		// First and second marker colour text.
+		wxStaticText* m_pRulerFirstMarkerColourText;
+		wxStaticText* m_pRulerSecondMarkerColourText;
 
 		// First and second marker colour.
 		wxColourPickerCtrl* m_pFirstMarkerColourPicker;
 		wxColourPickerCtrl* m_pSecondMarkerColourPicker;
+
+		// Special options static box.
+		wxStaticBox* m_pSpecialOptionsStaticBox;
 
 		// Ruler transparency.
 		wxCheckBox* m_pRulerTransparencyCheckBox;
@@ -118,5 +147,8 @@ namespace WinRuler
 
 		// Ruler transparency value.
 		wxSlider* m_pRulerTransparencySlider;
+
+		// Calibrate static box.
+		wxStaticBox* m_pCalibrateStaticBox;
 	};
 } // end namespace WinRuler

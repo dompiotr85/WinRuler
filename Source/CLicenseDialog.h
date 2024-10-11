@@ -48,9 +48,14 @@ namespace WinRuler
 		void Init();
 
 		/**
-		 * Creates all controls for this about dialog.
+		 * Creates all controls for this license dialog.
 		 **/
 		void CreateControls();
+
+		/**
+		 * Setup sizers.
+		 **/
+		void SetupSizers();
 	private:
 		/**
 		 * OnClose() method event.

@@ -57,6 +57,9 @@ namespace WinRuler
 		// Create CMainFrame controls.
 		CreateControls();
 
+		// Setup sizers.
+		SetupSizers();
+
 		// Load all settings of our application.
 		LoadApplicationSettings();
 
@@ -171,21 +174,24 @@ namespace WinRuler
 
 	void CMainFrame::CreateControls()
 	{
-		// Create new wxBoxSizer.
-		wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
-
 		// Create new CDrawPanel and store it in m_pDrawPanel.
 		m_pDrawPanel = new CDrawPanel(static_cast<wxFrame*>(this));
 		m_pDrawPanel->SetDoubleBuffered(true);
+	}
 
-		// Add m_pDrawPanel to our pSizer.
+	void CMainFrame::SetupSizers()
+	{
+		// Create new wxBoxSizer.
+		wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
+
+		// Add m_pDrawPanel to pSizer.
 		pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
 
-		// Set our m_pSizer in CMainFrame.
-		this->SetSizer(pSizer);
+		// Set pSizer in CMainFrame.
+		SetSizer(pSizer);
 
 		// Set CMainFrame auto layout.
-		this->SetAutoLayout(true);
+		SetAutoLayout(true);
 	}
 
 	bool CMainFrame::LoadAndPrepareRulerBackgroundImage()

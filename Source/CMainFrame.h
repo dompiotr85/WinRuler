@@ -136,6 +136,11 @@ namespace WinRuler
 		void CreateControls();
 
 		/**
+		 * Setup sizers.
+		 **/
+		void SetupSizers();
+
+		/**
 		 * OnExit() method event.
 		 *
 		 * @param Event		Reference to wxCommandEvent instance.

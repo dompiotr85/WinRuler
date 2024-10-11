@@ -25,6 +25,9 @@ namespace WinRuler
         // Create class controls.
         CreateControls();
 
+        // Setup sizers.
+        SetupSizers();
+
         // Centre dialog.
         Centre();
     }
@@ -50,6 +53,7 @@ namespace WinRuler
         // Retrieve our MainFrame.
         CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
+        // Set client size.
         SetClientSize(400, 200);
 
         // Create Choose static text.
@@ -67,14 +71,17 @@ namespace WinRuler
                 pMainFrame->m_iRulerMinimumLengthLimit, 2000);
 
         // Create OK button.
-        m_pOKButton =
-            new wxButton(this, wxID_OK, "&OK", wxDefaultPosition, wxSize(40, -1));
-        m_pOKButton->Centre();
+        m_pOKButton = new wxButton(this, wxID_OK, "&OK");
+    }
 
+    void CNewRulerLengthDialog::SetupSizers()
+    {
+        // Create wxBoxSizer and fit all components.
         wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
 
         pBoxSizer->Add(m_pChooseStaticText, 0, wxEXPAND | wxALL, 5);
-        pBoxSizer->Add(m_pSpinCtrl, 0, wxEXPAND | wxALL, 5);
+        pBoxSizer->Add(m_pSpinCtrl, 1, wxEXPAND | wxALL, 5);
+        pBoxSizer->AddSpacer(8);
         pBoxSizer->Add(m_pOKButton, 0, wxEXPAND | wxALL, 5);
 
         SetSizerAndFit(pBoxSizer);
