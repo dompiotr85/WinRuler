@@ -9,6 +9,7 @@
 #include <wx/wx.h>
 #include <sqlite3.h>
 
+#include "WRUtilities.h"
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -52,49 +53,6 @@ namespace WinRuler
 		public wxFrame
 	{
 		DECLARE_EVENT_TABLE()
-	public:
-		/**
-		 * Ruler's position. It describes position of ruler's scale.
-		 **/
-		typedef enum ERulerPosition
-		{
-			// Ruler's scale is on left side of the ruler.
-			rpLeft,
-			// Ruler's scale is on top side of the ruler.
-			rpTop,
-			// Ruler's scale is on right side of the ruler.
-			rpRight,
-			// Ruler's scale is on bottom side of the ruler.
-			rpBottom
-		} ERulerPosition;
-
-		/**
-		 * Ruler's units of measurement types.
-		 **/
-		typedef enum ERulerUnits
-		{
-			// Centimetres as unit of measurement.
-			ruCentimetres,
-			// Inches as unit of measurement.
-			ruInches,
-			// Picas as unit of measurement.
-			ruPicas,
-			// Pixels as unit of measurement.
-			ruPixels
-		} ERulerUnits;
-
-		/**
-		 * Ruler's background type.
-		 **/
-		typedef enum ERulerBackgroundType
-		{
-			// Solid colour as ruler's background.
-			btSolid,
-			// Gradient colour as ruler's background.
-			btGradient,
-			// Image as ruler's background.
-			btImage
-		} ERulerBackgroundType;
 	private:
 		/**
 		 * PopupMenu event handling methods.

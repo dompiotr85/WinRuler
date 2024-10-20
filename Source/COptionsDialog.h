@@ -150,5 +150,13 @@ namespace WinRuler
 
 		// Calibrate static box.
 		wxStaticBox* m_pCalibrateStaticBox;
+
+		// Calibrate info text.
+		wxStaticText* m_pCalibrateInfoText;
+
+		// Vertical and horizontal panels.
+		wxPanel* m_pVerticalRulerPanel;
+		wxPanel* m_pHorizontalRulerPanel;
+
 	};
 } // end namespace WinRuler

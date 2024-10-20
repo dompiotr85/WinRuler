@@ -44,13 +44,13 @@ namespace WinRuler
 		// centre it on the screen.
 		switch (m_pMainFrame->m_eRulerPosition)
 		{
-		case CMainFrame::rpLeft:
-		case CMainFrame::rpRight:
+		case rpLeft:
+		case rpRight:
 			m_pMainFrame->SetClientSize(wxSize(60, m_pMainFrame->m_iRulerLength));
 
 			break;
-		case CMainFrame::rpTop:
-		case CMainFrame::rpBottom:
+		case rpTop:
+		case rpBottom:
 			m_pMainFrame->SetClientSize(wxSize(m_pMainFrame->m_iRulerLength, 60));
 
 			break;

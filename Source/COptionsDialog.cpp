@@ -37,6 +37,9 @@ namespace WinRuler
 	COptionsDialog::~COptionsDialog()
 	{
 		// Release all instances from heap. The release order is important.
+		wxDELETE(m_pVerticalRulerPanel);
+		wxDELETE(m_pHorizontalRulerPanel);
+		wxDELETE(m_pCalibrateInfoText);
 		wxDELETE(m_pCalibrateStaticBox);
 
 		wxDELETE(m_pRulerTransparencyCheckBox);
@@ -101,6 +104,9 @@ namespace WinRuler
 		m_pRulerTransparencyText = NULL;
 		m_pRulerTransparencySlider = NULL;
 		m_pCalibrateStaticBox = NULL;
+		m_pCalibrateInfoText = NULL;
+		m_pVerticalRulerPanel = NULL;
+		m_pHorizontalRulerPanel = NULL;
 	}
 
 	void COptionsDialog::CreateControls()
@@ -263,7 +269,7 @@ namespace WinRuler
 		// current settings.
 		switch (pMainFrame->m_eRulerBackgroundType)
 		{
-		case CMainFrame::btSolid:
+		case btSolid:
 			m_pBackgroundColourText->Enable(true);
 			m_pBackgroundColourPicker->Enable(true);
 			m_pBackgroundStartEndColourText->Enable(false);
@@ -273,7 +279,7 @@ namespace WinRuler
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
-		case CMainFrame::btGradient:
+		case btGradient:
 			m_pBackgroundColourText->Enable(false);
 			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
@@ -283,7 +289,7 @@ namespace WinRuler
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
-		case CMainFrame::btImage:
+		case btImage:
 			m_pBackgroundColourText->Enable(false);
 			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
@@ -313,6 +319,29 @@ namespace WinRuler
 		// Create Calibrate static box.
 		m_pCalibrateStaticBox =
 			new wxStaticBox(m_pUOMPanel, wxID_ANY, wxString("Calibrate"));
+
+		// Create Calibrate information text.
+		m_pCalibrateInfoText =
+			new wxStaticText(
+				m_pCalibrateStaticBox, wxID_ANY,
+				wxString(
+					"WinRuler is based on a system factor that provides "
+					"the vertical and horizontal pixels per inch (PPI). "
+					"In some computer configurations (often in laptops), this "
+					"factor indicates a default value of 96 pixels per inch, "
+					"not the correct one. This value is not accurate, which "
+					"gives an incorrect scale in our screen ruler. "
+					"Calibrating the PPI value for the height and width of "
+					"the screen solves this problem. Please put a real ruler "
+					"on your computer screen, close to the displayed scale, "
+					"and calibrate the scale on the screen by pressing "
+					"the ""Zoom in"" or ""Zoom out"" button. After proper "
+					"calibration, the ruler should indicate the correct "
+					"distances."));
+
+		// Create vertical and horizontal panels that will display rulers for
+		// calibration.
+
 
 		///////////////////////////////////////////////////////////////////////
 
@@ -411,6 +440,14 @@ namespace WinRuler
 		// Unit of measurement page.
 		//
 
+		// Create wxBoxSizer and fit all calibrate components.
+		wxBoxSizer* pCalibrateBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		pCalibrateBoxSizer->AddSpacer(20);
+		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, 1, wxEXPAND | wxALL, 5);
+
+		m_pCalibrateStaticBox->SetSizerAndFit(pCalibrateBoxSizer);
+
 		// Create wxBoxSizer and fit all static boxes on pUOMPanel.
 		wxBoxSizer* pStaticBoxSizer2 = new wxBoxSizer(wxVERTICAL);
 
@@ -451,7 +488,7 @@ namespace WinRuler
 	{
 		switch (Event.GetSelection())
 		{
-		case CMainFrame::btSolid:
+		case btSolid:
 			m_pBackgroundColourText->Enable(true);
 			m_pBackgroundColourPicker->Enable(true);
 			m_pBackgroundStartEndColourText->Enable(false);
@@ -461,7 +498,7 @@ namespace WinRuler
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
-		case CMainFrame::btGradient:
+		case btGradient:
 			m_pBackgroundColourText->Enable(false);
 			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(true);
@@ -471,7 +508,7 @@ namespace WinRuler
 			m_pBackgroundImagePicker->Enable(false);
 
 			break;
-		case CMainFrame::btImage:
+		case btImage:
 			m_pBackgroundColourText->Enable(false);
 			m_pBackgroundColourPicker->Enable(false);
 			m_pBackgroundStartEndColourText->Enable(false);

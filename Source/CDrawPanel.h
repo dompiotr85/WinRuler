@@ -6,6 +6,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include "WRUtilities.h"
 
 namespace WinRuler
 {
@@ -46,9 +47,35 @@ namespace WinRuler
 
         void OnMouseEvent(wxMouseEvent& Event);
     public:
-        void DrawRulerMarkers(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerScale(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect);
+        void DrawRulerMarkers(
+            wxDC& dc, wxRect& SurfaceRect,
+            ERulerPosition eRulerPosition,
+            ERulerUnits eRulerUnits,
+            wxColour& cRulerScaleColour,
+            wxColour& cFirstMarkerColour,
+            wxColour& cSecondMarkerColour,
+            int iFirstMarkerPosition,
+            int iSecondMarkerPosition);
+
+        void DrawRulerScale(
+            wxDC& dc, wxRect& SurfaceRect,
+            wxColour& cRulerScaleColour,
+            ERulerPosition eRulerPosition,
+            ERulerUnits eRulerUnits);
+        
+        void DrawRulerSurface(
+            wxDC& dc, wxRect& SurfaceRect,
+            ERulerPosition eRulerPosition,
+            ERulerBackgroundType eRulerBackgroundType,
+            wxColour& cRulerBackgroundColour,
+            wxColour& cRulerBackgroundStartColour,
+            wxColour& cRulerBackgroundEndColour,
+            wxBitmap RulerBackgroundBitmapLeftH,
+            wxBitmap RulerBackgroundBitmapMiddleH,
+            wxBitmap RulerBackgroundBitmapRightH,
+            wxBitmap RulerBackgroundBitmapTopV,
+            wxBitmap RulerBackgroundBitmapMiddleV,
+            wxBitmap RulerBackgroundBitmapBottomV);
     private:
         void OnLeftDown(wxMouseEvent& Event);
         void OnLeftUp(wxMouseEvent& Event);
