@@ -14,7 +14,7 @@ namespace WinRuler
     BEGIN_EVENT_TABLE(CDrawPanel, wxPanel)
 
     // Catch paint events.
-    EVT_PAINT(CDrawPanel::PaintEvent)
+    EVT_PAINT(CDrawPanel::OnPaintEvent)
 
     // Catch mouse events.
     EVT_MOUSE_EVENTS(CDrawPanel::OnMouseEvent)
@@ -50,19 +50,19 @@ namespace WinRuler
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_LEFT,
                 wxString("Scale on &left side"))->Check(
-                    pMainFrame->m_eRulerPosition == rpLeft ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpLeft ? true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_RIGHT,
                 wxString("Scale on &right side"))->Check(
-                    pMainFrame->m_eRulerPosition == rpRight ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpRight ? true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_TOP,
                 wxString("Scale on &top"))->Check(
-                    pMainFrame->m_eRulerPosition == rpTop ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpTop ? true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_BOTTOM,
                 wxString("Scale on &bottom"))->Check(
-                    pMainFrame->m_eRulerPosition == rpBottom ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpBottom ? true : false);
 
             // Append pRulerPositionMenu as submenu of ID_RULER_POSITION item.
             pMenu->Append(
@@ -74,19 +74,19 @@ namespace WinRuler
             pMenu->AppendRadioItem(
                 ID_PIXELS_AS_UNIT,
                 wxString("&Pixels as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ruPixels ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPixels ? true : false);
             pMenu->AppendRadioItem(
                 ID_CENTIMETRES_AS_UNIT,
                 wxString("&Centimetres as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ruCentimetres ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruCentimetres ? true : false);
             pMenu->AppendRadioItem(
                 ID_INCHES_AS_UNIT,
                 wxString("&Inches as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ruInches ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruInches ? true : false);
             pMenu->AppendRadioItem(
                 ID_PICAS_AS_UNIT,
                 wxString("&Picas as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ruPicas ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPicas ? true : false);
             pMenu->AppendSeparator();
 
             // Append AlwaysOnTop item separated.
@@ -122,7 +122,7 @@ namespace WinRuler
         }
     }
 
-    void CDrawPanel::PaintEvent(wxPaintEvent& Event)
+    void CDrawPanel::OnPaintEvent(wxPaintEvent& Event)
     {
         // Create wxPaintDC.
         wxPaintDC dc(this);
@@ -196,6 +196,9 @@ namespace WinRuler
         wxString TmpS;
         wxCoord TextWidth, TextHeight;
 
+        if (iFirstMarkerPosition == -1)
+            return
+
         // Set DC's brush to transparent.
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
 
@@ -211,7 +214,7 @@ namespace WinRuler
         // position.
         switch (eRulerPosition)
         {
-        case rpLeft:
+        case ERulerPosition::rpLeft:
             // Draw first marker.
             dc.DrawLine(
                 wxPoint(
@@ -223,7 +226,7 @@ namespace WinRuler
 
             switch (eRulerUnits)
             {
-            case ruCentimetres:
+            case ERulerUnits::ruCentimetres:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresHorizontal(
@@ -231,7 +234,7 @@ namespace WinRuler
                     wxString(" cm");
 
                 break;
-            case ruInches:
+            case ERulerUnits::ruInches:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToInchesHorizontal(
@@ -239,7 +242,7 @@ namespace WinRuler
                     wxString(" in");
 
                 break;
-            case ruPicas:
+            case ERulerUnits::ruPicas:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToPicasHorizontal(
@@ -247,7 +250,7 @@ namespace WinRuler
                     wxString(" pica");
 
                 break;
-            case ruPixels:
+            case ERulerUnits::ruPixels:
                 TmpS =
                     wxString::Format(
                         wxT("%d px"), iFirstMarkerPosition);
@@ -295,7 +298,7 @@ namespace WinRuler
 
                 switch (eRulerUnits)
                 {
-                case ruCentimetres:
+                case ERulerUnits::ruCentimetres:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToCentimetresHorizontal(
@@ -303,7 +306,7 @@ namespace WinRuler
                         wxString(" cm");
 
                     break;
-                case ruInches:
+                case ERulerUnits::ruInches:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToInchesHorizontal(
@@ -311,7 +314,7 @@ namespace WinRuler
                         wxString(" in");
 
                     break;
-                case ruPicas:
+                case ERulerUnits::ruPicas:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToPicasHorizontal(
@@ -319,7 +322,7 @@ namespace WinRuler
                         wxString(" pica");
 
                     break;
-                case ruPixels:
+                case ERulerUnits::ruPixels:
                     TmpS =
                         wxString::Format(wxT("%d px"), iSecondMarkerPosition);
 
@@ -351,7 +354,7 @@ namespace WinRuler
             }
 
             break;
-        case rpTop:
+        case ERulerPosition::rpTop:
             // Draw first marker.
             dc.DrawLine(
                 wxPoint(
@@ -363,28 +366,28 @@ namespace WinRuler
 
             switch (eRulerUnits)
             {
-            case ruCentimetres:
+            case ERulerUnits::ruCentimetres:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresVertical(0, iFirstMarkerPosition), 2) +
                     wxString(" cm");
 
                 break;
-            case ruInches:
+            case ERulerUnits::ruInches:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToInchesVertical(0, iFirstMarkerPosition), 2) +
                     wxString(" in");
 
                 break;
-            case ruPicas:
+            case ERulerUnits::ruPicas:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToPicasVertical(0, iFirstMarkerPosition), 2) +
                     wxString(" pica");
 
                 break;
-            case ruPixels:
+            case ERulerUnits::ruPixels:
                 TmpS = wxString::Format(wxT("%d px"), iFirstMarkerPosition);
 
                 break;
@@ -429,7 +432,7 @@ namespace WinRuler
 
                 switch (eRulerUnits)
                 {
-                case ruCentimetres:
+                case ERulerUnits::ruCentimetres:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToCentimetresHorizontal(
@@ -437,7 +440,7 @@ namespace WinRuler
                         wxString(" cm");
 
                     break;
-                case ruInches:
+                case ERulerUnits::ruInches:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToInchesHorizontal(
@@ -445,7 +448,7 @@ namespace WinRuler
                         wxString(" in");
 
                     break;
-                case ruPicas:
+                case ERulerUnits::ruPicas:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToPicasHorizontal(
@@ -453,7 +456,7 @@ namespace WinRuler
                         wxString(" pica");
 
                     break;
-                case ruPixels:
+                case ERulerUnits::ruPixels:
                     TmpS =
                         wxString::Format(wxT("%d px"), iSecondMarkerPosition);
 
@@ -485,7 +488,7 @@ namespace WinRuler
             }
 
             break;
-        case rpRight:
+        case ERulerPosition::rpRight:
             // Draw first marker.
             dc.DrawLine(
                 wxPoint(
@@ -497,28 +500,28 @@ namespace WinRuler
 
             switch (eRulerUnits)
             {
-            case ruCentimetres:
+            case ERulerUnits::ruCentimetres:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresHorizontal(0, iFirstMarkerPosition), 2) +
                     wxString(" cm");
 
                 break;
-            case ruInches:
+            case ERulerUnits::ruInches:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToInchesHorizontal(0, iFirstMarkerPosition), 2) +
                     wxString(" in");
 
                 break;
-            case ruPicas:
+            case ERulerUnits::ruPicas:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToPicasHorizontal(0, iFirstMarkerPosition), 2) +
                     wxString(" pica");
 
                 break;
-            case ruPixels:
+            case ERulerUnits::ruPixels:
                 TmpS =
                     wxString::Format(wxT("%d px"), iFirstMarkerPosition);
 
@@ -564,7 +567,7 @@ namespace WinRuler
 
                 switch (eRulerUnits)
                 {
-                case ruCentimetres:
+                case ERulerUnits::ruCentimetres:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToCentimetresHorizontal(
@@ -572,7 +575,7 @@ namespace WinRuler
                         wxString(" cm");
 
                     break;
-                case ruInches:
+                case ERulerUnits::ruInches:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToInchesHorizontal(
@@ -580,7 +583,7 @@ namespace WinRuler
                         wxString(" in");
 
                     break;
-                case ruPicas:
+                case ERulerUnits::ruPicas:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToPicasHorizontal(
@@ -588,7 +591,7 @@ namespace WinRuler
                         wxString(" pica");
 
                     break;
-                case ruPixels:
+                case ERulerUnits::ruPixels:
                     TmpS =
                         wxString::Format(wxT("%d px"), iSecondMarkerPosition);
 
@@ -621,7 +624,7 @@ namespace WinRuler
             }
 
             break;
-        case rpBottom:
+        case ERulerPosition::rpBottom:
             // Draw first marker.
             dc.DrawLine(
                 wxPoint(
@@ -633,7 +636,7 @@ namespace WinRuler
 
             switch (eRulerUnits)
             {
-            case ruCentimetres:
+            case ERulerUnits::ruCentimetres:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToCentimetresVertical(
@@ -641,7 +644,7 @@ namespace WinRuler
                     wxString(" cm");
 
                 break;
-            case ruInches:
+            case ERulerUnits::ruInches:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToInchesVertical(
@@ -649,7 +652,7 @@ namespace WinRuler
                     wxString(" in");
 
                 break;
-            case ruPicas:
+            case ERulerUnits::ruPicas:
                 TmpS =
                     wxString::FromDouble(
                         PixelsToPicasVertical(
@@ -657,7 +660,7 @@ namespace WinRuler
                     wxString(" pica");
 
                 break;
-            case ruPixels:
+            case ERulerUnits::ruPixels:
                 TmpS = wxString::Format(wxT("%d px"), iFirstMarkerPosition);
 
                 break;
@@ -702,7 +705,7 @@ namespace WinRuler
 
                 switch (eRulerUnits)
                 {
-                case ruCentimetres:
+                case ERulerUnits::ruCentimetres:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToCentimetresHorizontal(
@@ -710,7 +713,7 @@ namespace WinRuler
                         wxString(" cm");
 
                     break;
-                case ruInches:
+                case ERulerUnits::ruInches:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToInchesHorizontal(
@@ -718,7 +721,7 @@ namespace WinRuler
                         wxString(" in");
 
                     break;
-                case ruPicas:
+                case ERulerUnits::ruPicas:
                     TmpS =
                         wxString::FromDouble(
                             PixelsToPicasHorizontal(
@@ -726,7 +729,7 @@ namespace WinRuler
                         wxString(" pica");
 
                     break;
-                case ruPixels:
+                case ERulerUnits::ruPixels:
                     TmpS =
                         wxString::Format(
                             wxT("%d px"), iSecondMarkerPosition);
@@ -789,10 +792,10 @@ namespace WinRuler
         // Depending on ruler's position and ruler's unit of measurement:
         switch (eRulerPosition)
         {
-        case rpLeft:    // Ruler's position on left side.
+        case ERulerPosition::rpLeft:    // Ruler's position on left side.
             switch (eRulerUnits)
             {
-            case ruCentimetres: // Ruler's unit as centimetres.
+            case ERulerUnits::ruCentimetres: // Ruler's unit as centimetres.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsVertical(0, ID);
@@ -834,7 +837,7 @@ namespace WinRuler
                 dc.DrawText(TmpS, wxPoint(14, 4 + sT - TextHeight));
 
                 break;
-            case ruInches:  // Ruler's unit as inches.
+            case ERulerUnits::ruInches:  // Ruler's unit as inches.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = InchesToPixelsVertical(0, ID);
@@ -876,7 +879,7 @@ namespace WinRuler
                 dc.DrawText(TmpS, wxPoint(14, 4 + sT - TextHeight));
 
                 break;
-            case ruPixels:  // Ruler's unit as pixels.
+            case ERulerUnits::ruPixels:  // Ruler's unit as pixels.
                 sT = (SurfaceRect.GetHeight() - 8) / 2;
 
                 for (I = 0; I <= sT - 1; I++)
@@ -917,7 +920,7 @@ namespace WinRuler
                 }
 
                 break;
-            case ruPicas:   // Ruler's unit as picas.
+            case ERulerUnits::ruPicas:   // Ruler's unit as picas.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = PicasToPixelsVertical(0, ID);
@@ -969,10 +972,10 @@ namespace WinRuler
             }
 
             break;
-        case rpTop:
+        case ERulerPosition::rpTop:
             switch (eRulerUnits)
             {
-            case ruCentimetres: // Ruler's unit as centimetres.
+            case ERulerUnits::ruCentimetres: // Ruler's unit as centimetres.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsHorizontal(0, ID);
@@ -1014,7 +1017,7 @@ namespace WinRuler
                 dc.DrawText(TmpS, wxPoint(4 + sT - TextWidth, 12));
 
                 break;
-            case ruInches:  // Ruler's unit as inches.
+            case ERulerUnits::ruInches:  // Ruler's unit as inches.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = InchesToPixelsHorizontal(0, ID);
@@ -1056,7 +1059,7 @@ namespace WinRuler
                 dc.DrawText(TmpS, wxPoint(4 + sT - TextWidth, 12));
 
                 break;
-            case ruPixels:  // Ruler's unit as pixels.
+            case ERulerUnits::ruPixels:  // Ruler's unit as pixels.
                 sT = (SurfaceRect.GetWidth() - 8) / 2;
 
                 for (I = 0; I <= sT - 1; I++)
@@ -1098,7 +1101,7 @@ namespace WinRuler
                 }
 
                 break;
-            case ruPicas:   // Ruler's unit as picas.
+            case ERulerUnits::ruPicas:   // Ruler's unit as picas.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = PicasToPixelsHorizontal(0, ID);
@@ -1150,10 +1153,10 @@ namespace WinRuler
             }
 
             break;
-        case rpRight:
+        case ERulerPosition::rpRight:
             switch (eRulerUnits)
             {
-            case ruCentimetres: // Ruler's unit as centimetres.
+            case ERulerUnits::ruCentimetres: // Ruler's unit as centimetres.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsVertical(0, ID);
@@ -1218,7 +1221,7 @@ namespace WinRuler
                         4 + sT - TextHeight));
 
                 break;
-            case ruInches:  // Ruler's unit as inches.
+            case ERulerUnits::ruInches:  // Ruler's unit as inches.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = InchesToPixelsVertical(0, ID);
@@ -1281,7 +1284,7 @@ namespace WinRuler
                         4 + sT - TextHeight));
 
                 break;
-            case ruPixels:  // Ruler's unit as pixels.
+            case ERulerUnits::ruPixels:  // Ruler's unit as pixels.
                 sT = (SurfaceRect.GetHeight() - 8) / 2;
 
                 for (I = 0; I <= sT - 1; I++)
@@ -1341,7 +1344,7 @@ namespace WinRuler
                 }
 
                 break;
-            case ruPicas:   // Ruler's unit as picas.
+            case ERulerUnits::ruPicas:   // Ruler's unit as picas.
                 sT = SurfaceRect.GetHeight() - 10;
                 ID = 0.0;
                 I = PicasToPixelsVertical(0, ID);
@@ -1416,10 +1419,10 @@ namespace WinRuler
             }
 
             break;
-        case rpBottom:
+        case ERulerPosition::rpBottom:
             switch (eRulerUnits)
             {
-            case ruCentimetres: // Ruler's unit as centimetres.
+            case ERulerUnits::ruCentimetres: // Ruler's unit as centimetres.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = CentimetresToPixelsHorizontal(0, ID);
@@ -1484,7 +1487,7 @@ namespace WinRuler
                         SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
-            case ruInches:  // Ruler's unit as inches.
+            case ERulerUnits::ruInches:  // Ruler's unit as inches.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = InchesToPixelsHorizontal(0, ID);
@@ -1548,7 +1551,7 @@ namespace WinRuler
                         SurfaceRect.GetBottom() - 1 - 12 - TextHeight));
 
                 break;
-            case ruPixels:  // Ruler's unit as pixels.
+            case ERulerUnits::ruPixels:  // Ruler's unit as pixels.
                 sT = (SurfaceRect.GetWidth() - 8) / 2;
 
                 for (I = 0; I <= sT - 1; I++)
@@ -1609,7 +1612,7 @@ namespace WinRuler
                 }
 
                 break;
-            case ruPicas:   // Ruler's unit as picas.
+            case ERulerUnits::ruPicas:   // Ruler's unit as picas.
                 sT = SurfaceRect.GetWidth() - 10;
                 ID = 0.0;
                 I = PicasToPixelsHorizontal(0, ID);
@@ -1705,10 +1708,10 @@ namespace WinRuler
         // Draw surface of ruler:
         switch (eRulerPosition)
         {
-        case rpLeft:    // Ruler's position on left side.
+        case ERulerPosition::rpLeft:    // Ruler's position on left side.
             switch (eRulerBackgroundType)
             {
-            case btSolid:   // Ruler's background as solid.
+            case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
@@ -1719,7 +1722,7 @@ namespace WinRuler
                 dc.DrawRectangle(SurfaceRect);
 
                 break;
-            case btGradient:    // Ruler's background as gradient.
+            case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1730,7 +1733,7 @@ namespace WinRuler
                     wxRIGHT);
 
                 break;
-            case btImage:   // Ruler's background as image.
+            case ERulerBackgroundType::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
                     RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1752,10 +1755,10 @@ namespace WinRuler
             }
 
             break;
-        case rpTop: // Ruler's position on top.
+        case ERulerPosition::rpTop: // Ruler's position on top.
             switch (eRulerBackgroundType)
             {
-            case btSolid:   // Ruler's background as solid.
+            case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
@@ -1766,7 +1769,7 @@ namespace WinRuler
                 dc.DrawRectangle(SurfaceRect);
 
                 break;
-            case btGradient:    // Ruler's background as gradient.
+            case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1777,7 +1780,7 @@ namespace WinRuler
                     wxDOWN);
 
                 break;
-            case btImage:   // Ruler's background as image.
+            case ERulerBackgroundType::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
                     RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1799,10 +1802,10 @@ namespace WinRuler
             }
 
             break;
-        case rpRight:   // Ruler's position on right side.
+        case ERulerPosition::rpRight:   // Ruler's position on right side.
             switch (eRulerBackgroundType)
             {
-            case btSolid:   // Ruler's background as solid.
+            case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
@@ -1813,7 +1816,7 @@ namespace WinRuler
                 dc.DrawRectangle(SurfaceRect);
 
                 break;
-            case btGradient:    // Ruler's background as gradient.
+            case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1824,7 +1827,7 @@ namespace WinRuler
                     wxLEFT);
 
                 break;
-            case btImage:   // Ruler's background as image.
+            case ERulerBackgroundType::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
                     RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1846,10 +1849,10 @@ namespace WinRuler
             }
 
             break;
-        case rpBottom:  // Ruler's position on bottom.
+        case ERulerPosition::rpBottom:  // Ruler's position on bottom.
             switch (eRulerBackgroundType)
             {
-            case btSolid:   // Ruler's background as solid.
+            case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
                 // Prepare DC's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
@@ -1860,7 +1863,7 @@ namespace WinRuler
                 dc.DrawRectangle(SurfaceRect);
 
                 break;
-            case btGradient:    // Ruler's background as gradient.
+            case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
                 // Prepare DC's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
@@ -1871,7 +1874,7 @@ namespace WinRuler
                     wxUP);
 
                 break;
-            case btImage:   // Ruler's background as image.
+            case ERulerBackgroundType::btImage:   // Ruler's background as image.
                 dc.DrawBitmap(
                     RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1896,7 +1899,7 @@ namespace WinRuler
         }
 
         // If m_eRulerBackgroundType wasn't btImage, then draw black outline.
-        if (eRulerBackgroundType != btImage)
+        if (eRulerBackgroundType != ERulerBackgroundType::btImage)
         {
             dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
             dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));

@@ -69,7 +69,7 @@ namespace WinRuler
 		ChangeRulerPosition(m_eRulerPosition);
 		ChangeRulerUnitOfMeasurement(m_eRulerUnits);
 		StayOnTop(m_bAlwaysOnTop);
-		if ((m_eRulerBackgroundType == btImage) &&
+		if ((m_eRulerBackgroundType == ERulerBackgroundType::btImage) &&
 			(!LoadAndPrepareRulerBackgroundImage()))
 		{
 			wxLogError("Can not load ruler background image!");
@@ -119,14 +119,16 @@ namespace WinRuler
 
 	void CMainFrame::Init()
 	{
+		//SetDoubleBuffered(true);
+
 		// Ruler's scale position.
-		m_eRulerPosition = rpTop;
+		m_eRulerPosition = ERulerPosition::rpTop;
 
 		// Ruler's unit of measurement.
-		m_eRulerUnits = ruCentimetres;
+		m_eRulerUnits = ERulerUnits::ruCentimetres;
 
 		// Ruler's background type.
-		m_eRulerBackgroundType = btGradient;
+		m_eRulerBackgroundType = ERulerBackgroundType::btGradient;
 
 		// Ruler's scale colour.
 		m_cRulerScaleColour = wxColour(0, 0, 0);
@@ -270,7 +272,7 @@ namespace WinRuler
 					m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath());
 
 			// Load and prepare ruler background images.
-			if ((m_eRulerBackgroundType == btImage) &&
+			if ((m_eRulerBackgroundType == ERulerBackgroundType::btImage) &&
 				(!LoadAndPrepareRulerBackgroundImage()))
 			{
 				wxLogError("Can not load ruler background image!");
@@ -346,7 +348,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's unit of measurement to pixels.
-		ChangeRulerUnitOfMeasurement(ruPixels);
+		ChangeRulerUnitOfMeasurement(ERulerUnits::ruPixels);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -359,7 +361,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's unit of measurement to centimetres.
-		ChangeRulerUnitOfMeasurement(ruCentimetres);
+		ChangeRulerUnitOfMeasurement(ERulerUnits::ruCentimetres);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -372,7 +374,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's unit of measurement to inches.
-		ChangeRulerUnitOfMeasurement(ruInches);
+		ChangeRulerUnitOfMeasurement(ERulerUnits::ruInches);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -385,7 +387,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's unit of measurement to picas.
-		ChangeRulerUnitOfMeasurement(ruPicas);
+		ChangeRulerUnitOfMeasurement(ERulerUnits::ruPicas);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -411,7 +413,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's position to left.
-		ChangeRulerPosition(rpLeft);
+		ChangeRulerPosition(ERulerPosition::rpLeft);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -424,7 +426,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's position to top.
-		ChangeRulerPosition(rpTop);
+		ChangeRulerPosition(ERulerPosition::rpTop);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -437,7 +439,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's position to right.
-		ChangeRulerPosition(rpRight);
+		ChangeRulerPosition(ERulerPosition::rpRight);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -450,7 +452,7 @@ namespace WinRuler
 #endif
 
 		// Change ruler's position to bottom.
-		ChangeRulerPosition(rpBottom);
+		ChangeRulerPosition(ERulerPosition::rpBottom);
 
 		// Save all settings of our application.
 		SaveApplicationSettings();
@@ -530,13 +532,15 @@ namespace WinRuler
 		// ... set new size of CMainFrame.
 		switch (NewPosition)
 		{
-		case rpLeft:
-		case rpRight:
+		case ERulerPosition::rpLeft:
+		case ERulerPosition::rpRight:
+			// Set vertical position.
 			SetSize(60, m_iRulerLength);
 
 			break;
-		case rpTop:
-		case rpBottom:
+		case ERulerPosition::rpTop:
+		case ERulerPosition::rpBottom:
+			// Set horizontal position.
 			SetSize(m_iRulerLength, 60);
 
 			break;
@@ -598,13 +602,13 @@ namespace WinRuler
 		wxSize NewSize;
 		switch (m_eRulerPosition)
 		{
-		case rpLeft:
-		case rpRight:
-			NewSize = wxSize(60, NewLength);
+		case ERulerPosition::rpLeft:
+		case ERulerPosition::rpRight:
+			NewSize = wxSize(60, m_iRulerLength);
 			break;
-		case rpTop:
-		case rpBottom:
-			NewSize = wxSize(NewLength, 60);
+		case ERulerPosition::rpTop:
+		case ERulerPosition::rpBottom:
+			NewSize = wxSize(m_iRulerLength, 60);
 			break;
 		}
 
@@ -1136,12 +1140,12 @@ namespace WinRuler
 		// cursor.
 		switch (m_eRulerPosition)
 		{
-		case rpLeft:
-		case rpRight:
+		case ERulerPosition::rpLeft:
+		case ERulerPosition::rpRight:
 			switch (HitPos)
 			{
-			case HT_top:
-			case HT_bottom:
+			case HT_Pos::HT_top:
+			case HT_Pos::HT_bottom:
 				SetCursor(wxCURSOR_SIZENS);
 				break;
 			default:
@@ -1149,12 +1153,12 @@ namespace WinRuler
 			}
 
 			break;
-		case rpTop:
-		case rpBottom:
+		case ERulerPosition::rpTop:
+		case ERulerPosition::rpBottom:
 			switch (HitPos)
 			{
-			case HT_left:
-			case HT_right:
+			case HT_Pos::HT_left:
+			case HT_Pos::HT_right:
 				SetCursor(wxCURSOR_SIZEWE);
 				break;
 			default:
@@ -1180,13 +1184,13 @@ namespace WinRuler
 
 		switch (m_eRulerPosition)
 		{
-		case rpLeft:
-		case rpRight:
+		case ERulerPosition::rpLeft:
+		case ERulerPosition::rpRight:
 			Rect.SetHeight(
 				std::max<int>(m_iRulerMinimumLengthLimit, Rect.GetHeight()));
 			break;
-		case rpTop:
-		case rpBottom:
+		case ERulerPosition::rpTop:
+		case ERulerPosition::rpBottom:
 			Rect.SetWidth(
 				std::max<int>(m_iRulerMinimumLengthLimit, Rect.GetWidth()));
 			break;
@@ -1206,13 +1210,13 @@ namespace WinRuler
 		// Depending on current m_eRulerPosition, update m_iRulerLength value.
 		switch (m_eRulerPosition)
 		{
-		case rpLeft:
-		case rpRight:
+		case ERulerPosition::rpLeft:
+		case ERulerPosition::rpRight:
 			m_iRulerLength = Rect.GetHeight();
 
 			break;
-		case rpTop:
-		case rpBottom:
+		case ERulerPosition::rpTop:
+		case ERulerPosition::rpBottom:
 			m_iRulerLength = Rect.GetWidth();
 
 			break;

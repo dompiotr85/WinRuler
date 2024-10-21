@@ -13,7 +13,11 @@
 enum EOptionsIDs
 {
 	ID_BackgroundTypeChoice = 40,
-	ID_RulerTransparency = 41
+	ID_RulerTransparency = 41,
+	ID_VerticalRulerIncreaseButton = 42,
+	ID_VerticalRulerDecreaseButton = 43,
+	ID_HorizontalRulerIncreaseButton = 44,
+	ID_HorizontalRulerDecreaseButton = 45
 };
 
 namespace WinRuler
@@ -61,7 +65,35 @@ namespace WinRuler
 		 * Setup sizers.
 		 **/
 		void SetupSizers();
+
+		/**
+		 * Called by wxWidgets when the panel needs to be redrawn.
+		 **/
+		void VRulerPanel_OnPaintEvent(wxPaintEvent& Event);
+		void HRulerPanel_OnPaintEvent(wxPaintEvent& Event);
+
+		/**
+		 * Alternatively, you can use a clientDC to paint on the panel at any time.
+		 * Using this generally does not free you from catching paint events, since
+		 * it is possible that e.g. the window manager throws away your drawing
+		 * when the window comes to the background, and expects you will redraw it
+		 * when the window comes back (by sending a paint event).
+		 *
+		 * In most cases, this will not be needed at all; simply handling paint
+		 * events and calling Refresh() when a refresh is needed will do the job.
+		 **/
+		void VRulerPanel_PaintNow();
+		void HRulerPanel_PaintNow();
+
+		/**
+		 * Here we do the actual rendering. I put it in a separate method so
+		 * that it can work no matter what type of DC (e.g. wxPaintDC or
+		 * wxClientDC) is used.
+		 **/
+		void VRulerPanel_Render(wxDC& dc);
+		void HRulerPanel_Render(wxDC& dc);
 	private:
+
 		/**
 		 * OnClose() method event.
 		 *
@@ -82,12 +114,40 @@ namespace WinRuler
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnVerticalRulerIncreaseButtonClicked() method event.
+		 * 
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnVerticalRulerDecreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnHorizontalRulerIncreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnHorizontalRulerDecreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
 	public:
 		// Ruler panel.
 		wxPanel* m_pRulerPanel;
 
-		// Unit of measurement panel.
-		wxPanel* m_pUOMPanel;
+		// Calibration panel.
+		wxPanel* m_pCalibrationPanel;
 
 		// Bottom panel.
 		wxPanel* m_pBottomPanel;
@@ -155,8 +215,19 @@ namespace WinRuler
 		wxStaticText* m_pCalibrateInfoText;
 
 		// Vertical and horizontal panels.
-		wxPanel* m_pVerticalRulerPanel;
-		wxPanel* m_pHorizontalRulerPanel;
+		wxPanel* m_pVRulerPanel;
+		wxPanel* m_pHRulerPanel;
 
+		// Vertical increse & decrese buttons.
+		wxButton* m_pV_IncButton;
+		wxButton* m_pV_DecButton;
+
+		// Horizontal increse & decrese buttons.
+		wxButton* m_pH_IncButton;
+		wxButton* m_pH_DecButton;
+
+		// Horizontal and vertical PPI static text.
+		wxStaticText* m_pVPPIStaticText;
+		wxStaticText* m_pHPPIStaticText;
 	};
 } // end namespace WinRuler

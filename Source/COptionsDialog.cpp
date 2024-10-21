@@ -10,15 +10,19 @@ namespace WinRuler
 {
 	BEGIN_EVENT_TABLE(COptionsDialog, wxDialog)
 
-		EVT_CLOSE(COptionsDialog::OnClose)
-		EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
-		EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
+	EVT_CLOSE(COptionsDialog::OnClose)
+	EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
+	EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
+	EVT_BUTTON(ID_VerticalRulerIncreaseButton, COptionsDialog::OnVerticalRulerIncreaseButtonClicked)
+	EVT_BUTTON(ID_VerticalRulerDecreaseButton, COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
+	EVT_BUTTON(ID_HorizontalRulerIncreaseButton, COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
+	EVT_BUTTON(ID_HorizontalRulerDecreaseButton, COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
 
-		END_EVENT_TABLE()
+	END_EVENT_TABLE()
 
-		COptionsDialog::COptionsDialog(
-			wxWindow* Parent, wxWindowID Id, const wxString& Title,
-			const wxPoint& Pos, const wxSize& Size, long Style) :
+	COptionsDialog::COptionsDialog(
+		wxWindow* Parent, wxWindowID Id, const wxString& Title,
+		const wxPoint& Pos, const wxSize& Size, long Style) :
 		wxDialog(Parent, Id, Title, Pos, Size, Style)
 	{
 		// Initialize class.
@@ -37,8 +41,14 @@ namespace WinRuler
 	COptionsDialog::~COptionsDialog()
 	{
 		// Release all instances from heap. The release order is important.
-		wxDELETE(m_pVerticalRulerPanel);
-		wxDELETE(m_pHorizontalRulerPanel);
+		wxDELETE(m_pHPPIStaticText);
+		wxDELETE(m_pVPPIStaticText);
+		wxDELETE(m_pVRulerPanel);
+		wxDELETE(m_pV_IncButton);
+		wxDELETE(m_pV_DecButton);
+		wxDELETE(m_pHRulerPanel);
+		wxDELETE(m_pH_IncButton);
+		wxDELETE(m_pH_DecButton);
 		wxDELETE(m_pCalibrateInfoText);
 		wxDELETE(m_pCalibrateStaticBox);
 
@@ -67,7 +77,7 @@ namespace WinRuler
 		wxDELETE(m_pBackgroundStaticBox);
 
 		wxDELETE(m_pRulerPanel);
-		wxDELETE(m_pUOMPanel);
+		wxDELETE(m_pCalibrationPanel);
 
 		wxDELETE(m_pOKButton);
 		wxDELETE(m_pBottomPanel);
@@ -78,7 +88,7 @@ namespace WinRuler
 	void COptionsDialog::Init()
 	{
 		m_pRulerPanel = NULL;
-		m_pUOMPanel = NULL;
+		m_pCalibrationPanel = NULL;
 		m_pBottomPanel = NULL;
 		m_pOKButton = NULL;
 		m_pNotebook = NULL;
@@ -105,8 +115,14 @@ namespace WinRuler
 		m_pRulerTransparencySlider = NULL;
 		m_pCalibrateStaticBox = NULL;
 		m_pCalibrateInfoText = NULL;
-		m_pVerticalRulerPanel = NULL;
-		m_pHorizontalRulerPanel = NULL;
+		m_pVRulerPanel = NULL;
+		m_pV_IncButton = NULL;
+		m_pV_DecButton = NULL;
+		m_pHRulerPanel = NULL;
+		m_pH_IncButton = NULL;
+		m_pH_DecButton = NULL;
+		m_pVPPIStaticText = NULL;
+		m_pHPPIStaticText = NULL;
 	}
 
 	void COptionsDialog::CreateControls()
@@ -133,7 +149,7 @@ namespace WinRuler
 
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
-		m_pUOMPanel = new wxPanel(m_pNotebook, wxID_ANY);
+		m_pCalibrationPanel = new wxPanel(m_pNotebook, wxID_ANY);
 
 		///////////////////////////////////////////////////////////////////////
 		// Ruler page.
@@ -318,15 +334,15 @@ namespace WinRuler
 
 		// Create Calibrate static box.
 		m_pCalibrateStaticBox =
-			new wxStaticBox(m_pUOMPanel, wxID_ANY, wxString("Calibrate"));
+			new wxStaticBox(m_pCalibrationPanel, wxID_ANY, wxString("Calibrate"));
 
 		// Create Calibrate information text.
 		m_pCalibrateInfoText =
 			new wxStaticText(
 				m_pCalibrateStaticBox, wxID_ANY,
 				wxString(
-					"WinRuler is based on a system factor that provides "
-					"the vertical and horizontal pixels per inch (PPI). "
+					"WinRuler is based on a operating system factor that "
+					"provides the vertical and horizontal pixels per inch (PPI). "
 					"In some computer configurations (often in laptops), this "
 					"factor indicates a default value of 96 pixels per inch, "
 					"not the correct one. This value is not accurate, which "
@@ -340,14 +356,53 @@ namespace WinRuler
 					"distances."));
 
 		// Create vertical and horizontal panels that will display rulers for
-		// calibration.
+		// calibration. Create also Increse and Decrese buttons for vertical
+		// and horizontal ruler.
+		m_pVRulerPanel =
+			new wxPanel(
+				m_pCalibrateStaticBox, wxID_ANY,
+				wxDefaultPosition, wxSize(60, 200));
+		m_pVRulerPanel->Bind(
+			wxEVT_PAINT, &COptionsDialog::VRulerPanel_OnPaintEvent, this);
 
+		m_pV_IncButton =
+			new wxButton(
+				m_pCalibrateStaticBox, ID_VerticalRulerIncreaseButton,
+				wxString("&Increse"));
+		m_pV_DecButton =
+			new wxButton(
+				m_pCalibrateStaticBox, ID_VerticalRulerDecreaseButton,
+				wxString("&Decrese"));
+
+		m_pHRulerPanel =
+			new wxPanel(
+				m_pCalibrateStaticBox, wxID_ANY,
+				wxDefaultPosition, wxSize(200, 60));
+		m_pHRulerPanel->Bind(
+			wxEVT_PAINT, &COptionsDialog::HRulerPanel_OnPaintEvent, this);
+
+		m_pH_IncButton =
+			new wxButton(
+				m_pCalibrateStaticBox, ID_HorizontalRulerIncreaseButton,
+				wxString("&Increse"));
+		m_pH_DecButton =
+			new wxButton(
+				m_pCalibrateStaticBox, ID_HorizontalRulerDecreaseButton,
+				wxString("&Decrese"));
+
+		// Create vertical and horizontal PPI static texts.
+		m_pVPPIStaticText = 
+			new wxStaticText(
+				m_pCalibrateStaticBox, wxID_ANY, wxString("Vertical PPI: 96"));
+		m_pHPPIStaticText =
+			new wxStaticText(
+				m_pCalibrateStaticBox, wxID_ANY, wxString("Horizontal PPI: 96"));
 
 		///////////////////////////////////////////////////////////////////////
 
 		// Add created notebook pages to notebook.
 		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
-		m_pNotebook->AddPage(m_pUOMPanel, wxString("Units of measurement"));
+		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
 
 		// Add BottomPanel and OKButton.
 		m_pBottomPanel = new wxPanel(this, wxID_ANY);
@@ -443,17 +498,61 @@ namespace WinRuler
 		// Create wxBoxSizer and fit all calibrate components.
 		wxBoxSizer* pCalibrateBoxSizer = new wxBoxSizer(wxVERTICAL);
 
+		wxSizerFlags CalibrateFlags = 
+			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
+
 		pCalibrateBoxSizer->AddSpacer(20);
-		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, 1, wxEXPAND | wxALL, 5);
+		m_pCalibrateInfoText->SetBackgroundColour(wxColour(200, 100, 100));
+		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, CalibrateFlags);
+
+		wxBoxSizer* pVerticalSizer = new wxBoxSizer(wxVERTICAL);
+
+		wxSizerFlags VerticalFlags = wxSizerFlags().Border(wxALL, 5);
+
+		pVerticalSizer->Add(m_pV_IncButton, VerticalFlags);
+		pVerticalSizer->Add(m_pVRulerPanel, VerticalFlags);
+		pVerticalSizer->Add(m_pV_DecButton, VerticalFlags);
+
+		wxBoxSizer* pHorizontalSizer = new wxBoxSizer(wxHORIZONTAL);
+
+		wxSizerFlags HorizontalFlags = wxSizerFlags().Border(wxALL, 5);
+
+		pHorizontalSizer->Add(m_pH_IncButton, HorizontalFlags);
+		pHorizontalSizer->Add(m_pHRulerPanel, HorizontalFlags);
+		pHorizontalSizer->Add(m_pH_DecButton, HorizontalFlags);
+
+		wxBoxSizer* pRulersSizer = new wxBoxSizer(wxHORIZONTAL);
+
+		wxSizerFlags RulersFlags = 
+			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
+		
+		pRulersSizer->AddSpacer(30);
+		pRulersSizer->Add(pVerticalSizer, RulersFlags);
+		pRulersSizer->AddSpacer(30);
+		pRulersSizer->Add(pHorizontalSizer, RulersFlags);
+		pRulersSizer->AddSpacer(30);
+
+		pCalibrateBoxSizer->Add(pRulersSizer, CalibrateFlags);
+		pCalibrateBoxSizer->AddSpacer(20);
+
+		wxBoxSizer* pInfoSizer = new wxBoxSizer(wxHORIZONTAL);
+
+		wxSizerFlags InfoFlags =
+			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
+
+		pInfoSizer->Add(m_pVPPIStaticText, InfoFlags);
+		pInfoSizer->Add(m_pHPPIStaticText, InfoFlags);
+
+		pCalibrateBoxSizer->Add(pInfoSizer, CalibrateFlags);
 
 		m_pCalibrateStaticBox->SetSizerAndFit(pCalibrateBoxSizer);
 
-		// Create wxBoxSizer and fit all static boxes on pUOMPanel.
+		// Create wxBoxSizer and fit all static boxes on pCalibrationPanel.
 		wxBoxSizer* pStaticBoxSizer2 = new wxBoxSizer(wxVERTICAL);
 
 		pStaticBoxSizer2->Add(m_pCalibrateStaticBox, 1, wxEXPAND || wxALL, 5);
 
-		m_pUOMPanel->SetSizerAndFit(pStaticBoxSizer2);
+		m_pCalibrationPanel->SetSizerAndFit(pStaticBoxSizer2);
 
 		///////////////////////////////////////////////////////////////////////
 
@@ -469,6 +568,126 @@ namespace WinRuler
 		m_pOKButton->Centre();
 	}
 
+	void COptionsDialog::VRulerPanel_OnPaintEvent(wxPaintEvent& Event)
+	{
+		// Create wxPaintDC.
+		wxPaintDC dc(m_pVRulerPanel);
+
+		// Draw on created DC.
+		VRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::HRulerPanel_OnPaintEvent(wxPaintEvent& Event)
+	{
+		// Create wxPaintDC.
+		wxPaintDC dc(m_pHRulerPanel);
+
+		// Draw on created DC.
+		HRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::VRulerPanel_PaintNow()
+	{
+		// Create wxPaintDC.
+		wxClientDC dc(m_pVRulerPanel);
+
+		// Draw on created DC.
+		VRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::HRulerPanel_PaintNow()
+	{
+		// Create wxPaintDC.
+		wxClientDC dc(m_pHRulerPanel);
+
+		// Draw on created DC.
+		HRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::VRulerPanel_Render(wxDC& dc)
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve surface size.
+		wxSize size(m_pVRulerPanel->GetClientSize());
+		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
+
+		// Draw ruler's surface.
+		pMainFrame->m_pDrawPanel->DrawRulerSurface(
+			dc, surfaceRect,
+			ERulerPosition::rpLeft,
+			pMainFrame->m_eRulerBackgroundType,
+			pMainFrame->m_cRulerBackgroundColour,
+			pMainFrame->m_cRulerBackgroundStartColour,
+			pMainFrame->m_cRulerBackgroundEndColour,
+			pMainFrame->m_RulerBackgroundBitmapLeftH,
+			pMainFrame->m_RulerBackgroundBitmapMiddleH,
+			pMainFrame->m_RulerBackgroundBitmapRightH,
+			pMainFrame->m_RulerBackgroundBitmapTopV,
+			pMainFrame->m_RulerBackgroundBitmapMiddleV,
+			pMainFrame->m_RulerBackgroundBitmapBottomV);
+
+		// Draw ruler's scale.
+		pMainFrame->m_pDrawPanel->DrawRulerScale(
+			dc, surfaceRect,
+			pMainFrame->m_cRulerScaleColour,
+			ERulerPosition::rpLeft,
+			ERulerUnits::ruInches);
+
+		// Draw ruler's markers.
+		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
+			dc, surfaceRect,
+			ERulerPosition::rpLeft,
+			pMainFrame->m_eRulerUnits,
+			pMainFrame->m_cRulerScaleColour,
+			pMainFrame->m_cFirstMarkerColour,
+			pMainFrame->m_cSecondMarkerColour,
+			-1, -1);
+	}
+
+	void COptionsDialog::HRulerPanel_Render(wxDC& dc)
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve surface size.
+		wxSize size(m_pHRulerPanel->GetClientSize());
+		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
+
+		// Draw ruler's surface.
+		pMainFrame->m_pDrawPanel->DrawRulerSurface(
+			dc, surfaceRect,
+			ERulerPosition::rpTop,
+			pMainFrame->m_eRulerBackgroundType,
+			pMainFrame->m_cRulerBackgroundColour,
+			pMainFrame->m_cRulerBackgroundStartColour,
+			pMainFrame->m_cRulerBackgroundEndColour,
+			pMainFrame->m_RulerBackgroundBitmapLeftH,
+			pMainFrame->m_RulerBackgroundBitmapMiddleH,
+			pMainFrame->m_RulerBackgroundBitmapRightH,
+			pMainFrame->m_RulerBackgroundBitmapTopV,
+			pMainFrame->m_RulerBackgroundBitmapMiddleV,
+			pMainFrame->m_RulerBackgroundBitmapBottomV);
+
+		// Draw ruler's scale.
+		pMainFrame->m_pDrawPanel->DrawRulerScale(
+			dc, surfaceRect,
+			pMainFrame->m_cRulerScaleColour,
+			ERulerPosition::rpTop,
+			ERulerUnits::ruInches);
+
+		// Draw ruler's markers.
+		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
+			dc, surfaceRect,
+			ERulerPosition::rpTop,
+			pMainFrame->m_eRulerUnits,
+			pMainFrame->m_cRulerScaleColour,
+			pMainFrame->m_cFirstMarkerColour,
+			pMainFrame->m_cSecondMarkerColour,
+			-1, -1);
+	}
+
 	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event)
 	{
 		wxCheckBox* pCheckBox = static_cast<wxCheckBox*>(Event.GetEventObject());
@@ -482,6 +701,26 @@ namespace WinRuler
 			m_pRulerTransparencyText->Enable(false);
 			m_pRulerTransparencySlider->Enable(false);
 		}
+	}
+
+	void COptionsDialog::OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event)
+	{
+		wxMessageBox(wxString("OnVerticalRulerIncreaseButtonClicked"), wxString("Informacja"));
+	}
+
+	void COptionsDialog::OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event)
+	{
+		wxMessageBox(wxString("OnVerticalRulerDecreaseButtonClicked"), wxString("Informacja"));
+	}
+
+	void COptionsDialog::OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event)
+	{
+		wxMessageBox(wxString("OnHorizontalRulerIncreaseButtonClicked"), wxString("Informacja"));
+	}
+
+	void COptionsDialog::OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event)
+	{
+		wxMessageBox(wxString("OnHorizontalRulerDecreaseButtonClicked"), wxString("Informacja"));
 	}
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)

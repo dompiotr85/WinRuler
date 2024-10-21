@@ -24,7 +24,7 @@ namespace WinRuler
          * Called by the system of by wxWidgets when the panel needs to be redrawn.
          * You can also trigger this call by calling Refresh()/Update().
          **/
-        void PaintEvent(wxPaintEvent& Event);
+        void OnPaintEvent(wxPaintEvent& Event);
 
         /**
          * Alternatively, you can use a clientDC to paint on the panel at any time.
