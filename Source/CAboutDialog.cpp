@@ -76,7 +76,9 @@ namespace WinRuler
         m_pCopyrightStaticText =
             new wxStaticText(
                     this, wxID_ANY,
-                    wxString("Copyright © 2024 Piotr Domanski and WinRuler programmers team."));
+                    wxString(
+                        "Copyright © 2024 Piotr Domanski and WinRuler "
+                        "programmers team."));
 
         // Create bottom panel.
         m_pBottomPanel =
@@ -96,18 +98,23 @@ namespace WinRuler
         // Create 2 wxBoxSizers and set layout.
         wxBoxSizer* pSizer1 = new wxBoxSizer(wxVERTICAL);
 
-        pSizer1->Add(m_pHeaderStaticBitmap, 0, wxEXPAND | wxALL, 5);
-        pSizer1->Add(m_pVersionStaticText, 0, wxEXPAND | wxALL, 5);
-        pSizer1->Add(m_pCopyrightStaticText, 0, wxEXPAND | wxALL, 5);
-        pSizer1->Add(m_pBottomPanel, 1, wxEXPAND | wxALL, 5);
+        wxSizerFlags flags =
+            wxSizerFlags().Proportion(0).Expand().Border(wxALL, 5);
+
+        pSizer1->Add(m_pHeaderStaticBitmap, flags);
+        pSizer1->Add(m_pVersionStaticText, flags);
+        pSizer1->Add(m_pCopyrightStaticText, flags);
+        pSizer1->Add(
+            m_pBottomPanel, 
+            wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5));
 
         SetSizerAndFit(pSizer1);
 
         wxBoxSizer* pSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
-        pSizer2->Add(m_pLicenseButton, 0, wxEXPAND | wxALL, 5);
+        pSizer2->Add(m_pLicenseButton, flags);
         pSizer2->AddSpacer(425);
-        pSizer2->Add(m_pCloseButton, 0, wxEXPAND | wxALL, 5);
+        pSizer2->Add(m_pCloseButton, flags);
 
         m_pBottomPanel->SetSizerAndFit(pSizer2);
     }

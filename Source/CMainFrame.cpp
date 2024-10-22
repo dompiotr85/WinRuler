@@ -178,6 +178,8 @@ namespace WinRuler
 	{
 		// Create new CDrawPanel and store it in m_pDrawPanel.
 		m_pDrawPanel = new CDrawPanel(static_cast<wxFrame*>(this));
+
+		// Set double buffered flag for our CDrawPanel instance.
 		m_pDrawPanel->SetDoubleBuffered(true);
 	}
 
@@ -187,7 +189,9 @@ namespace WinRuler
 		wxBoxSizer* pSizer = new wxBoxSizer(wxHORIZONTAL);
 
 		// Add m_pDrawPanel to pSizer.
-		pSizer->Add(m_pDrawPanel, 1, wxEXPAND);
+		pSizer->Add(
+			m_pDrawPanel, 
+			wxSizerFlags().Proportion(1).Expand());
 
 		// Set pSizer in CMainFrame.
 		SetSizer(pSizer);

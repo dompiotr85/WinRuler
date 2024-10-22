@@ -136,16 +136,14 @@ namespace WinRuler
 #ifdef __unix__	// If platform is Linux.
 		SetClientSize(wxSize(700, 760));
 #elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
-		SetClientSize(wxSize(700, 660));
+		SetClientSize(wxSize(700, 700));
 #endif
 
 		// Create Notebook.
 		m_pNotebook =
 			new wxNotebook(
-				this, wxID_ANY,
-				wxDefaultPosition,
-				wxSize(GetClientSize().GetWidth(), GetClientSize().GetHeight()),
-				wxNB_TOP);
+				this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_TOP);
+		m_pNotebook->SetMaxClientSize(wxSize(700, 700));
 
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
@@ -173,7 +171,7 @@ namespace WinRuler
 		m_pBackgroundTypeChoice =
 			new wxChoice(
 				m_pBackgroundStaticBox, ID_BackgroundTypeChoice,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1),
+				wxDefaultPosition, wxDefaultSize,
 				Choices);
 
 		// Select current ruler background type.
@@ -188,7 +186,7 @@ namespace WinRuler
 			new wxColourPickerCtrl(
 				m_pBackgroundStaticBox, wxID_ANY,
 				pMainFrame->m_cRulerBackgroundColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1),
+				wxDefaultPosition, wxDefaultSize,
 				wxCLRP_SHOW_LABEL);
 
 		// Create ruler background start and end colour picker.
@@ -200,13 +198,13 @@ namespace WinRuler
 			new wxColourPickerCtrl(
 				m_pBackgroundStaticBox, wxID_ANY,
 				pMainFrame->m_cRulerBackgroundStartColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1),
+				wxDefaultPosition, wxDefaultSize,
 				wxCLRP_SHOW_LABEL);
 		m_pBackgroundEndColourPicker =
 			new wxColourPickerCtrl(
 				m_pBackgroundStaticBox, wxID_ANY,
 				pMainFrame->m_cRulerBackgroundEndColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1),
+				wxDefaultPosition, wxDefaultSize,
 				wxCLRP_SHOW_LABEL);
 
 		// Create ruler background image picker.
@@ -231,8 +229,7 @@ namespace WinRuler
 		m_pRulerScaleColourPicker =
 			new wxColourPickerCtrl(
 				m_pScaleAndMarkersStaticBox, wxID_ANY,
-				pMainFrame->m_cRulerScaleColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1));
+				pMainFrame->m_cRulerScaleColour);
 
 		// Create ruler first and second marker colour.
 		m_pRulerFirstMarkerColourText =
@@ -242,8 +239,7 @@ namespace WinRuler
 		m_pFirstMarkerColourPicker =
 			new wxColourPickerCtrl(
 				m_pScaleAndMarkersStaticBox, wxID_ANY,
-				pMainFrame->m_cFirstMarkerColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1));
+				pMainFrame->m_cFirstMarkerColour);
 
 		m_pRulerSecondMarkerColourText =
 			new wxStaticText(
@@ -252,8 +248,7 @@ namespace WinRuler
 		m_pSecondMarkerColourPicker =
 			new wxColourPickerCtrl(
 				m_pScaleAndMarkersStaticBox, wxID_ANY,
-				pMainFrame->m_cSecondMarkerColour,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1));
+				pMainFrame->m_cSecondMarkerColour);
 
 		// Create wxStaticBox for Special options.
 		m_pSpecialOptionsStaticBox =
@@ -278,7 +273,7 @@ namespace WinRuler
 			new wxSlider(
 				m_pSpecialOptionsStaticBox, wxID_ANY,
 				static_cast<int>(pMainFrame->m_iRulerTransparencyValue), 0, 255,
-				wxDefaultPosition, wxSize(GetClientSize().GetWidth(), -1),
+				wxDefaultPosition, wxDefaultSize,
 				wxSL_HORIZONTAL | wxSL_VALUE_LABEL);
 
 		// At the end of ruler page creation, enable proper items depending on
@@ -329,12 +324,13 @@ namespace WinRuler
 		}
 
 		///////////////////////////////////////////////////////////////////////
-		// Units of measurement page.
+		// Calibration page.
 		//
 
 		// Create Calibrate static box.
 		m_pCalibrateStaticBox =
-			new wxStaticBox(m_pCalibrationPanel, wxID_ANY, wxString("Calibrate"));
+			new wxStaticBox(
+				m_pCalibrationPanel, wxID_ANY, wxString("Calibrate"));
 
 		// Create Calibrate information text.
 		m_pCalibrateInfoText =
@@ -419,28 +415,24 @@ namespace WinRuler
 		// m_pBackgroundStaticBox.
 		wxBoxSizer* pBackgroundBoxSizer = new wxBoxSizer(wxVERTICAL);
 
+		wxSizerFlags flags1 =
+			wxSizerFlags().Proportion(0).Expand().Border(wxALL, 5);
+		wxSizerFlags flags2 =
+			wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5);
+
 		pBackgroundBoxSizer->AddSpacer(20);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundTypeText, 0, wxEXPAND | wxALL, 5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundTypeChoice, 1, wxEXPAND | wxALL, 5);
+		pBackgroundBoxSizer->Add(m_pBackgroundTypeText, flags1);
+		pBackgroundBoxSizer->Add(m_pBackgroundTypeChoice, flags2);
 		pBackgroundBoxSizer->AddSpacer(5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundColourText, 0, wxEXPAND | wxALL, 5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundColourPicker, 1, wxEXPAND | wxALL, 5);
+		pBackgroundBoxSizer->Add(m_pBackgroundColourText, flags1);
+		pBackgroundBoxSizer->Add(m_pBackgroundColourPicker, flags2);
 		pBackgroundBoxSizer->AddSpacer(5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundStartEndColourText, 0, wxEXPAND | wxALL, 5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundStartColourPicker, 1, wxEXPAND | wxALL, 5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundEndColourPicker, 1, wxEXPAND | wxALL, 5);
+		pBackgroundBoxSizer->Add(m_pBackgroundStartEndColourText, flags1);
+		pBackgroundBoxSizer->Add(m_pBackgroundStartColourPicker, flags2);
+		pBackgroundBoxSizer->Add(m_pBackgroundEndColourPicker, flags2);
 		pBackgroundBoxSizer->AddSpacer(5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundImageText, 0, wxEXPAND | wxALL, 5);
-		pBackgroundBoxSizer->Add(
-			m_pBackgroundImagePicker, 1, wxEXPAND | wxALL, 5);
+		pBackgroundBoxSizer->Add(m_pBackgroundImageText, flags1);
+		pBackgroundBoxSizer->Add(m_pBackgroundImagePicker, flags2);
 
 		m_pBackgroundStaticBox->SetSizerAndFit(pBackgroundBoxSizer);
 
@@ -449,19 +441,13 @@ namespace WinRuler
 		wxBoxSizer* pScaleAndMarkersBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		pScaleAndMarkersBoxSizer->AddSpacer(20);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pRulerScaleColourText, 0, wxEXPAND | wxALL, 5);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pRulerScaleColourPicker, 1, wxEXPAND | wxALL, 5);
+		pScaleAndMarkersBoxSizer->Add(m_pRulerScaleColourText, flags1);
+		pScaleAndMarkersBoxSizer->Add(m_pRulerScaleColourPicker, flags2);
 		pScaleAndMarkersBoxSizer->AddSpacer(5);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pRulerFirstMarkerColourText, 0, wxEXPAND | wxALL, 5);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pFirstMarkerColourPicker, 1, wxEXPAND | wxALL, 5);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pRulerSecondMarkerColourText, 0, wxEXPAND | wxALL, 5);
-		pScaleAndMarkersBoxSizer->Add(
-			m_pSecondMarkerColourPicker, 1, wxEXPAND | wxALL, 5);
+		pScaleAndMarkersBoxSizer->Add(m_pRulerFirstMarkerColourText, flags1);
+		pScaleAndMarkersBoxSizer->Add(m_pFirstMarkerColourPicker, flags2);
+		pScaleAndMarkersBoxSizer->Add(m_pRulerSecondMarkerColourText, flags1);
+		pScaleAndMarkersBoxSizer->Add(m_pSecondMarkerColourPicker, flags2);
 
 		m_pScaleAndMarkersStaticBox->SetSizerAndFit(pScaleAndMarkersBoxSizer);
 
@@ -470,87 +456,70 @@ namespace WinRuler
 		wxBoxSizer* pSpecialOptionsBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		pSpecialOptionsBoxSizer->AddSpacer(20);
-		pSpecialOptionsBoxSizer->Add(
-			m_pRulerTransparencyCheckBox, 0, wxEXPAND | wxALL, 5);
-		pSpecialOptionsBoxSizer->Add(
-			m_pRulerTransparencyText, 0, wxEXPAND | wxALL, 5);
-		pSpecialOptionsBoxSizer->Add(
-			m_pRulerTransparencySlider, 1, wxEXPAND | wxALL, 5);
+		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencyCheckBox, flags1);
+		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencyText, flags1);
+		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencySlider, flags2);
 
 		m_pSpecialOptionsStaticBox->SetSizerAndFit(pSpecialOptionsBoxSizer);
 
 		// Create wxBoxSizer and fit all static boxes on pRulerPanel.
 		wxBoxSizer* pStaticBoxSizer = new wxBoxSizer(wxVERTICAL);
 
-		pStaticBoxSizer->Add(
-			m_pBackgroundStaticBox, 1, wxEXPAND || wxALL, 5);
-		pStaticBoxSizer->Add(
-			m_pScaleAndMarkersStaticBox, 1, wxEXPAND || wxALL, 5);
-		pStaticBoxSizer->Add(
-			m_pSpecialOptionsStaticBox, 1, wxEXPAND || wxALL, 5);
+		pStaticBoxSizer->Add(m_pBackgroundStaticBox, flags2);
+		pStaticBoxSizer->Add(m_pScaleAndMarkersStaticBox, flags2);
+		pStaticBoxSizer->Add(m_pSpecialOptionsStaticBox, flags2);
 
 		m_pRulerPanel->SetSizerAndFit(pStaticBoxSizer);
 
 		///////////////////////////////////////////////////////////////////////
-		// Unit of measurement page.
+		// Calibration page.
 		//
 
 		// Create wxBoxSizer and fit all calibrate components.
 		wxBoxSizer* pCalibrateBoxSizer = new wxBoxSizer(wxVERTICAL);
 
-		wxSizerFlags CalibrateFlags = 
-			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
-
 		pCalibrateBoxSizer->AddSpacer(20);
 		m_pCalibrateInfoText->SetBackgroundColour(wxColour(200, 100, 100));
-		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, CalibrateFlags);
+		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, flags2);
 
 		wxBoxSizer* pVerticalSizer = new wxBoxSizer(wxVERTICAL);
 
-		wxSizerFlags VerticalFlags = wxSizerFlags().Border(wxALL, 5);
+		wxSizerFlags flags3 = wxSizerFlags().Border(wxALL, 5);
 
-		pVerticalSizer->Add(m_pV_IncButton, VerticalFlags);
-		pVerticalSizer->Add(m_pVRulerPanel, VerticalFlags);
-		pVerticalSizer->Add(m_pV_DecButton, VerticalFlags);
+		pVerticalSizer->Add(m_pV_IncButton, flags3);
+		pVerticalSizer->Add(m_pVRulerPanel, flags3);
+		pVerticalSizer->Add(m_pV_DecButton, flags3);
 
 		wxBoxSizer* pHorizontalSizer = new wxBoxSizer(wxHORIZONTAL);
 
-		wxSizerFlags HorizontalFlags = wxSizerFlags().Border(wxALL, 5);
-
-		pHorizontalSizer->Add(m_pH_IncButton, HorizontalFlags);
-		pHorizontalSizer->Add(m_pHRulerPanel, HorizontalFlags);
-		pHorizontalSizer->Add(m_pH_DecButton, HorizontalFlags);
+		pHorizontalSizer->Add(m_pH_IncButton, flags3);
+		pHorizontalSizer->Add(m_pHRulerPanel, flags3);
+		pHorizontalSizer->Add(m_pH_DecButton, flags3);
 
 		wxBoxSizer* pRulersSizer = new wxBoxSizer(wxHORIZONTAL);
 
-		wxSizerFlags RulersFlags = 
-			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
-		
 		pRulersSizer->AddSpacer(30);
-		pRulersSizer->Add(pVerticalSizer, RulersFlags);
+		pRulersSizer->Add(pVerticalSizer, flags2);
 		pRulersSizer->AddSpacer(30);
-		pRulersSizer->Add(pHorizontalSizer, RulersFlags);
+		pRulersSizer->Add(pHorizontalSizer, flags2);
 		pRulersSizer->AddSpacer(30);
 
-		pCalibrateBoxSizer->Add(pRulersSizer, CalibrateFlags);
+		pCalibrateBoxSizer->Add(pRulersSizer, flags2);
 		pCalibrateBoxSizer->AddSpacer(20);
 
 		wxBoxSizer* pInfoSizer = new wxBoxSizer(wxHORIZONTAL);
 
-		wxSizerFlags InfoFlags =
-			wxSizerFlags().Expand().Proportion(1).Border(wxALL, 5);
+		pInfoSizer->Add(m_pVPPIStaticText, flags2);
+		pInfoSizer->Add(m_pHPPIStaticText, flags2);
 
-		pInfoSizer->Add(m_pVPPIStaticText, InfoFlags);
-		pInfoSizer->Add(m_pHPPIStaticText, InfoFlags);
-
-		pCalibrateBoxSizer->Add(pInfoSizer, CalibrateFlags);
+		pCalibrateBoxSizer->Add(pInfoSizer, flags2);
 
 		m_pCalibrateStaticBox->SetSizerAndFit(pCalibrateBoxSizer);
 
 		// Create wxBoxSizer and fit all static boxes on pCalibrationPanel.
 		wxBoxSizer* pStaticBoxSizer2 = new wxBoxSizer(wxVERTICAL);
 
-		pStaticBoxSizer2->Add(m_pCalibrateStaticBox, 1, wxEXPAND || wxALL, 5);
+		pStaticBoxSizer2->Add(m_pCalibrateStaticBox, flags2);
 
 		m_pCalibrationPanel->SetSizerAndFit(pStaticBoxSizer2);
 
@@ -559,8 +528,8 @@ namespace WinRuler
 		// Create wxBoxSizer and fit our Notebook and Bottom panel.
 		wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
 
-		pBoxSizer->Add(m_pNotebook, 1, wxEXPAND | wxALL, 5);
-		pBoxSizer->Add(m_pBottomPanel, 0, wxEXPAND | wxALL, 5);
+		pBoxSizer->Add(m_pNotebook, flags2);
+		pBoxSizer->Add(m_pBottomPanel, flags1);
 
 		SetSizerAndFit(pBoxSizer);
 
