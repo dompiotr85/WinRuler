@@ -190,7 +190,7 @@ namespace WinRuler
 
 		// Add m_pDrawPanel to pSizer.
 		pSizer->Add(
-			m_pDrawPanel, 
+			m_pDrawPanel,
 			wxSizerFlags().Proportion(1).Expand());
 
 		// Set pSizer in CMainFrame.
@@ -1030,7 +1030,7 @@ namespace WinRuler
 			ReleaseMouse();
 			SetCursor(*wxSTANDARD_CURSOR);
 		}  // Left up && dragging.
-		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) && 
+		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) &&
 				 (m_eBorderDragMode == HT_client))
 		{
 			int hitPos = BorderHitTest(Pos);
@@ -1061,12 +1061,12 @@ namespace WinRuler
 		wxRect Rect = GetRect();
 
 		// Calculate x and y values.
-		int x = 
+		int x =
 			Clamp(
-				Pos.x, 
+				Pos.x,
 				Rect.GetX() + m_iOffsetBorder,
 				Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
-		int y = 
+		int y =
 			Clamp(
 				Pos.y,
 				Rect.GetY() + m_iOffsetBorder,
