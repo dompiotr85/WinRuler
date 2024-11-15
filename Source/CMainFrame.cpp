@@ -190,7 +190,7 @@ namespace WinRuler
 
 		// Add m_pDrawPanel to pSizer.
 		pSizer->Add(
-			m_pDrawPanel, 
+			m_pDrawPanel,
 			wxSizerFlags().Proportion(1).Expand());
 
 		// Set pSizer in CMainFrame.
@@ -807,7 +807,7 @@ namespace WinRuler
 			return false;
 		}
 
-		// Inserting settings into dabase.
+		// Inserting settings into database.
 		for (const auto& [Key, Value] : Settings)
 		{
 			sqlite3_reset(stmt);
@@ -869,7 +869,7 @@ namespace WinRuler
 		sqlite3_close(db);
 
 #ifdef _DEBUG
-		wxLogInfo("Settings saved into database successfuly.");
+		wxLogInfo("Settings saved into database successful.");
 #endif
 
 		return true;
@@ -955,6 +955,14 @@ namespace WinRuler
 			{
 				m_sRulerBackgroundImagePath = static_cast<wxString>(Value);
 			}
+			else if (Key == "vertical_ppi")
+			{
+				g_vPixelPerInch[0].y = static_cast<int>(wxAtoi(Value));
+			}
+			else if (Key == "horizontal_ppi")
+			{
+				g_vPixelPerInch[0].x = static_cast<int>(wxAtoi(Value));
+			}
 
 #ifdef _DEBUG
 			// Log that specified setting was applied.
@@ -970,21 +978,36 @@ namespace WinRuler
 		std::map<wxString, wxString> Settings;
 
 		// Add all application settings into our Settings map.
-		Settings["ruler_position"] = wxString::Format("%i", m_eRulerPosition);
-		Settings["ruler_units"] = wxString::Format("%i", m_eRulerUnits);
-		Settings["ruler_background_type"] = wxString::Format("%i", m_eRulerBackgroundType);
-		Settings["ruler_scale_colour"] = m_cRulerScaleColour.GetAsString(wxC2S_HTML_SYNTAX);
-		Settings["ruler_background_colour"] = m_cRulerBackgroundColour.GetAsString(wxC2S_HTML_SYNTAX);
-		Settings["ruler_background_start_colour"] = m_cRulerBackgroundStartColour.GetAsString(wxC2S_HTML_SYNTAX);
-		Settings["ruler_background_end_colour"] = m_cRulerBackgroundEndColour.GetAsString(wxC2S_HTML_SYNTAX);
-		Settings["ruler_length"] = wxString::Format("%i", m_iRulerLength);
-		Settings["ruler_minimum_length_limit"] = wxString::Format("%i", m_iRulerMinimumLengthLimit);
-		Settings["ruler_always_on_top"] = m_bAlwaysOnTop ? wxString("true") : wxString("false");
-		Settings["ruler_transparency"] = m_bRulerTransparency ? wxString("true") : wxString("false");
-		Settings["ruler_transparency_value"] = wxString::Format("%i", m_iRulerTransparencyValue);
-		Settings["ruler_first_marker_colour"] = m_cFirstMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
-		Settings["ruler_second_marker_colour"] = m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_position"] = wxString::Format("%d", m_eRulerPosition);
+		Settings["ruler_units"] = wxString::Format("%d", m_eRulerUnits);
+		Settings["ruler_background_type"] =
+			wxString::Format("%d", m_eRulerBackgroundType);
+		Settings["ruler_scale_colour"] =
+			m_cRulerScaleColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_colour"] =
+			m_cRulerBackgroundColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_start_colour"] =
+			m_cRulerBackgroundStartColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_background_end_colour"] =
+			m_cRulerBackgroundEndColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_length"] = wxString::Format("%d", m_iRulerLength);
+		Settings["ruler_minimum_length_limit"] =
+			wxString::Format("%d", m_iRulerMinimumLengthLimit);
+		Settings["ruler_always_on_top"] =
+			m_bAlwaysOnTop ? wxString("true") : wxString("false");
+		Settings["ruler_transparency"] =
+			m_bRulerTransparency ? wxString("true") : wxString("false");
+		Settings["ruler_transparency_value"] =
+			wxString::Format("%d", m_iRulerTransparencyValue);
+		Settings["ruler_first_marker_colour"] =
+			m_cFirstMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+		Settings["ruler_second_marker_colour"] =
+			m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
 		Settings["ruler_background_image_path"] = m_sRulerBackgroundImagePath;
+		Settings["vertical_ppi"] =
+			wxString::Format("%d", g_vPixelPerInch[0].GetY());
+		Settings["horizontal_ppi"] =
+			wxString::Format("%d", g_vPixelPerInch[0].GetX());
 
 		// If SaveSettingsToDatabase() failed, display error and return from
 		// this method.
@@ -1030,7 +1053,7 @@ namespace WinRuler
 			ReleaseMouse();
 			SetCursor(*wxSTANDARD_CURSOR);
 		}  // Left up && dragging.
-		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) && 
+		else if ((Event.Moving() || Event.Leaving() || Event.Entering()) &&
 				 (m_eBorderDragMode == HT_client))
 		{
 			int hitPos = BorderHitTest(Pos);
@@ -1061,12 +1084,12 @@ namespace WinRuler
 		wxRect Rect = GetRect();
 
 		// Calculate x and y values.
-		int x = 
+		int x =
 			Clamp(
-				Pos.x, 
+				Pos.x,
 				Rect.GetX() + m_iOffsetBorder,
 				Rect.GetX() + Rect.GetWidth() - m_iOffsetBorder);
-		int y = 
+		int y =
 			Clamp(
 				Pos.y,
 				Rect.GetY() + m_iOffsetBorder,

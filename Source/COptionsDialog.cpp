@@ -387,12 +387,14 @@ namespace WinRuler
 				wxString("&Decrese"));
 
 		// Create vertical and horizontal PPI static texts.
-		m_pVPPIStaticText = 
+		m_pVPPIStaticText =
 			new wxStaticText(
-				m_pCalibrateStaticBox, wxID_ANY, wxString("Vertical PPI: 96"));
+				m_pCalibrateStaticBox, wxID_ANY,
+				wxString::Format("Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
 		m_pHPPIStaticText =
 			new wxStaticText(
-				m_pCalibrateStaticBox, wxID_ANY, wxString("Horizontal PPI: 96"));
+				m_pCalibrateStaticBox, wxID_ANY,
+				wxString::Format("Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
 
 		///////////////////////////////////////////////////////////////////////
 
@@ -479,7 +481,6 @@ namespace WinRuler
 		wxBoxSizer* pCalibrateBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		pCalibrateBoxSizer->AddSpacer(20);
-		m_pCalibrateInfoText->SetBackgroundColour(wxColour(200, 100, 100));
 		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, flags2);
 
 		wxBoxSizer* pVerticalSizer = new wxBoxSizer(wxVERTICAL);
@@ -674,22 +675,54 @@ namespace WinRuler
 
 	void COptionsDialog::OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event)
 	{
-		wxMessageBox(wxString("OnVerticalRulerIncreaseButtonClicked"), wxString("Informacja"));
+		// Increment vertical PPI value by 1.
+		g_vPixelPerInch[0].y++;
+
+		// Update m_pVPPIStaticText label text.
+		m_pVPPIStaticText->SetLabel(
+			wxString::Format("Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
+
+		// Redraw vertical ruler panel.
+		m_pVRulerPanel->Refresh();
 	}
 
 	void COptionsDialog::OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event)
 	{
-		wxMessageBox(wxString("OnVerticalRulerDecreaseButtonClicked"), wxString("Informacja"));
+		// Decrement vertical PPI value by 1.
+		g_vPixelPerInch[0].y--;
+
+		// Update m_pVPPIStaticText label text.
+		m_pVPPIStaticText->SetLabel(
+			wxString::Format("Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
+
+		// Redraw vertical ruler panel.
+		m_pVRulerPanel->Refresh();
 	}
 
 	void COptionsDialog::OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event)
 	{
-		wxMessageBox(wxString("OnHorizontalRulerIncreaseButtonClicked"), wxString("Informacja"));
+		// Increment horizontal PPI value by 1.
+		g_vPixelPerInch[0].x++;
+
+		// Update m_pHPPIStaticText label text.
+		m_pHPPIStaticText->SetLabel(
+			wxString::Format("Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+
+		// Redraw horizontal ruler panel.
+		m_pHRulerPanel->Refresh();
 	}
 
 	void COptionsDialog::OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event)
 	{
-		wxMessageBox(wxString("OnHorizontalRulerDecreaseButtonClicked"), wxString("Informacja"));
+		// Decrement horizontal PPI value by 1.
+		g_vPixelPerInch[0].x--;
+
+		// Update m_pHPPIStaticText label text.
+		m_pHPPIStaticText->SetLabel(
+			wxString::Format("Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+
+		// Redraw horizontal ruler panel.
+		m_pHRulerPanel->Refresh();
 	}
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)

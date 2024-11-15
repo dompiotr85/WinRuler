@@ -73,14 +73,16 @@ namespace WinRuler
 		void HRulerPanel_OnPaintEvent(wxPaintEvent& Event);
 
 		/**
-		 * Alternatively, you can use a clientDC to paint on the panel at any time.
-		 * Using this generally does not free you from catching paint events, since
-		 * it is possible that e.g. the window manager throws away your drawing
-		 * when the window comes to the background, and expects you will redraw it
-		 * when the window comes back (by sending a paint event).
+		 * Alternatively, you can use a clientDC to paint on the panel at any
+		 * time. Using this generally does not free you from catching paint
+		 * events, since it is possible that e.g. the window manager throws
+		 * away your drawing when the window comes to the background, and
+		 * expects you will redraw it when the window comes back (by sending
+		 * a paint event).
 		 *
 		 * In most cases, this will not be needed at all; simply handling paint
-		 * events and calling Refresh() when a refresh is needed will do the job.
+		 * events and calling Refresh() when a refresh is needed will do the
+		 * job.
 		 **/
 		void VRulerPanel_PaintNow();
 		void HRulerPanel_PaintNow();
