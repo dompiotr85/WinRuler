@@ -76,11 +76,11 @@ namespace WinRuler
 		wxDELETE(m_pBackgroundImagePicker);
 		wxDELETE(m_pBackgroundStaticBox);
 
-		wxDELETE(m_pRulerPanel);
-		wxDELETE(m_pCalibrationPanel);
-
 		wxDELETE(m_pOKButton);
 		wxDELETE(m_pBottomPanel);
+
+		//wxDELETE(m_pRulerPanel);
+		//wxDELETE(m_pCalibrationPanel);
 
 		wxDELETE(m_pNotebook);
 	}
@@ -134,16 +134,19 @@ namespace WinRuler
 		// @todo	Right now code below is a dirty hack. Implementation of
 		//			OS and platform detection need to be done.
 #ifdef __unix__	// If platform is Linux.
-		SetClientSize(wxSize(700, 760));
+		int cWidth = 700;
+		int cHeight = 860;
 #elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
-		SetClientSize(wxSize(700, 700));
+		int cWidth = 700;
+		int cHeight = 700;
 #endif
+        SetClientSize(wxSize(cWidth, cHeight));
 
 		// Create Notebook.
 		m_pNotebook =
 			new wxNotebook(
 				this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_TOP);
-		m_pNotebook->SetMaxClientSize(wxSize(700, 700));
+		m_pNotebook->SetMaxClientSize(wxSize(cWidth, cHeight));
 
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
@@ -435,6 +438,7 @@ namespace WinRuler
 		pBackgroundBoxSizer->AddSpacer(5);
 		pBackgroundBoxSizer->Add(m_pBackgroundImageText, flags1);
 		pBackgroundBoxSizer->Add(m_pBackgroundImagePicker, flags2);
+		pBackgroundBoxSizer->AddSpacer(20);
 
 		m_pBackgroundStaticBox->SetSizerAndFit(pBackgroundBoxSizer);
 
@@ -450,6 +454,7 @@ namespace WinRuler
 		pScaleAndMarkersBoxSizer->Add(m_pFirstMarkerColourPicker, flags2);
 		pScaleAndMarkersBoxSizer->Add(m_pRulerSecondMarkerColourText, flags1);
 		pScaleAndMarkersBoxSizer->Add(m_pSecondMarkerColourPicker, flags2);
+		pScaleAndMarkersBoxSizer->AddSpacer(20);
 
 		m_pScaleAndMarkersStaticBox->SetSizerAndFit(pScaleAndMarkersBoxSizer);
 
@@ -461,6 +466,7 @@ namespace WinRuler
 		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencyCheckBox, flags1);
 		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencyText, flags1);
 		pSpecialOptionsBoxSizer->Add(m_pRulerTransparencySlider, flags2);
+		pSpecialOptionsBoxSizer->AddSpacer(20);
 
 		m_pSpecialOptionsStaticBox->SetSizerAndFit(pSpecialOptionsBoxSizer);
 
