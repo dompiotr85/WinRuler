@@ -8,6 +8,8 @@
 #include <vector>
 #include <cmath>
 #include <limits>
+#include <cstdio> // For sscanf()
+#include <iostream>
 #include <wx/wx.h>
 
 namespace WinRuler
@@ -203,4 +205,9 @@ namespace WinRuler
 	 * @return	Returns result of pixels to picas calculation.
 	 **/
 	double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance);
+
+	/*-------------------------------------------------------------------------
+	  Other helpful routines. 
+	-------------------------------------------------------------------------*/
+	wxPoint ParsePosition(const wxString& PositionString);
 }

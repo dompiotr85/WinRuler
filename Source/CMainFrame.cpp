@@ -99,6 +99,9 @@ namespace WinRuler
 
 	CMainFrame::~CMainFrame()
 	{
+		// Save application settings to database.
+		SaveApplicationSettings();
+
 		// Unbind command button clicked event.
 		this->Unbind(
 			wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this,
@@ -905,7 +908,8 @@ namespace WinRuler
 			}
 			else if (Key == "ruler_background_type")
 			{
-				m_eRulerBackgroundType = static_cast<ERulerBackgroundType>(wxAtoi(Value));
+				m_eRulerBackgroundType =
+					static_cast<ERulerBackgroundType>(wxAtoi(Value));
 			}
 			else if (Key == "ruler_scale_colour")
 			{
@@ -963,6 +967,13 @@ namespace WinRuler
 			{
 				g_vPixelPerInch[0].x = static_cast<int>(wxAtoi(Value));
 			}
+			else if (Key == "window_position")
+			{
+				wxPoint WindowPosition;
+
+				WindowPosition = ParsePosition(Value);
+				SetPosition(WindowPosition);
+			}
 
 #ifdef _DEBUG
 			// Log that specified setting was applied.
@@ -1009,6 +1020,10 @@ namespace WinRuler
 		Settings["horizontal_ppi"] =
 			wxString::Format("%d", g_vPixelPerInch[0].GetX());
 
+		wxPoint WindowPosition = GetPosition();
+		Settings["window_position"] =
+			wxString::Format("%d:%d", WindowPosition.x, WindowPosition.y);
+
 		// If SaveSettingsToDatabase() failed, display error and return from
 		// this method.
 		if (!SaveSettingsToDatabase(dbPath, Settings))
@@ -1018,7 +1033,7 @@ namespace WinRuler
 		}
 
 #ifdef _DEBUG
-		// Log that application settings was saved sucessful.
+		// Log that application settings was saved successful.
 		wxLogMessage("Application settings saved successful.");
 #endif
 	}

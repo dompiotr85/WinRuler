@@ -36,6 +36,11 @@ namespace WinRuler
 			g_vPixelPerInch.back() = display.GetPPI();
 		}
 
+		// If our application is executed for the first time, store bool
+		// true here, otherwise store false. We will need that information
+		// bellow.
+		bool bAppExecForTheFirstTime = ApplicationExecutedForTheFirstTime();
+
 		// Create dynamically (on heap) new CMainFrame class and store it in
 		// mainFrame.
 		m_pMainFrame = new CMainFrame("WinRuler");
@@ -46,16 +51,21 @@ namespace WinRuler
 		{
 		case ERulerPosition::rpLeft:
 		case ERulerPosition::rpRight:
-			m_pMainFrame->SetClientSize(wxSize(60, m_pMainFrame->m_iRulerLength));
+			m_pMainFrame->SetClientSize(60, m_pMainFrame->m_iRulerLength);
 
 			break;
 		case ERulerPosition::rpTop:
 		case ERulerPosition::rpBottom:
-			m_pMainFrame->SetClientSize(wxSize(m_pMainFrame->m_iRulerLength, 60));
+			m_pMainFrame->SetClientSize(m_pMainFrame->m_iRulerLength, 60);
 
 			break;
 		}
-		m_pMainFrame->Centre();
+
+		// Centre MainFrame if application is executed for the first time.
+		if (bAppExecForTheFirstTime)
+		{
+			m_pMainFrame->Centre();
+		}
 
 		// Load application icon and set it on m_pMainFrame.
 		m_pIcon = new wxIcon();
@@ -109,5 +119,17 @@ namespace WinRuler
 
 		// Return Event_Skip.
 		return Event_Skip;
+	}
+
+	bool CApplication::ApplicationExecutedForTheFirstTime()
+	{
+		wxString dbPath = wxGetCwd() + "/WinRuler.db";
+
+		if (!wxFileExists(dbPath))
+		{
+			return true;
+		}
+
+		return false;
 	}
 } // end namespace WinRuler
