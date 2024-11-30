@@ -17,6 +17,9 @@ namespace WinRuler
 	EVT_BUTTON(ID_VerticalRulerDecreaseButton, COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
 	EVT_BUTTON(ID_HorizontalRulerIncreaseButton, COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
 	EVT_BUTTON(ID_HorizontalRulerDecreaseButton, COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
+	EVT_CHECKBOX(ID_SnapToEdgesOfScreen, COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
+	EVT_CHECKBOX(ID_SnapToOtherWindows, COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
+
 
 	END_EVENT_TABLE()
 
@@ -89,6 +92,7 @@ namespace WinRuler
 	{
 		m_pRulerPanel = NULL;
 		m_pCalibrationPanel = NULL;
+		m_pAdditionalFeaturesPanel = NULL;
 		m_pBottomPanel = NULL;
 		m_pOKButton = NULL;
 		m_pNotebook = NULL;
@@ -138,7 +142,7 @@ namespace WinRuler
 		int cHeight = 860;
 #elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
 		int cWidth = 700;
-		int cHeight = 700;
+		int cHeight = 740;
 #endif
         SetClientSize(wxSize(cWidth, cHeight));
 
@@ -151,6 +155,7 @@ namespace WinRuler
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
 		m_pCalibrationPanel = new wxPanel(m_pNotebook, wxID_ANY);
+		m_pAdditionalFeaturesPanel = new wxPanel(m_pNotebook, wxID_ANY);
 
 		///////////////////////////////////////////////////////////////////////
 		// Ruler page.
@@ -258,7 +263,7 @@ namespace WinRuler
 			new wxStaticBox(
 				m_pRulerPanel, wxID_ANY, wxString("Special options"));
 
-		// Create new ruler transparency checkbox.
+		// Create new ruler transparency check box.
 		m_pRulerTransparencyCheckBox =
 			new wxCheckBox(
 				m_pSpecialOptionsStaticBox, ID_RulerTransparency,
@@ -393,17 +398,101 @@ namespace WinRuler
 		m_pVPPIStaticText =
 			new wxStaticText(
 				m_pCalibrateStaticBox, wxID_ANY,
-				wxString::Format("Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
+				wxString::Format(
+                     "Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
 		m_pHPPIStaticText =
 			new wxStaticText(
 				m_pCalibrateStaticBox, wxID_ANY,
-				wxString::Format("Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+				wxString::Format(
+                     "Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+
+		///////////////////////////////////////////////////////////////////////
+		// Additional feature page.
+		//
+
+		// Create snap to edges of the screen static box.
+		m_pSnapToEdgesOfScreenStaticBox =
+			new wxStaticBox(
+				m_pAdditionalFeaturesPanel, wxID_ANY,
+				wxString("Snap ruler to edges of the screen"));
+
+		// Create snap to edges of the screen check box.
+		m_pSnapToEdgesOfScreenCheckBox =
+			new wxCheckBox(
+				m_pSnapToEdgesOfScreenStaticBox, ID_SnapToEdgesOfScreen,
+				wxString("Enable snapping to edges of the screen"));
+		m_pSnapToEdgesOfScreenCheckBox->SetValue(
+			pMainFrame->m_bSnapToEdgesOfScreen);
+
+		// Create snap to edges of the screen static text.
+		m_pSnapToEdgesOfScreenStaticText =
+			new wxStaticText(
+				m_pSnapToEdgesOfScreenStaticBox, wxID_ANY,
+				wxString("Snap to edges of the screen distance:"));
+
+		// If snap to edges of the screen is enabled, enable also
+		// our static text. Otherwise disable it.
+		m_pSnapToEdgesOfScreenStaticText->Enable(
+			pMainFrame->m_bSnapToEdgesOfScreen);
+
+		// Create snap to edges of the screen spin control.
+		m_pSnapToEdgesOfScreenSpinCtrl =
+			new wxSpinCtrl(
+				m_pSnapToEdgesOfScreenStaticBox, wxID_ANY,
+				wxString::Format(
+					"%d", pMainFrame->m_iSnapToEdgesOfScreenDistance),
+				wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 2, 10);
+
+		// If snap to edges of the screen is enabled, enable also our spin
+		// control. Otherwise disable it.
+		m_pSnapToEdgesOfScreenSpinCtrl->Enable(
+			pMainFrame->m_bSnapToEdgesOfScreen);
+
+		// Create snap to other windows static box.
+		m_pSnapToOtherWindowsStaticBox =
+			new wxStaticBox(
+				m_pAdditionalFeaturesPanel, wxID_ANY,
+				wxString("Snap ruler to other windows"));
+
+		// Create snap to other windows check box.
+		m_pSnapToOtherWindowsCheckBox =
+			new wxCheckBox(
+				m_pSnapToOtherWindowsStaticBox, ID_SnapToOtherWindows,
+				wxString("Enable snapping to other windows"));
+		m_pSnapToOtherWindowsCheckBox->SetValue(
+			pMainFrame->m_bSnapToOtherWindows);
+
+		// Create snap to other windows static text.
+		m_pSnapToOtherWindowsStaticText =
+			new wxStaticText(
+				m_pSnapToOtherWindowsStaticBox, wxID_ANY,
+				wxString("Snap to other window distance:"));
+
+		// If snap to other windows is enabled, enable also our
+		// static box. Otherwise disable it.
+		m_pSnapToOtherWindowsStaticText->Enable(
+			pMainFrame->m_bSnapToOtherWindows);
+
+		// Create snap to other windows spin control.
+		m_pSnapToOtherWindowsSpinCtrl =
+			new wxSpinCtrl(
+				m_pSnapToOtherWindowsStaticBox, wxID_ANY,
+				wxString::Format(
+					"%d", pMainFrame->m_iSnapToOtherWindowsDistance),
+				wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 2, 10);
+
+		// If snap to other windows is enabled, enable also our spin control.
+		// Otherwise disable it.
+		m_pSnapToOtherWindowsSpinCtrl->Enable(
+			pMainFrame->m_bSnapToOtherWindows);
 
 		///////////////////////////////////////////////////////////////////////
 
 		// Add created notebook pages to notebook.
 		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
 		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
+		m_pNotebook->AddPage(
+            m_pAdditionalFeaturesPanel, wxString("Additional features"));
 
 		// Add BottomPanel and OKButton.
 		m_pBottomPanel = new wxPanel(this, wxID_ANY);
@@ -529,6 +618,38 @@ namespace WinRuler
 		pStaticBoxSizer2->Add(m_pCalibrateStaticBox, flags2);
 
 		m_pCalibrationPanel->SetSizerAndFit(pStaticBoxSizer2);
+
+		///////////////////////////////////////////////////////////////////////
+		// Additional features page.
+		//
+		wxBoxSizer* pSnappingBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		pSnappingBoxSizer->Add(m_pSnapToEdgesOfScreenStaticBox, flags1);
+		pSnappingBoxSizer->Add(m_pSnapToOtherWindowsStaticBox, flags1);
+
+		m_pAdditionalFeaturesPanel->SetSizerAndFit(pSnappingBoxSizer);
+
+		wxBoxSizer* pSnapToEdgesBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		pSnapToEdgesBoxSizer->AddSpacer(20);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenCheckBox, flags1);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenStaticText, flags1);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenSpinCtrl, flags1);
+
+		m_pSnapToEdgesOfScreenStaticBox->SetSizerAndFit(pSnapToEdgesBoxSizer);
+
+		wxBoxSizer* pSnapToOtherWindowsBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		pSnapToOtherWindowsBoxSizer->AddSpacer(20);
+		pSnapToOtherWindowsBoxSizer->Add(
+            m_pSnapToOtherWindowsCheckBox, flags1);
+		pSnapToOtherWindowsBoxSizer->Add(
+            m_pSnapToOtherWindowsStaticText, flags1);
+		pSnapToOtherWindowsBoxSizer->Add(
+            m_pSnapToOtherWindowsSpinCtrl, flags1);
+
+		m_pSnapToOtherWindowsStaticBox->SetSizerAndFit(
+            pSnapToOtherWindowsBoxSizer);
 
 		///////////////////////////////////////////////////////////////////////
 
@@ -664,22 +785,21 @@ namespace WinRuler
 			-1, -1);
 	}
 
-	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event)
+	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(
+        wxCommandEvent& Event)
 	{
-		wxCheckBox* pCheckBox = static_cast<wxCheckBox*>(Event.GetEventObject());
-		if (pCheckBox->IsChecked())
-		{
-			m_pRulerTransparencyText->Enable(true);
-			m_pRulerTransparencySlider->Enable(true);
-		}
-		else
-		{
-			m_pRulerTransparencyText->Enable(false);
-			m_pRulerTransparencySlider->Enable(false);
-		}
+		// Retrieve our check box by static casting of Event object.
+		wxCheckBox* pCheckBox =
+            static_cast<wxCheckBox*>(Event.GetEventObject());
+
+		// If our check box is checked, enable controls bellow. Otherwise
+		// disable controls below.
+		m_pRulerTransparencyText->Enable(pCheckBox->IsChecked());
+		m_pRulerTransparencySlider->Enable(pCheckBox->IsChecked());
 	}
 
-	void COptionsDialog::OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event)
+	void COptionsDialog::OnVerticalRulerIncreaseButtonClicked(
+        wxCommandEvent& Event)
 	{
 		// Increment vertical PPI value by 1.
 		g_vPixelPerInch[0].y++;
@@ -692,7 +812,8 @@ namespace WinRuler
 		m_pVRulerPanel->Refresh();
 	}
 
-	void COptionsDialog::OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event)
+	void COptionsDialog::OnVerticalRulerDecreaseButtonClicked(
+        wxCommandEvent& Event)
 	{
 		// Decrement vertical PPI value by 1.
 		g_vPixelPerInch[0].y--;
@@ -705,7 +826,8 @@ namespace WinRuler
 		m_pVRulerPanel->Refresh();
 	}
 
-	void COptionsDialog::OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event)
+	void COptionsDialog::OnHorizontalRulerIncreaseButtonClicked(
+        wxCommandEvent& Event)
 	{
 		// Increment horizontal PPI value by 1.
 		g_vPixelPerInch[0].x++;
@@ -718,7 +840,8 @@ namespace WinRuler
 		m_pHRulerPanel->Refresh();
 	}
 
-	void COptionsDialog::OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event)
+	void COptionsDialog::OnHorizontalRulerDecreaseButtonClicked(
+        wxCommandEvent& Event)
 	{
 		// Decrement horizontal PPI value by 1.
 		g_vPixelPerInch[0].x--;
@@ -729,6 +852,44 @@ namespace WinRuler
 
 		// Redraw horizontal ruler panel.
 		m_pHRulerPanel->Refresh();
+	}
+
+	void COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked(
+        wxCommandEvent& Event)
+	{
+		// Retrieve our MainFrame.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve our check box by static casting of Event object.
+		wxCheckBox* pCheckBox =
+            static_cast<wxCheckBox*>(Event.GetEventObject());
+
+		// If our check box is checked, enable controls below. Otherwise
+		// disable controls below.
+		m_pSnapToEdgesOfScreenStaticText->Enable(pCheckBox->IsChecked());
+		m_pSnapToEdgesOfScreenSpinCtrl->Enable(pCheckBox->IsChecked());
+
+		// Store snap to edges of the screen enable state.
+		pMainFrame->m_bSnapToEdgesOfScreen = pCheckBox->IsChecked();
+	}
+
+	void COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked(
+        wxCommandEvent& Event)
+	{
+		// Retrieve our MainFrame.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve our check box by static casting of Event object.
+		wxCheckBox* pCheckBox =
+            static_cast<wxCheckBox*>(Event.GetEventObject());
+
+		// If our check box is checked, enable controls below. Otherwise
+		// disable controls below.
+		m_pSnapToOtherWindowsStaticText->Enable(pCheckBox->IsChecked());
+		m_pSnapToOtherWindowsSpinCtrl->Enable(pCheckBox->IsChecked());
+
+		// Store snap to other windows enable state.
+		pMainFrame->m_bSnapToOtherWindows = pCheckBox->IsChecked();
 	}
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)

@@ -99,27 +99,6 @@ namespace WinRuler
 		void SetupSizers();
 
 		/**
-		 * OnExit() method event.
-		 *
-		 * @param Event		Reference to wxCommandEvent instance.
-		 */
-		void OnExit(wxCommandEvent& Event);
-
-		/**
-		 * OnClose() method event.
-		 *
-		 * @param Event		Reference to wxCloseEvent instance.
-		 **/
-		void OnClose(wxCloseEvent& Event);
-
-		/**
-		 * OnMouseEvent() method event.
-		 *
-		 * @param Event		Reference to wxMouseEvent instance.
-		 **/
-		void OnMouseEvent(wxMouseEvent& Event);
-
-		/**
 		 * This method should be called for proper change of ruler's position.
 		 *
 		 * @param NewPosition		New ruler's position that will be set.
@@ -181,6 +160,46 @@ namespace WinRuler
 		 * Saves all settings of our application.
 		 **/
 		void SaveApplicationSettings();
+
+		/**
+		 * Performs snapping to edges of the screen.
+		 * 
+		 * @param Pos		Reference to current position as wxPoint instance.
+		 **/
+		void SnapToEdges(wxPoint& Pos);
+
+		/**
+		 * Performs snapping to other windows.
+		 **/
+		void SnapToOtherWindows();
+	public:
+		/**
+		 * OnExit() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 */
+		void OnExit(wxCommandEvent& Event);
+
+		/**
+		 * OnClose() method event.
+		 *
+		 * @param Event		Reference to wxCloseEvent instance.
+		 **/
+		void OnClose(wxCloseEvent& Event);
+
+		/**
+		 * OnMouseEvent() method event.
+		 *
+		 * @param Event		Reference to wxMouseEvent instance.
+		 **/
+		void OnMouseEvent(wxMouseEvent& Event);
+
+		/**
+		 * OnMove() method event.
+		 * 
+		 * @param Event		Reference to wxMoveEvent instance.
+		 **/
+		void OnMove(wxMoveEvent& Event);
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -281,6 +300,18 @@ namespace WinRuler
 
 		// Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
+
+		// Snap to edges of the screen state.
+		bool m_bSnapToEdgesOfScreen = true;
+
+		// Snap to edges of visible windows state.
+		bool m_bSnapToOtherWindows = true;
+
+		// Snap to edges of the screen distance value.
+		int m_iSnapToEdgesOfScreenDistance = 4;
+
+		// Snap to edges of visible windows distance value.
+		int m_iSnapToOtherWindowsDistance = 4;
 	public:
 		// Pointer to CDrawPanel instance, which is used for all drawing of our
 		// ruler.

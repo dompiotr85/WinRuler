@@ -11,6 +11,7 @@
 #include <cstdio> // For sscanf()
 #include <iostream>
 #include <wx/wx.h>
+#include <Windows.h>
 
 namespace WinRuler
 {
@@ -209,5 +210,41 @@ namespace WinRuler
 	/*-------------------------------------------------------------------------
 	  Other helpful routines. 
 	-------------------------------------------------------------------------*/
+	
+	/**
+	 * Performs retrival of two values from specially formated string "%d:%d".
+	 * 
+	 * @param PositionString		Reference to specially formated position
+	 *								string.
+	 * 
+	 * @return	Returns retrived values represented in wxPoint type format.
+	 **/
 	wxPoint ParsePosition(const wxString& PositionString);
+
+	// Window information structure.
+	struct WindowInfo
+	{
+		// Window rect (position and size).
+		RECT Rect;
+
+		// Window handle.
+		HWND hwnd;
+	};
+
+	/**
+	 * Callback function for EnumWindows.
+	 *
+	 * @param hwnd		Window handle.
+	 * @param lParam	LPARAM instance.
+	 *
+	 * @return	Returns TRUE if operation was successful.
+	 **/
+	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
+
+	/**
+	 * Returns vector of all visible windows.
+	 * 
+	 * @return	Returns vector of all visible windows.
+	 **/
+	std::vector<WindowInfo> GetAllWindows();
 }

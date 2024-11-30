@@ -4,6 +4,7 @@
  **/
 
 #include <wx/wx.h>
+#include <wx/display.h>
 #include "CMainFrame.h"
 
 namespace WinRuler
@@ -87,11 +88,14 @@ namespace WinRuler
 			SetTransparent(255);
 		}
 
-		// Bind OnExit method for command button clicked event.
-		this->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
+		// Bind OnExit event for command button clicked event.
+		Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
 
-		// Bind OnClose method for close window event.
-		this->Bind(wxEVT_CLOSE_WINDOW, &CMainFrame::OnClose, this);
+		// Bind OnClose event for close window event.
+		Bind(wxEVT_CLOSE_WINDOW, &CMainFrame::OnClose, this);
+
+		// Bind OnMove event for window move event.
+		Bind(wxEVT_MOVE, &CMainFrame::OnMove, this);
 
 		// Initialize Border Dragging.
 		BorderDragInit();
@@ -316,6 +320,13 @@ namespace WinRuler
 			{
 				SetTransparent(255);
 			}
+
+			// Set snap to edges of the screen distance and snap to other
+			// windows distance.
+            m_iSnapToEdgesOfScreenDistance =
+                m_pOptionsDialog->m_pSnapToEdgesOfScreenSpinCtrl->GetValue();
+            m_iSnapToOtherWindowsDistance =
+                m_pOptionsDialog->m_pSnapToOtherWindowsSpinCtrl->GetValue();
 
 			// Save all settings of our application.
 			SaveApplicationSettings();
@@ -974,6 +985,22 @@ namespace WinRuler
 				WindowPosition = ParsePosition(Value);
 				SetPosition(WindowPosition);
 			}
+			else if (Key == "snap_to_edges")
+			{
+				m_bSnapToEdgesOfScreen = (Value == wxString("true"));
+			}
+			else if (Key == "snap_to_edges_distance")
+			{
+				m_iSnapToEdgesOfScreenDistance = static_cast<int>(wxAtoi(Value));
+			}
+			else if (Key == "snap_to_other_windows")
+			{
+				m_bSnapToOtherWindows = (Value == wxString("true"));
+			}
+			else if (Key == "snap_to_other_windows_distance")
+			{
+				m_iSnapToOtherWindowsDistance = static_cast<int>(wxAtoi(Value));
+			}
 
 #ifdef _DEBUG
 			// Log that specified setting was applied.
@@ -990,9 +1017,12 @@ namespace WinRuler
 
 		// Add all application settings into our Settings map.
 		Settings["ruler_position"] = wxString::Format("%d", m_eRulerPosition);
+
 		Settings["ruler_units"] = wxString::Format("%d", m_eRulerUnits);
+
 		Settings["ruler_background_type"] =
 			wxString::Format("%d", m_eRulerBackgroundType);
+
 		Settings["ruler_scale_colour"] =
 			m_cRulerScaleColour.GetAsString(wxC2S_HTML_SYNTAX);
 		Settings["ruler_background_colour"] =
@@ -1001,20 +1031,26 @@ namespace WinRuler
 			m_cRulerBackgroundStartColour.GetAsString(wxC2S_HTML_SYNTAX);
 		Settings["ruler_background_end_colour"] =
 			m_cRulerBackgroundEndColour.GetAsString(wxC2S_HTML_SYNTAX);
+
 		Settings["ruler_length"] = wxString::Format("%d", m_iRulerLength);
 		Settings["ruler_minimum_length_limit"] =
 			wxString::Format("%d", m_iRulerMinimumLengthLimit);
+
 		Settings["ruler_always_on_top"] =
 			m_bAlwaysOnTop ? wxString("true") : wxString("false");
+
 		Settings["ruler_transparency"] =
 			m_bRulerTransparency ? wxString("true") : wxString("false");
 		Settings["ruler_transparency_value"] =
 			wxString::Format("%d", m_iRulerTransparencyValue);
+
 		Settings["ruler_first_marker_colour"] =
 			m_cFirstMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
 		Settings["ruler_second_marker_colour"] =
 			m_cSecondMarkerColour.GetAsString(wxC2S_HTML_SYNTAX);
+
 		Settings["ruler_background_image_path"] = m_sRulerBackgroundImagePath;
+
 		Settings["vertical_ppi"] =
 			wxString::Format("%d", g_vPixelPerInch[0].GetY());
 		Settings["horizontal_ppi"] =
@@ -1023,6 +1059,16 @@ namespace WinRuler
 		wxPoint WindowPosition = GetPosition();
 		Settings["window_position"] =
 			wxString::Format("%d:%d", WindowPosition.x, WindowPosition.y);
+
+		Settings["snap_to_edges"] =
+			m_bSnapToEdgesOfScreen ? wxString("true") : wxString("false");
+		Settings["snap_to_edges_distance"] =
+			wxString::Format("%d", m_iSnapToEdgesOfScreenDistance);
+
+		Settings["snap_to_other_windows"] =
+			m_bSnapToOtherWindows ? wxString("true") : wxString("false");
+		Settings["snap_to_other_windows_distance"] =
+			wxString::Format("%d", m_iSnapToOtherWindowsDistance);
 
 		// If SaveSettingsToDatabase() failed, display error and return from
 		// this method.
@@ -1036,6 +1082,100 @@ namespace WinRuler
 		// Log that application settings was saved successful.
 		wxLogMessage("Application settings saved successful.");
 #endif
+	}
+
+	void CMainFrame::SnapToEdges(wxPoint& Pos)
+	{
+		// Retrieve size of the screen.
+		wxDisplay Display(wxDisplay::GetFromWindow(this));
+		wxRect ScreenRect = Display.GetGeometry();
+
+		// Retrieve size of the window.
+		wxSize WindowSize = GetSize();
+
+		// Perform window snapping to edges of the screen.
+		if (abs(Pos.x - ScreenRect.GetX()) <= m_iSnapToEdgesOfScreenDistance)
+		{ // Left edge of the screen.
+			Pos.x = ScreenRect.GetX();
+		}
+
+		if (abs((Pos.x + WindowSize.GetX()) -
+				(ScreenRect.GetX() + ScreenRect.GetWidth())) <= m_iSnapToEdgesOfScreenDistance)
+		{ // Right edge of the screen.
+			Pos.x =
+				ScreenRect.GetX() + ScreenRect.GetWidth() - WindowSize.GetX();
+		}
+
+		if (abs(Pos.y - ScreenRect.GetY()) <= m_iSnapToEdgesOfScreenDistance)
+		{ // Top edge of the screen.
+			Pos.y = ScreenRect.GetY();
+		}
+
+		if (abs((Pos.y + WindowSize.GetY()) -
+				(ScreenRect.GetY() + ScreenRect.GetHeight())) <= m_iSnapToEdgesOfScreenDistance)
+		{ // Bottom edge of the screen.
+			Pos.y =
+				ScreenRect.GetY() + ScreenRect.GetHeight() - WindowSize.GetY();
+		}
+
+		// Move our window to calculated position.
+		SetPosition(Pos);
+	}
+
+	void CMainFrame::SnapToOtherWindows()
+	{
+		// Get CMainFrame window handle.
+		HWND RulerHwnd = reinterpret_cast<HWND>(this->GetHandle());
+
+		// Get CMainFrame window coordinates.
+		RECT RulerRect;
+		GetWindowRect(RulerHwnd, &RulerRect);
+
+		// Retrieve informations about all windows.
+		auto windows = GetAllWindows();
+
+		// Itterate throu all windows.
+		for (const auto& win : windows)
+		{
+			// Skip CMainFrame window.
+			if (win.hwnd == RulerHwnd)
+				continue;
+
+			// Snap to horizontal edges of itterated window.
+			if (abs(RulerRect.right - win.Rect.left) <= m_iSnapToOtherWindowsDistance)
+			{
+				RulerRect.left =
+					win.Rect.left - (RulerRect.right - RulerRect.left);
+				RulerRect.right = win.Rect.left;
+			}
+			else if (abs(RulerRect.left - win.Rect.right) <= m_iSnapToOtherWindowsDistance)
+			{
+				RulerRect.right =
+					win.Rect.right + (RulerRect.right - RulerRect.left);
+				RulerRect.left = win.Rect.right;
+			}
+
+			// Snap to vertical edges of itterated window.
+			if (abs(RulerRect.bottom - win.Rect.top) <= m_iSnapToOtherWindowsDistance)
+			{
+				RulerRect.top =
+					win.Rect.top - (RulerRect.bottom - RulerRect.top);
+				RulerRect.bottom = win.Rect.top;
+			}
+			else if (abs(RulerRect.top - win.Rect.bottom) <= m_iSnapToOtherWindowsDistance)
+			{
+				RulerRect.bottom =
+					win.Rect.bottom + (RulerRect.bottom - RulerRect.top);
+				RulerRect.top = win.Rect.bottom;
+			}
+		}
+
+		// Apply calculated coordinates to CMainFrame window.
+		MoveWindow(
+			RulerHwnd,
+			RulerRect.left, RulerRect.top,
+			RulerRect.right - RulerRect.left, RulerRect.bottom - RulerRect.top,
+			TRUE);
 	}
 
 	void CMainFrame::OnMouseEvent(wxMouseEvent& Event)
@@ -1155,6 +1295,21 @@ namespace WinRuler
 
 		// Return proper value stored in HotArea array.
 		return HotArea[y][x];
+	}
+
+	void CMainFrame::OnMove(wxMoveEvent& Event)
+	{
+		// Retrieve new window position.
+		wxPoint Pos = Event.GetPosition();
+
+		// Perform window snapping in needed.
+		if (m_bSnapToEdgesOfScreen)
+			SnapToEdges(Pos);
+		if (m_bSnapToOtherWindows)
+			SnapToOtherWindows();
+
+		// Continue event handling.
+		Event.Skip();
 	}
 
 	void CMainFrame::BorderDragInit()

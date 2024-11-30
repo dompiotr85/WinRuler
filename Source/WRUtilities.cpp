@@ -153,4 +153,32 @@ namespace WinRuler
 			return wxPoint(0, 0);
 		}
 	}
+
+	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+	{
+		std::vector<WindowInfo>* WindowsVec = 
+			reinterpret_cast<std::vector<WindowInfo>*>(lParam);
+
+		// We are checking only visible window.
+		if (IsWindowVisible(hwnd))
+		{
+			RECT Rect;
+			if (GetWindowRect(hwnd, &Rect))
+			{
+				WindowsVec->emplace_back(WindowInfo{ Rect, hwnd });
+			}
+		}
+
+		// Continue enumeration.
+		return TRUE;
+	}
+
+	std::vector<WindowInfo> GetAllWindows()
+	{
+		std::vector<WindowInfo> WindowsVec;
+		
+		EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&WindowsVec));
+		
+		return WindowsVec;
+	}
 } // end namespace WinRuler

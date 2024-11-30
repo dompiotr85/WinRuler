@@ -9,6 +9,7 @@
 #include <wx/notebook.h>
 #include <wx/clrpicker.h>
 #include <wx/filepicker.h>
+#include <wx/spinctrl.h>
 
 enum EOptionsIDs
 {
@@ -17,7 +18,9 @@ enum EOptionsIDs
 	ID_VerticalRulerIncreaseButton = 42,
 	ID_VerticalRulerDecreaseButton = 43,
 	ID_HorizontalRulerIncreaseButton = 44,
-	ID_HorizontalRulerDecreaseButton = 45
+	ID_HorizontalRulerDecreaseButton = 45,
+	ID_SnapToEdgesOfScreen = 46,
+	ID_SnapToOtherWindows = 47
 };
 
 namespace WinRuler
@@ -112,14 +115,14 @@ namespace WinRuler
 
 		/**
 		 * OnRulerTransparencyCheckBoxClicked() method event.
-		 * 
+		 *
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnVerticalRulerIncreaseButtonClicked() method event.
-		 * 
+		 *
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event);
@@ -144,12 +147,29 @@ namespace WinRuler
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnSnapToEdgesOfScreenCheckBoxClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnSnapToEdgesOfScreenCheckBoxClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnSnapToOtherWindowsCheckBoxClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnSnapToOtherWindowsCheckBoxClicked(wxCommandEvent& Event);
 	public:
 		// Ruler panel.
 		wxPanel* m_pRulerPanel;
 
 		// Calibration panel.
 		wxPanel* m_pCalibrationPanel;
+
+		// Additional features panel.
+		wxPanel* m_pAdditionalFeaturesPanel;
 
 		// Bottom panel.
 		wxPanel* m_pBottomPanel;
@@ -231,5 +251,29 @@ namespace WinRuler
 		// Horizontal and vertical PPI static text.
 		wxStaticText* m_pVPPIStaticText;
 		wxStaticText* m_pHPPIStaticText;
+
+		// Snapping to edges of the screen static box.
+		wxStaticBox* m_pSnapToEdgesOfScreenStaticBox;
+
+		// Snapping to edges of the screen check box.
+		wxCheckBox* m_pSnapToEdgesOfScreenCheckBox;
+
+		// Snapping to edges of the screen distance static text.
+		wxStaticText* m_pSnapToEdgesOfScreenStaticText;
+
+		// Snapping to edges of the screen distance spin control.
+		wxSpinCtrl* m_pSnapToEdgesOfScreenSpinCtrl;
+
+		// Snapping to other windows static box.
+		wxStaticBox* m_pSnapToOtherWindowsStaticBox;
+
+		// Snapping to other windows check box.
+		wxCheckBox* m_pSnapToOtherWindowsCheckBox;
+
+		// Snapping to other windows static text.
+		wxStaticText* m_pSnapToOtherWindowsStaticText;
+
+		// Snapping to other windows spin control.
+		wxSpinCtrl* m_pSnapToOtherWindowsSpinCtrl;
 	};
 } // end namespace WinRuler
