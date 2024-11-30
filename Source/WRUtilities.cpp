@@ -18,7 +18,7 @@ namespace WinRuler
 	{
 		// If NewValue is different than current PixelPerInch value, then
 		// change it.
-		if ((g_vPixelPerInch[DisplayNo].x != NewPPIValue.x) && 
+		if ((g_vPixelPerInch[DisplayNo].x != NewPPIValue.x) &&
 			(g_vPixelPerInch[DisplayNo].y != NewPPIValue.y))
 			g_vPixelPerInch[DisplayNo] = NewPPIValue;
 	}
@@ -50,7 +50,7 @@ namespace WinRuler
 		// Calculate how many inches are in specified pixel distance and return
 		// result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(GetPixelPerInch(DisplayNo).GetX()));
 	}
 
@@ -59,7 +59,7 @@ namespace WinRuler
 		// Calculate how many inches are in specified pixel distance and return
 		// result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(GetPixelPerInch(DisplayNo).GetY()));
 	}
 
@@ -84,7 +84,7 @@ namespace WinRuler
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(
 				static_cast<double>(GetPixelPerInch(DisplayNo).GetX() / 2.54)));
 	}
@@ -94,7 +94,7 @@ namespace WinRuler
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(
 				static_cast<double>(GetPixelPerInch(DisplayNo).GetY() / 2.54)));
 	}
@@ -120,7 +120,7 @@ namespace WinRuler
 		// Calculates how many picas are in specified pixel distance and return
 		// result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(
 				static_cast<double>(GetPixelPerInch(DisplayNo).GetX() / 6.0)));
 	}
@@ -130,7 +130,7 @@ namespace WinRuler
 		// Calculates how many picas are in specified pixel distance and return
 		// result.
 		return static_cast<double>(
-			static_cast<double>(APixelDistance) / 
+			static_cast<double>(APixelDistance) /
 			static_cast<double>(
 				static_cast<double>(GetPixelPerInch(DisplayNo).GetY() / 6.0)));
 	}
@@ -154,9 +154,10 @@ namespace WinRuler
 		}
 	}
 
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	{
-		std::vector<WindowInfo>* WindowsVec = 
+		std::vector<WindowInfo>* WindowsVec =
 			reinterpret_cast<std::vector<WindowInfo>*>(lParam);
 
 		// We are checking only visible window.
@@ -176,9 +177,10 @@ namespace WinRuler
 	std::vector<WindowInfo> GetAllWindows()
 	{
 		std::vector<WindowInfo> WindowsVec;
-		
+
 		EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&WindowsVec));
-		
+
 		return WindowsVec;
 	}
+#endif
 } // end namespace WinRuler

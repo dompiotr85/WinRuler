@@ -163,7 +163,7 @@ namespace WinRuler
 
 		/**
 		 * Performs snapping to edges of the screen.
-		 * 
+		 *
 		 * @param Pos		Reference to current position as wxPoint instance.
 		 **/
 		void SnapToEdges(wxPoint& Pos);
@@ -196,7 +196,7 @@ namespace WinRuler
 
 		/**
 		 * OnMove() method event.
-		 * 
+		 *
 		 * @param Event		Reference to wxMoveEvent instance.
 		 **/
 		void OnMove(wxMoveEvent& Event);

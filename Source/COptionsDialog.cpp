@@ -17,8 +17,10 @@ namespace WinRuler
 	EVT_BUTTON(ID_VerticalRulerDecreaseButton, COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
 	EVT_BUTTON(ID_HorizontalRulerIncreaseButton, COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
 	EVT_BUTTON(ID_HorizontalRulerDecreaseButton, COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 	EVT_CHECKBOX(ID_SnapToEdgesOfScreen, COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
 	EVT_CHECKBOX(ID_SnapToOtherWindows, COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
+#endif
 
 
 	END_EVENT_TABLE()
@@ -140,7 +142,7 @@ namespace WinRuler
 #ifdef __unix__	// If platform is Linux.
 		int cWidth = 700;
 		int cHeight = 860;
-#elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
+#elif defined(_WIN32) || defined(WIN32)	// If platform is Windows.
 		int cWidth = 700;
 		int cHeight = 740;
 #endif
@@ -155,7 +157,9 @@ namespace WinRuler
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
 		m_pCalibrationPanel = new wxPanel(m_pNotebook, wxID_ANY);
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		m_pAdditionalFeaturesPanel = new wxPanel(m_pNotebook, wxID_ANY);
+#endif
 
 		///////////////////////////////////////////////////////////////////////
 		// Ruler page.
@@ -410,6 +414,7 @@ namespace WinRuler
 		// Additional feature page.
 		//
 
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		// Create snap to edges of the screen static box.
 		m_pSnapToEdgesOfScreenStaticBox =
 			new wxStaticBox(
@@ -485,14 +490,17 @@ namespace WinRuler
 		// Otherwise disable it.
 		m_pSnapToOtherWindowsSpinCtrl->Enable(
 			pMainFrame->m_bSnapToOtherWindows);
+#endif
 
 		///////////////////////////////////////////////////////////////////////
 
 		// Add created notebook pages to notebook.
 		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
 		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		m_pNotebook->AddPage(
             m_pAdditionalFeaturesPanel, wxString("Additional features"));
+#endif
 
 		// Add BottomPanel and OKButton.
 		m_pBottomPanel = new wxPanel(this, wxID_ANY);
@@ -622,6 +630,7 @@ namespace WinRuler
 		///////////////////////////////////////////////////////////////////////
 		// Additional features page.
 		//
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		wxBoxSizer* pSnappingBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		pSnappingBoxSizer->Add(m_pSnapToEdgesOfScreenStaticBox, flags1);
@@ -650,6 +659,7 @@ namespace WinRuler
 
 		m_pSnapToOtherWindowsStaticBox->SetSizerAndFit(
             pSnapToOtherWindowsBoxSizer);
+#endif
 
 		///////////////////////////////////////////////////////////////////////
 
@@ -854,6 +864,7 @@ namespace WinRuler
 		m_pHRulerPanel->Refresh();
 	}
 
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 	void COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked(
         wxCommandEvent& Event)
 	{
@@ -891,6 +902,7 @@ namespace WinRuler
 		// Store snap to other windows enable state.
 		pMainFrame->m_bSnapToOtherWindows = pCheckBox->IsChecked();
 	}
+#endif
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)
 	{
