@@ -148,6 +148,7 @@ namespace WinRuler
 		 **/
 		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
 
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		/**
 		 * OnSnapToEdgesOfScreenCheckBoxClicked() method event.
 		 *
@@ -161,6 +162,7 @@ namespace WinRuler
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnSnapToOtherWindowsCheckBoxClicked(wxCommandEvent& Event);
+#endif
 	public:
 		// Ruler panel.
 		wxPanel* m_pRulerPanel;
