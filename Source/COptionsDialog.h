@@ -9,11 +9,18 @@
 #include <wx/notebook.h>
 #include <wx/clrpicker.h>
 #include <wx/filepicker.h>
+#include <wx/spinctrl.h>
 
 enum EOptionsIDs
 {
 	ID_BackgroundTypeChoice = 40,
-	ID_RulerTransparency = 41
+	ID_RulerTransparency = 41,
+	ID_VerticalRulerIncreaseButton = 42,
+	ID_VerticalRulerDecreaseButton = 43,
+	ID_HorizontalRulerIncreaseButton = 44,
+	ID_HorizontalRulerDecreaseButton = 45,
+	ID_SnapToEdgesOfScreen = 46,
+	ID_SnapToOtherWindows = 47
 };
 
 namespace WinRuler
@@ -39,7 +46,7 @@ namespace WinRuler
 			wxWindow* Parent, wxWindowID Id = wxID_ANY,
 			const wxString& Title = wxString("Options"),
 			const wxPoint& Pos = wxDefaultPosition,
-			const wxSize& Size = wxSize(700, 560),
+			const wxSize& Size = wxDefaultSize,
 			long Style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
 
 		/**
@@ -48,15 +55,50 @@ namespace WinRuler
 		~COptionsDialog();
 
 		/**
-		 * Initialize about dialog.
+		 * Initialize options dialog.
 		 **/
 		void Init();
 
 		/**
-		 * Creates all controls for this about dialog.
+		 * Creates all controls for this options dialog.
 		 **/
 		void CreateControls();
+
+		/**
+		 * Setup sizers.
+		 **/
+		void SetupSizers();
+
+		/**
+		 * Called by wxWidgets when the panel needs to be redrawn.
+		 **/
+		void VRulerPanel_OnPaintEvent(wxPaintEvent& Event);
+		void HRulerPanel_OnPaintEvent(wxPaintEvent& Event);
+
+		/**
+		 * Alternatively, you can use a clientDC to paint on the panel at any
+		 * time. Using this generally does not free you from catching paint
+		 * events, since it is possible that e.g. the window manager throws
+		 * away your drawing when the window comes to the background, and
+		 * expects you will redraw it when the window comes back (by sending
+		 * a paint event).
+		 *
+		 * In most cases, this will not be needed at all; simply handling paint
+		 * events and calling Refresh() when a refresh is needed will do the
+		 * job.
+		 **/
+		void VRulerPanel_PaintNow();
+		void HRulerPanel_PaintNow();
+
+		/**
+		 * Here we do the actual rendering. I put it in a separate method so
+		 * that it can work no matter what type of DC (e.g. wxPaintDC or
+		 * wxClientDC) is used.
+		 **/
+		void VRulerPanel_Render(wxDC& dc);
+		void HRulerPanel_Render(wxDC& dc);
 	private:
+
 		/**
 		 * OnClose() method event.
 		 *
@@ -73,11 +115,62 @@ namespace WinRuler
 
 		/**
 		 * OnRulerTransparencyCheckBoxClicked() method event.
-		 * 
+		 *
 		 * @param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnVerticalRulerIncreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnVerticalRulerDecreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnHorizontalRulerIncreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnHorizontalRulerDecreaseButtonClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnSnapToEdgesOfScreenCheckBoxClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnSnapToEdgesOfScreenCheckBoxClicked(wxCommandEvent& Event);
+
+		/**
+		 * OnSnapToOtherWindowsCheckBoxClicked() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnSnapToOtherWindowsCheckBoxClicked(wxCommandEvent& Event);
 	public:
+		// Ruler panel.
+		wxPanel* m_pRulerPanel;
+
+		// Calibration panel.
+		wxPanel* m_pCalibrationPanel;
+
+		// Additional features panel.
+		wxPanel* m_pAdditionalFeaturesPanel;
+
 		// Bottom panel.
 		wxPanel* m_pBottomPanel;
 
@@ -86,6 +179,11 @@ namespace WinRuler
 
 		// Notebook.
 		wxNotebook* m_pNotebook;
+
+		// Background static box.
+		wxStaticBox* m_pBackgroundStaticBox;
+
+		wxStaticText* m_pBackgroundTypeText;
 
 		// Background type choice.
 		wxChoice* m_pBackgroundTypeChoice;
@@ -103,12 +201,25 @@ namespace WinRuler
 		// Background image.
 		wxFilePickerCtrl* m_pBackgroundImagePicker;
 
+		// Scale and markers static box.
+		wxStaticBox* m_pScaleAndMarkersStaticBox;
+
+		// Ruler scale colour text.
+		wxStaticText* m_pRulerScaleColourText;
+
 		// Ruler scale colour.
 		wxColourPickerCtrl* m_pRulerScaleColourPicker;
+
+		// First and second marker colour text.
+		wxStaticText* m_pRulerFirstMarkerColourText;
+		wxStaticText* m_pRulerSecondMarkerColourText;
 
 		// First and second marker colour.
 		wxColourPickerCtrl* m_pFirstMarkerColourPicker;
 		wxColourPickerCtrl* m_pSecondMarkerColourPicker;
+
+		// Special options static box.
+		wxStaticBox* m_pSpecialOptionsStaticBox;
 
 		// Ruler transparency.
 		wxCheckBox* m_pRulerTransparencyCheckBox;
@@ -118,5 +229,51 @@ namespace WinRuler
 
 		// Ruler transparency value.
 		wxSlider* m_pRulerTransparencySlider;
+
+		// Calibrate static box.
+		wxStaticBox* m_pCalibrateStaticBox;
+
+		// Calibrate info text.
+		wxStaticText* m_pCalibrateInfoText;
+
+		// Vertical and horizontal panels.
+		wxPanel* m_pVRulerPanel;
+		wxPanel* m_pHRulerPanel;
+
+		// Vertical increse & decrese buttons.
+		wxButton* m_pV_IncButton;
+		wxButton* m_pV_DecButton;
+
+		// Horizontal increse & decrese buttons.
+		wxButton* m_pH_IncButton;
+		wxButton* m_pH_DecButton;
+
+		// Horizontal and vertical PPI static text.
+		wxStaticText* m_pVPPIStaticText;
+		wxStaticText* m_pHPPIStaticText;
+
+		// Snapping to edges of the screen static box.
+		wxStaticBox* m_pSnapToEdgesOfScreenStaticBox;
+
+		// Snapping to edges of the screen check box.
+		wxCheckBox* m_pSnapToEdgesOfScreenCheckBox;
+
+		// Snapping to edges of the screen distance static text.
+		wxStaticText* m_pSnapToEdgesOfScreenStaticText;
+
+		// Snapping to edges of the screen distance spin control.
+		wxSpinCtrl* m_pSnapToEdgesOfScreenSpinCtrl;
+
+		// Snapping to other windows static box.
+		wxStaticBox* m_pSnapToOtherWindowsStaticBox;
+
+		// Snapping to other windows check box.
+		wxCheckBox* m_pSnapToOtherWindowsCheckBox;
+
+		// Snapping to other windows static text.
+		wxStaticText* m_pSnapToOtherWindowsStaticText;
+
+		// Snapping to other windows spin control.
+		wxSpinCtrl* m_pSnapToOtherWindowsSpinCtrl;
 	};
 } // end namespace WinRuler

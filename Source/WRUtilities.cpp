@@ -134,4 +134,51 @@ namespace WinRuler
 			static_cast<double>(
 				static_cast<double>(GetPixelPerInch(DisplayNo).GetY() / 6.0)));
 	}
+
+	wxPoint ParsePosition(const wxString& PositionString)
+	{
+		int x = 0, y = 0;
+
+		// Use sscanf for value parsing.
+		if (std::sscanf(PositionString.c_str(), "%d:%d", &x, &y) == 2)
+		{
+			// Return our parsed position as wxPoint.
+			return wxPoint(x, y);
+		}
+		else
+		{
+			// Handle bad format.
+			wxLogError("Invalid format for position string: ""%s""", PositionString);
+
+			return wxPoint(0, 0);
+		}
+	}
+
+	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+	{
+		std::vector<WindowInfo>* WindowsVec = 
+			reinterpret_cast<std::vector<WindowInfo>*>(lParam);
+
+		// We are checking only visible window.
+		if (IsWindowVisible(hwnd))
+		{
+			RECT Rect;
+			if (GetWindowRect(hwnd, &Rect))
+			{
+				WindowsVec->emplace_back(WindowInfo{ Rect, hwnd });
+			}
+		}
+
+		// Continue enumeration.
+		return TRUE;
+	}
+
+	std::vector<WindowInfo> GetAllWindows()
+	{
+		std::vector<WindowInfo> WindowsVec;
+		
+		EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(&WindowsVec));
+		
+		return WindowsVec;
+	}
 } // end namespace WinRuler

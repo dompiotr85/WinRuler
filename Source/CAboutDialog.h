@@ -51,6 +51,11 @@ namespace WinRuler
 		 * Creates all controls for this about dialog.
 		 **/
 		void CreateControls();
+
+		/**
+		 * Setup sizers.
+		 **/
+		void SetupSizers();
 	private:
 		/**
 		 * OnClose() method event.
@@ -69,6 +74,9 @@ namespace WinRuler
 
 		// Copyright static text.
 		wxStaticText* m_pCopyrightStaticText;
+
+		// Bottom panel.
+		wxPanel* m_pBottomPanel;
 
 		// License button.
 		wxButton* m_pLicenseButton;

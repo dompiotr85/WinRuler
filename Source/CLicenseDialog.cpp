@@ -23,7 +23,10 @@ namespace WinRuler
 		// Create class controls.
 		CreateControls();
 
-		// Centre dialog.
+		// Setup sizers.
+		SetupSizers();
+
+		// Centre license dialog.
 		Centre();
 	}
 
@@ -44,14 +47,14 @@ namespace WinRuler
 	void CLicenseDialog::CreateControls()
 	{
 	    // Set client size.
-	    //SetClientSize(wxSize(400, 300));
+	    SetClientSize(wxSize(450, 300));
 
 		// Create m_pTextCtrl and load it content from LICENSE file.
 		m_pTextCtrl =
 			new wxRichTextCtrl(
-					this, wxID_ANY, wxEmptyString,
-					wxDefaultPosition, wxSize(400, 200),
-					wxRE_MULTILINE | wxRE_READONLY);
+				this, wxID_ANY, wxEmptyString,
+				wxDefaultPosition, wxSize(450, 200),
+				wxRE_MULTILINE | wxRE_READONLY);
 		if (!m_pTextCtrl->LoadFile(
 				wxString("../../../../LICENSE"), wxRICHTEXT_TYPE_TEXT))
 		{
@@ -59,18 +62,22 @@ namespace WinRuler
 		}
 
 		// Create m_pCloseButton.
-		m_pCloseButton =
-			new wxButton(
-					this, wxID_OK, wxString("&Close"),
-					wxDefaultPosition, wxDefaultSize);
+		m_pCloseButton = new wxButton(this, wxID_OK, wxString("&Close"));
+	}
 
-        // Create wxBoxSizer and apply layout.
-        wxBoxSizer* pSizer = new wxBoxSizer(wxVERTICAL);
+	void CLicenseDialog::SetupSizers()
+	{
+		// Create wxBoxSizer and fit all components.
+		wxBoxSizer* pSizer = new wxBoxSizer(wxVERTICAL);
 
-        pSizer->Add(m_pTextCtrl, 0, wxEXPAND | wxALL, 5);
-        pSizer->Add(m_pCloseButton, 0, wxEXPAND | wxALL, 5);
+		pSizer->Add(
+			m_pTextCtrl,
+			wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5));
+		pSizer->Add(
+			m_pCloseButton,
+			wxSizerFlags().Centre().Border(wxALL, 5));
 
-        SetSizerAndFit(pSizer);
+		SetSizerAndFit(pSizer);
 	}
 
 	void CLicenseDialog::OnClose(wxCloseEvent& Event)

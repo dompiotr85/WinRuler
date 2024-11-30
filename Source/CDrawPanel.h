@@ -6,6 +6,7 @@
 #pragma once
 
 #include <wx/wx.h>
+#include "WRUtilities.h"
 
 namespace WinRuler
 {
@@ -16,10 +17,6 @@ namespace WinRuler
         public wxPanel
     {
         DECLARE_EVENT_TABLE()
-    private:
-        void DrawRulerMarkers(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerScale(wxDC& dc, wxRect& SurfaceRect);
-        void DrawRulerSurface(wxDC& dc, wxRect& SurfaceRect);
     public:
         CDrawPanel(wxFrame* pParent);
 
@@ -27,7 +24,7 @@ namespace WinRuler
          * Called by the system of by wxWidgets when the panel needs to be redrawn.
          * You can also trigger this call by calling Refresh()/Update().
          **/
-        void PaintEvent(wxPaintEvent& Event);
+        void OnPaintEvent(wxPaintEvent& Event);
 
         /**
          * Alternatively, you can use a clientDC to paint on the panel at any time.
@@ -49,6 +46,36 @@ namespace WinRuler
         void Render(wxDC& dc);
 
         void OnMouseEvent(wxMouseEvent& Event);
+    public:
+        void DrawRulerMarkers(
+            wxDC& dc, wxRect& SurfaceRect,
+            ERulerPosition eRulerPosition,
+            ERulerUnits eRulerUnits,
+            wxColour& cRulerScaleColour,
+            wxColour& cFirstMarkerColour,
+            wxColour& cSecondMarkerColour,
+            int iFirstMarkerPosition,
+            int iSecondMarkerPosition);
+
+        void DrawRulerScale(
+            wxDC& dc, wxRect& SurfaceRect,
+            wxColour& cRulerScaleColour,
+            ERulerPosition eRulerPosition,
+            ERulerUnits eRulerUnits);
+        
+        void DrawRulerSurface(
+            wxDC& dc, wxRect& SurfaceRect,
+            ERulerPosition eRulerPosition,
+            ERulerBackgroundType eRulerBackgroundType,
+            wxColour& cRulerBackgroundColour,
+            wxColour& cRulerBackgroundStartColour,
+            wxColour& cRulerBackgroundEndColour,
+            wxBitmap RulerBackgroundBitmapLeftH,
+            wxBitmap RulerBackgroundBitmapMiddleH,
+            wxBitmap RulerBackgroundBitmapRightH,
+            wxBitmap RulerBackgroundBitmapTopV,
+            wxBitmap RulerBackgroundBitmapMiddleV,
+            wxBitmap RulerBackgroundBitmapBottomV);
     private:
         void OnLeftDown(wxMouseEvent& Event);
         void OnLeftUp(wxMouseEvent& Event);

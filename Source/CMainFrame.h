@@ -9,6 +9,7 @@
 #include <wx/wx.h>
 #include <sqlite3.h>
 
+#include "WRUtilities.h"
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
@@ -52,49 +53,6 @@ namespace WinRuler
 		public wxFrame
 	{
 		DECLARE_EVENT_TABLE()
-	public:
-		/**
-		 * Ruler's position. It describes position of ruler's scale.
-		 **/
-		typedef enum ERulerPosition
-		{
-			// Ruler's scale is on left side of the ruler.
-			rpLeft,
-			// Ruler's scale is on top side of the ruler.
-			rpTop,
-			// Ruler's scale is on right side of the ruler.
-			rpRight,
-			// Ruler's scale is on bottom side of the ruler.
-			rpBottom
-		} ERulerPosition;
-
-		/**
-		 * Ruler's units of measurement types.
-		 **/
-		typedef enum ERulerUnits
-		{
-			// Centimetres as unit of measurement.
-			ruCentimetres,
-			// Inches as unit of measurement.
-			ruInches,
-			// Picas as unit of measurement.
-			ruPicas,
-			// Pixels as unit of measurement.
-			ruPixels
-		} ERulerUnits;
-
-		/**
-		 * Ruler's background type.
-		 **/
-		typedef enum ERulerBackgroundType
-		{
-			// Solid colour as ruler's background.
-			btSolid,
-			// Gradient colour as ruler's background.
-			btGradient,
-			// Image as ruler's background.
-			btImage
-		} ERulerBackgroundType;
 	private:
 		/**
 		 * PopupMenu event handling methods.
@@ -136,25 +94,9 @@ namespace WinRuler
 		void CreateControls();
 
 		/**
-		 * OnExit() method event.
-		 *
-		 * @param Event		Reference to wxCommandEvent instance.
-		 */
-		void OnExit(wxCommandEvent& Event);
-
-		/**
-		 * OnClose() method event.
-		 *
-		 * @param Event		Reference to wxCloseEvent instance.
+		 * Setup sizers.
 		 **/
-		void OnClose(wxCloseEvent& Event);
-
-		/**
-		 * OnMouseEvent() method event.
-		 *
-		 * @param Event		Reference to wxMouseEvent instance.
-		 **/
-		void OnMouseEvent(wxMouseEvent& Event);
+		void SetupSizers();
 
 		/**
 		 * This method should be called for proper change of ruler's position.
@@ -218,6 +160,46 @@ namespace WinRuler
 		 * Saves all settings of our application.
 		 **/
 		void SaveApplicationSettings();
+
+		/**
+		 * Performs snapping to edges of the screen.
+		 * 
+		 * @param Pos		Reference to current position as wxPoint instance.
+		 **/
+		void SnapToEdges(wxPoint& Pos);
+
+		/**
+		 * Performs snapping to other windows.
+		 **/
+		void SnapToOtherWindows();
+	public:
+		/**
+		 * OnExit() method event.
+		 *
+		 * @param Event		Reference to wxCommandEvent instance.
+		 */
+		void OnExit(wxCommandEvent& Event);
+
+		/**
+		 * OnClose() method event.
+		 *
+		 * @param Event		Reference to wxCloseEvent instance.
+		 **/
+		void OnClose(wxCloseEvent& Event);
+
+		/**
+		 * OnMouseEvent() method event.
+		 *
+		 * @param Event		Reference to wxMouseEvent instance.
+		 **/
+		void OnMouseEvent(wxMouseEvent& Event);
+
+		/**
+		 * OnMove() method event.
+		 * 
+		 * @param Event		Reference to wxMoveEvent instance.
+		 **/
+		void OnMove(wxMoveEvent& Event);
 	protected:
 		/**
 		 * Performs initialization of border dragging.
@@ -318,6 +300,18 @@ namespace WinRuler
 
 		// Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
+
+		// Snap to edges of the screen state.
+		bool m_bSnapToEdgesOfScreen = true;
+
+		// Snap to edges of visible windows state.
+		bool m_bSnapToOtherWindows = true;
+
+		// Snap to edges of the screen distance value.
+		int m_iSnapToEdgesOfScreenDistance = 4;
+
+		// Snap to edges of visible windows distance value.
+		int m_iSnapToOtherWindowsDistance = 4;
 	public:
 		// Pointer to CDrawPanel instance, which is used for all drawing of our
 		// ruler.

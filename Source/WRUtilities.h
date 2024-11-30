@@ -8,10 +8,56 @@
 #include <vector>
 #include <cmath>
 #include <limits>
+#include <cstdio> // For sscanf()
+#include <iostream>
 #include <wx/wx.h>
+#include <Windows.h>
 
 namespace WinRuler
 {
+	/**
+	 * Ruler's position. It describes position of ruler's scale.
+	 **/
+	typedef enum ERulerPosition
+	{
+		// Ruler's scale is on left side of the ruler.
+		rpLeft,
+		// Ruler's scale is on top side of the ruler.
+		rpTop,
+		// Ruler's scale is on right side of the ruler.
+		rpRight,
+		// Ruler's scale is on bottom side of the ruler.
+		rpBottom
+	} ERulerPosition;
+
+	/**
+	 * Ruler's units of measurement types.
+	 **/
+	typedef enum ERulerUnits
+	{
+		// Centimetres as unit of measurement.
+		ruCentimetres,
+		// Inches as unit of measurement.
+		ruInches,
+		// Picas as unit of measurement.
+		ruPicas,
+		// Pixels as unit of measurement.
+		ruPixels
+	} ERulerUnits;
+
+	/**
+	 * Ruler's background type.
+	 **/
+	typedef enum ERulerBackgroundType
+	{
+		// Solid colour as ruler's background.
+		btSolid,
+		// Gradient colour as ruler's background.
+		btGradient,
+		// Image as ruler's background.
+		btImage
+	} ERulerBackgroundType;
+
 	/*-------------------------------------------------------------------------
 	  Mathematical routines.
 	-------------------------------------------------------------------------*/
@@ -160,4 +206,45 @@ namespace WinRuler
 	 * @return	Returns result of pixels to picas calculation.
 	 **/
 	double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance);
+
+	/*-------------------------------------------------------------------------
+	  Other helpful routines. 
+	-------------------------------------------------------------------------*/
+	
+	/**
+	 * Performs retrival of two values from specially formated string "%d:%d".
+	 * 
+	 * @param PositionString		Reference to specially formated position
+	 *								string.
+	 * 
+	 * @return	Returns retrived values represented in wxPoint type format.
+	 **/
+	wxPoint ParsePosition(const wxString& PositionString);
+
+	// Window information structure.
+	struct WindowInfo
+	{
+		// Window rect (position and size).
+		RECT Rect;
+
+		// Window handle.
+		HWND hwnd;
+	};
+
+	/**
+	 * Callback function for EnumWindows.
+	 *
+	 * @param hwnd		Window handle.
+	 * @param lParam	LPARAM instance.
+	 *
+	 * @return	Returns TRUE if operation was successful.
+	 **/
+	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
+
+	/**
+	 * Returns vector of all visible windows.
+	 * 
+	 * @return	Returns vector of all visible windows.
+	 **/
+	std::vector<WindowInfo> GetAllWindows();
 }
