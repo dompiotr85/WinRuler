@@ -72,8 +72,10 @@ namespace WinRuler
 		if (!m_pIcon->LoadFile(
 				wxString("../../../../Resources/WinRuler.ico"),
 				wxBITMAP_TYPE_ICO))
-		{
+		{ // In case of error, log error message and release m_pIcon instance.
 			wxLogError("Can't load application icon!");
+
+			wxDELETE(m_pIcon);
 
 			return false;
 		}
@@ -88,9 +90,26 @@ namespace WinRuler
 
 	int CApplication::OnExit()
 	{
+#ifdef _DEBUG
 		// Clean our wxLog instance.
 		wxLog::SetActiveTarget(nullptr);
-		wxDELETE(m_pLogger);
+		if (m_pLogger != nullptr)
+		{
+			wxDELETE(m_pLogger);
+		}
+#endif
+
+		// Release m_pIcon instance.
+		if (m_pIcon != nullptr)
+		{
+			wxDELETE(m_pIcon);
+		}
+
+		// Release m_pMainFrame instance.
+		/*if (m_pMainFrame != nullptr)
+		{
+			wxDELETE(m_pMainFrame);
+		}*/
 
 		// Clear h_vPixelPerInch vector.
 		g_vPixelPerInch.clear();

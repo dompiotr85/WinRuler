@@ -112,16 +112,28 @@ namespace WinRuler
 			wxID_EXIT);
 
 		// Release COptionsDialog instance.
-		wxDELETE(m_pOptionsDialog);
+		if (m_pOptionsDialog != nullptr)
+		{
+			wxDELETE(m_pOptionsDialog);
+		}
 
 		// Release CAboutDialog instance.
-		wxDELETE(m_pAboutDialog);
+		if (m_pAboutDialog != nullptr)
+		{
+			wxDELETE(m_pAboutDialog);
+		}
 
 		// Release CNewRulerLengthDialog instance.
-		wxDELETE(m_pNewRulerLengthDialog);
+		if (m_pNewRulerLengthDialog != nullptr)
+		{
+			wxDELETE(m_pNewRulerLengthDialog);
+		}
 
 		// Release CDrawPanel instance.
-		wxDELETE(m_pDrawPanel);
+		if (m_pDrawPanel != nullptr)
+		{
+			wxDELETE(m_pDrawPanel);
+		}
 	}
 
 	void CMainFrame::Init()
