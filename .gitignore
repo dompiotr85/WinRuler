@@ -566,6 +566,32 @@ build
 # directories.
 ###########################################################
 
+## Build generated
+build/
+DerivedData
+
+# NB: NIB/XIB files still exist even on Storyboard projects, so we want this
+*~.nib
+*.swp
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.xcscheme
+
 # User settings
 xcuserdata/
 
