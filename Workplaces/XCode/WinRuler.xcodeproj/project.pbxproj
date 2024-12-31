@@ -7,22 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AE0D030C2D18BA3C000A3E6B /* CAboutDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D02FC2D18BA3C000A3E6B /* CAboutDialog.cpp */; };
-		AE0D030D2D18BA3C000A3E6B /* CLicenseDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03022D18BA3C000A3E6B /* CLicenseDialog.cpp */; };
-		AE0D030E2D18BA3C000A3E6B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03092D18BA3C000A3E6B /* main.cpp */; };
-		AE0D030F2D18BA3C000A3E6B /* CMainFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03042D18BA3C000A3E6B /* CMainFrame.cpp */; };
-		AE0D03102D18BA3C000A3E6B /* CNewRulerLengthDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03062D18BA3C000A3E6B /* CNewRulerLengthDialog.cpp */; };
-		AE0D03112D18BA3C000A3E6B /* COptionsDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03082D18BA3C000A3E6B /* COptionsDialog.cpp */; };
-		AE0D03122D18BA3C000A3E6B /* WRUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D030B2D18BA3C000A3E6B /* WRUtilities.cpp */; };
-		AE0D03132D18BA3C000A3E6B /* CDrawPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D03002D18BA3C000A3E6B /* CDrawPanel.cpp */; };
-		AE0D03142D18BA3C000A3E6B /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE0D02FE2D18BA3C000A3E6B /* CApplication.cpp */; };
+		AEA1678E2D24060400E48C69 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1678D2D24060400E48C69 /* IOKit.framework */; };
+		AEA167902D24061100E48C69 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1678F2D24061100E48C69 /* Carbon.framework */; };
+		AEA167922D24061E00E48C69 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167912D24061E00E48C69 /* Cocoa.framework */; };
+		AEA167942D24062C00E48C69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167932D24062C00E48C69 /* QuartzCore.framework */; };
+		AEA167962D24064100E48C69 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167952D24064100E48C69 /* AudioToolbox.framework */; };
+		AEA167982D24069B00E48C69 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167972D24069B00E48C69 /* OpenGL.framework */; };
+		AEA1679A2D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167992D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib */; };
+		AEA1679C2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679B2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib */; };
+		AEA1679E2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679D2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib */; };
+		AEA167A02D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679F2D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib */; };
+		AEA167A22D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A12D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib */; };
+		AEA167A42D2408B500E48C69 /* libwx_baseu_net-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A32D2408B500E48C69 /* libwx_baseu_net-3.2.dylib */; };
+		AEA167A62D2408C700E48C69 /* libwx_baseu-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A52D2408C700E48C69 /* libwx_baseu-3.2.dylib */; };
+		AEA167B82D240AE200E48C69 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B52D240AE200E48C69 /* main.cpp */; };
+		AEA167B92D240AE200E48C69 /* WRUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B72D240AE200E48C69 /* WRUtilities.cpp */; };
+		AEA167BA2D240AE200E48C69 /* CDrawPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */; };
+		AEA167BB2D240AE200E48C69 /* CNewRulerLengthDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B22D240AE200E48C69 /* CNewRulerLengthDialog.cpp */; };
+		AEA167BC2D240AE200E48C69 /* CLicenseDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167AE2D240AE200E48C69 /* CLicenseDialog.cpp */; };
+		AEA167BD2D240AE200E48C69 /* CMainFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B02D240AE200E48C69 /* CMainFrame.cpp */; };
+		AEA167BE2D240AE200E48C69 /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167AA2D240AE200E48C69 /* CApplication.cpp */; };
+		AEA167BF2D240AE200E48C69 /* COptionsDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */; };
+		AEA167C02D240AE200E48C69 /* CAboutDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */; };
+		AEA167C32D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167C22D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib */; };
+		AEA167CB2D240D6000E48C69 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = AEA167C82D240D6000E48C69 /* sqlite3.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AE0D02D02D18B248000A3E6B /* CopyFiles */ = {
+		AEA167802D24050700E48C69 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 			);
@@ -31,80 +46,162 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AE0D02D22D18B248000A3E6B /* WinRuler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WinRuler; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE0D02FB2D18BA3C000A3E6B /* CAboutDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CAboutDialog.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CAboutDialog.h; sourceTree = "<absolute>"; };
-		AE0D02FC2D18BA3C000A3E6B /* CAboutDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAboutDialog.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CAboutDialog.cpp; sourceTree = "<absolute>"; };
-		AE0D02FD2D18BA3C000A3E6B /* CApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CApplication.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CApplication.h; sourceTree = "<absolute>"; };
-		AE0D02FE2D18BA3C000A3E6B /* CApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CApplication.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CApplication.cpp; sourceTree = "<absolute>"; };
-		AE0D02FF2D18BA3C000A3E6B /* CDrawPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDrawPanel.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CDrawPanel.h; sourceTree = "<absolute>"; };
-		AE0D03002D18BA3C000A3E6B /* CDrawPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CDrawPanel.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CDrawPanel.cpp; sourceTree = "<absolute>"; };
-		AE0D03012D18BA3C000A3E6B /* CLicenseDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CLicenseDialog.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CLicenseDialog.h; sourceTree = "<absolute>"; };
-		AE0D03022D18BA3C000A3E6B /* CLicenseDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CLicenseDialog.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CLicenseDialog.cpp; sourceTree = "<absolute>"; };
-		AE0D03032D18BA3C000A3E6B /* CMainFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMainFrame.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CMainFrame.h; sourceTree = "<absolute>"; };
-		AE0D03042D18BA3C000A3E6B /* CMainFrame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CMainFrame.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CMainFrame.cpp; sourceTree = "<absolute>"; };
-		AE0D03052D18BA3C000A3E6B /* CNewRulerLengthDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CNewRulerLengthDialog.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CNewRulerLengthDialog.h; sourceTree = "<absolute>"; };
-		AE0D03062D18BA3C000A3E6B /* CNewRulerLengthDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CNewRulerLengthDialog.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/CNewRulerLengthDialog.cpp; sourceTree = "<absolute>"; };
-		AE0D03072D18BA3C000A3E6B /* COptionsDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = COptionsDialog.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/COptionsDialog.h; sourceTree = "<absolute>"; };
-		AE0D03082D18BA3C000A3E6B /* COptionsDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = COptionsDialog.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/COptionsDialog.cpp; sourceTree = "<absolute>"; };
-		AE0D03092D18BA3C000A3E6B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/main.cpp; sourceTree = "<absolute>"; };
-		AE0D030A2D18BA3C000A3E6B /* WRUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WRUtilities.h; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/WRUtilities.h; sourceTree = "<absolute>"; };
-		AE0D030B2D18BA3C000A3E6B /* WRUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WRUtilities.cpp; path = /Users/piotr/Documents/Programowanie/WinRuler/Source/WRUtilities.cpp; sourceTree = "<absolute>"; };
+		AEA167822D24050700E48C69 /* WinRuler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WinRuler; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEA1678D2D24060400E48C69 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		AEA1678F2D24061100E48C69 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		AEA167912D24061E00E48C69 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		AEA167932D24062C00E48C69 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		AEA167952D24064100E48C69 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		AEA167972D24069B00E48C69 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		AEA167992D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_xrc-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_xrc-3.2.dylib"; sourceTree = "<group>"; };
+		AEA1679B2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_html-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_html-3.2.dylib"; sourceTree = "<group>"; };
+		AEA1679D2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_qa-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_qa-3.2.dylib"; sourceTree = "<group>"; };
+		AEA1679F2D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_core-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_core-3.2.dylib"; sourceTree = "<group>"; };
+		AEA167A12D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu_xml-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_baseu_xml-3.2.dylib"; sourceTree = "<group>"; };
+		AEA167A32D2408B500E48C69 /* libwx_baseu_net-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu_net-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_baseu_net-3.2.dylib"; sourceTree = "<group>"; };
+		AEA167A52D2408C700E48C69 /* libwx_baseu-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_baseu-3.2.dylib"; sourceTree = "<group>"; };
+		AEA167A72D240AE200E48C69 /* CAboutDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CAboutDialog.h; path = /Users/piotr/Programowanie/WinRuler/Source/CAboutDialog.h; sourceTree = "<absolute>"; };
+		AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAboutDialog.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CAboutDialog.cpp; sourceTree = "<absolute>"; };
+		AEA167A92D240AE200E48C69 /* CApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CApplication.h; path = /Users/piotr/Programowanie/WinRuler/Source/CApplication.h; sourceTree = "<absolute>"; };
+		AEA167AA2D240AE200E48C69 /* CApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CApplication.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CApplication.cpp; sourceTree = "<absolute>"; };
+		AEA167AB2D240AE200E48C69 /* CDrawPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDrawPanel.h; path = /Users/piotr/Programowanie/WinRuler/Source/CDrawPanel.h; sourceTree = "<absolute>"; };
+		AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CDrawPanel.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CDrawPanel.cpp; sourceTree = "<absolute>"; };
+		AEA167AD2D240AE200E48C69 /* CLicenseDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CLicenseDialog.h; path = /Users/piotr/Programowanie/WinRuler/Source/CLicenseDialog.h; sourceTree = "<absolute>"; };
+		AEA167AE2D240AE200E48C69 /* CLicenseDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CLicenseDialog.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CLicenseDialog.cpp; sourceTree = "<absolute>"; };
+		AEA167AF2D240AE200E48C69 /* CMainFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CMainFrame.h; path = /Users/piotr/Programowanie/WinRuler/Source/CMainFrame.h; sourceTree = "<absolute>"; };
+		AEA167B02D240AE200E48C69 /* CMainFrame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CMainFrame.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CMainFrame.cpp; sourceTree = "<absolute>"; };
+		AEA167B12D240AE200E48C69 /* CNewRulerLengthDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CNewRulerLengthDialog.h; path = /Users/piotr/Programowanie/WinRuler/Source/CNewRulerLengthDialog.h; sourceTree = "<absolute>"; };
+		AEA167B22D240AE200E48C69 /* CNewRulerLengthDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CNewRulerLengthDialog.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/CNewRulerLengthDialog.cpp; sourceTree = "<absolute>"; };
+		AEA167B32D240AE200E48C69 /* COptionsDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = COptionsDialog.h; path = /Users/piotr/Programowanie/WinRuler/Source/COptionsDialog.h; sourceTree = "<absolute>"; };
+		AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = COptionsDialog.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/COptionsDialog.cpp; sourceTree = "<absolute>"; };
+		AEA167B52D240AE200E48C69 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/main.cpp; sourceTree = "<absolute>"; };
+		AEA167B62D240AE200E48C69 /* WRUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WRUtilities.h; path = /Users/piotr/Programowanie/WinRuler/Source/WRUtilities.h; sourceTree = "<absolute>"; };
+		AEA167B72D240AE200E48C69 /* WRUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WRUtilities.cpp; path = /Users/piotr/Programowanie/WinRuler/Source/WRUtilities.cpp; sourceTree = "<absolute>"; };
+		AEA167C22D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_richtext-3.2.dylib"; path = "../../../../../../usr/local/lib/libwx_osx_cocoau_richtext-3.2.dylib"; sourceTree = "<group>"; };
+		AEA167C72D240D6000E48C69 /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		AEA167C82D240D6000E48C69 /* sqlite3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		AEA167C92D240D6000E48C69 /* sqlite3ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AE0D02CF2D18B248000A3E6B /* Frameworks */ = {
+		AEA1677F2D24050700E48C69 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEA1678E2D24060400E48C69 /* IOKit.framework in Frameworks */,
+				AEA167902D24061100E48C69 /* Carbon.framework in Frameworks */,
+				AEA167922D24061E00E48C69 /* Cocoa.framework in Frameworks */,
+				AEA167942D24062C00E48C69 /* QuartzCore.framework in Frameworks */,
+				AEA167962D24064100E48C69 /* AudioToolbox.framework in Frameworks */,
+				AEA167982D24069B00E48C69 /* OpenGL.framework in Frameworks */,
+				AEA1679A2D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib in Frameworks */,
+				AEA167A02D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib in Frameworks */,
+				AEA1679E2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib in Frameworks */,
+				AEA1679C2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib in Frameworks */,
+				AEA167C32D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib in Frameworks */,
+				AEA167A22D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib in Frameworks */,
+				AEA167A42D2408B500E48C69 /* libwx_baseu_net-3.2.dylib in Frameworks */,
+				AEA167A62D2408C700E48C69 /* libwx_baseu-3.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AE0D02C92D18B248000A3E6B = {
+		AEA167792D24050700E48C69 = {
 			isa = PBXGroup;
 			children = (
-				AE0D02FB2D18BA3C000A3E6B /* CAboutDialog.h */,
-				AE0D02FC2D18BA3C000A3E6B /* CAboutDialog.cpp */,
-				AE0D02FD2D18BA3C000A3E6B /* CApplication.h */,
-				AE0D02FE2D18BA3C000A3E6B /* CApplication.cpp */,
-				AE0D02FF2D18BA3C000A3E6B /* CDrawPanel.h */,
-				AE0D03002D18BA3C000A3E6B /* CDrawPanel.cpp */,
-				AE0D03012D18BA3C000A3E6B /* CLicenseDialog.h */,
-				AE0D03022D18BA3C000A3E6B /* CLicenseDialog.cpp */,
-				AE0D03032D18BA3C000A3E6B /* CMainFrame.h */,
-				AE0D03042D18BA3C000A3E6B /* CMainFrame.cpp */,
-				AE0D03052D18BA3C000A3E6B /* CNewRulerLengthDialog.h */,
-				AE0D03062D18BA3C000A3E6B /* CNewRulerLengthDialog.cpp */,
-				AE0D03072D18BA3C000A3E6B /* COptionsDialog.h */,
-				AE0D03082D18BA3C000A3E6B /* COptionsDialog.cpp */,
-				AE0D03092D18BA3C000A3E6B /* main.cpp */,
-				AE0D030A2D18BA3C000A3E6B /* WRUtilities.h */,
-				AE0D030B2D18BA3C000A3E6B /* WRUtilities.cpp */,
-				AE0D02D32D18B248000A3E6B /* Products */,
+				AEA167C42D240CD900E48C69 /* ThirdParty */,
+				AEA167C12D240AEE00E48C69 /* Source */,
+				AEA167A72D240AE200E48C69 /* CAboutDialog.h */,
+				AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */,
+				AEA167A92D240AE200E48C69 /* CApplication.h */,
+				AEA167AA2D240AE200E48C69 /* CApplication.cpp */,
+				AEA167AB2D240AE200E48C69 /* CDrawPanel.h */,
+				AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */,
+				AEA167AD2D240AE200E48C69 /* CLicenseDialog.h */,
+				AEA167AE2D240AE200E48C69 /* CLicenseDialog.cpp */,
+				AEA167AF2D240AE200E48C69 /* CMainFrame.h */,
+				AEA167B02D240AE200E48C69 /* CMainFrame.cpp */,
+				AEA167B12D240AE200E48C69 /* CNewRulerLengthDialog.h */,
+				AEA167B22D240AE200E48C69 /* CNewRulerLengthDialog.cpp */,
+				AEA167B32D240AE200E48C69 /* COptionsDialog.h */,
+				AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */,
+				AEA167B52D240AE200E48C69 /* main.cpp */,
+				AEA167B62D240AE200E48C69 /* WRUtilities.h */,
+				AEA167B72D240AE200E48C69 /* WRUtilities.cpp */,
+				AEA1678C2D24060400E48C69 /* Frameworks */,
+				AEA167832D24050700E48C69 /* Products */,
 			);
 			sourceTree = "<group>";
-			usesTabs = 0;
 		};
-		AE0D02D32D18B248000A3E6B /* Products */ = {
+		AEA167832D24050700E48C69 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AE0D02D22D18B248000A3E6B /* WinRuler */,
+				AEA167822D24050700E48C69 /* WinRuler */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AEA1678C2D24060400E48C69 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AEA167C22D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib */,
+				AEA167A52D2408C700E48C69 /* libwx_baseu-3.2.dylib */,
+				AEA167A32D2408B500E48C69 /* libwx_baseu_net-3.2.dylib */,
+				AEA167A12D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib */,
+				AEA1679F2D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib */,
+				AEA1679D2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib */,
+				AEA1679B2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib */,
+				AEA167992D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib */,
+				AEA167972D24069B00E48C69 /* OpenGL.framework */,
+				AEA167952D24064100E48C69 /* AudioToolbox.framework */,
+				AEA167932D24062C00E48C69 /* QuartzCore.framework */,
+				AEA167912D24061E00E48C69 /* Cocoa.framework */,
+				AEA1678F2D24061100E48C69 /* Carbon.framework */,
+				AEA1678D2D24060400E48C69 /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AEA167C12D240AEE00E48C69 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Source;
+			path = /Users/piotr/Programowanie/WinRuler/Source;
+			sourceTree = "<absolute>";
+		};
+		AEA167C42D240CD900E48C69 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				AEA167C52D240D1800E48C69 /* sqlite */,
+			);
+			name = ThirdParty;
+			path = /Users/piotr/Programowanie/WinRuler/ThirdParty;
+			sourceTree = "<absolute>";
+		};
+		AEA167C52D240D1800E48C69 /* sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				AEA167C72D240D6000E48C69 /* sqlite3.h */,
+				AEA167C82D240D6000E48C69 /* sqlite3.c */,
+				AEA167C92D240D6000E48C69 /* sqlite3ext.h */,
+			);
+			name = sqlite;
+			path = /Users/piotr/Programowanie/WinRuler/ThirdParty/sqlite;
+			sourceTree = "<absolute>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AE0D02D12D18B248000A3E6B /* WinRuler */ = {
+		AEA167812D24050700E48C69 /* WinRuler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AE0D02D92D18B248000A3E6B /* Build configuration list for PBXNativeTarget "WinRuler" */;
+			buildConfigurationList = AEA167892D24050700E48C69 /* Build configuration list for PBXNativeTarget "WinRuler" */;
 			buildPhases = (
-				AE0D02CE2D18B248000A3E6B /* Sources */,
-				AE0D02CF2D18B248000A3E6B /* Frameworks */,
-				AE0D02D02D18B248000A3E6B /* CopyFiles */,
+				AEA1677E2D24050700E48C69 /* Sources */,
+				AEA1677F2D24050700E48C69 /* Frameworks */,
+				AEA167802D24050700E48C69 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -114,70 +211,71 @@
 			packageProductDependencies = (
 			);
 			productName = WinRuler;
-			productReference = AE0D02D22D18B248000A3E6B /* WinRuler */;
+			productReference = AEA167822D24050700E48C69 /* WinRuler */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		AE0D02CA2D18B248000A3E6B /* Project object */ = {
+		AEA1677A2D24050700E48C69 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					AE0D02D12D18B248000A3E6B = {
+					AEA167812D24050700E48C69 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = AE0D02CD2D18B248000A3E6B /* Build configuration list for PBXProject "WinRuler" */;
+			buildConfigurationList = AEA1677D2D24050700E48C69 /* Build configuration list for PBXProject "WinRuler" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = AE0D02C92D18B248000A3E6B;
+			mainGroup = AEA167792D24050700E48C69;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = AE0D02D32D18B248000A3E6B /* Products */;
+			productRefGroup = AEA167832D24050700E48C69 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AE0D02D12D18B248000A3E6B /* WinRuler */,
+				AEA167812D24050700E48C69 /* WinRuler */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AE0D02CE2D18B248000A3E6B /* Sources */ = {
+		AEA1677E2D24050700E48C69 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE0D030C2D18BA3C000A3E6B /* CAboutDialog.cpp in Sources */,
-				AE0D030D2D18BA3C000A3E6B /* CLicenseDialog.cpp in Sources */,
-				AE0D030E2D18BA3C000A3E6B /* main.cpp in Sources */,
-				AE0D030F2D18BA3C000A3E6B /* CMainFrame.cpp in Sources */,
-				AE0D03102D18BA3C000A3E6B /* CNewRulerLengthDialog.cpp in Sources */,
-				AE0D03112D18BA3C000A3E6B /* COptionsDialog.cpp in Sources */,
-				AE0D03122D18BA3C000A3E6B /* WRUtilities.cpp in Sources */,
-				AE0D03132D18BA3C000A3E6B /* CDrawPanel.cpp in Sources */,
-				AE0D03142D18BA3C000A3E6B /* CApplication.cpp in Sources */,
+				AEA167B82D240AE200E48C69 /* main.cpp in Sources */,
+				AEA167CB2D240D6000E48C69 /* sqlite3.c in Sources */,
+				AEA167B92D240AE200E48C69 /* WRUtilities.cpp in Sources */,
+				AEA167BA2D240AE200E48C69 /* CDrawPanel.cpp in Sources */,
+				AEA167BB2D240AE200E48C69 /* CNewRulerLengthDialog.cpp in Sources */,
+				AEA167BC2D240AE200E48C69 /* CLicenseDialog.cpp in Sources */,
+				AEA167BD2D240AE200E48C69 /* CMainFrame.cpp in Sources */,
+				AEA167BE2D240AE200E48C69 /* CApplication.cpp in Sources */,
+				AEA167BF2D240AE200E48C69 /* COptionsDialog.cpp in Sources */,
+				AEA167C02D240AE200E48C69 /* CAboutDialog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		AE0D02D72D18B248000A3E6B /* Debug */ = {
+		AEA167872D24050700E48C69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -222,7 +320,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				"INFOPLIST_FILE[sdk=macosx*]" = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -232,14 +329,14 @@
 			};
 			name = Debug;
 		};
-		AE0D02D82D18B248000A3E6B /* Release */ = {
+		AEA167882D24050700E48C69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -286,46 +383,78 @@
 			};
 			name = Release;
 		};
-		AE0D02DA2D18B248000A3E6B /* Debug */ = {
+		AEA1678A2D24050700E48C69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.2",
+					"/usr/local/include/wx-3.2",
+					../../Source,
+					../../ThirdParty/sqlite,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = Build;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DWXUSINGDLL",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = ../../Binaries/macOS/x64;
 			};
 			name = Debug;
 		};
-		AE0D02DB2D18B248000A3E6B /* Release */ = {
+		AEA1678B2D24050700E48C69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.2",
+					"/usr/local/include/wx-3.2",
+					../../Source,
+					../../ThirdParty/sqlite,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = Build;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DWXUSINGDLL",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = ../../Binaries/macOS/x64;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AE0D02CD2D18B248000A3E6B /* Build configuration list for PBXProject "WinRuler" */ = {
+		AEA1677D2D24050700E48C69 /* Build configuration list for PBXProject "WinRuler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AE0D02D72D18B248000A3E6B /* Debug */,
-				AE0D02D82D18B248000A3E6B /* Release */,
+				AEA167872D24050700E48C69 /* Debug */,
+				AEA167882D24050700E48C69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AE0D02D92D18B248000A3E6B /* Build configuration list for PBXNativeTarget "WinRuler" */ = {
+		AEA167892D24050700E48C69 /* Build configuration list for PBXNativeTarget "WinRuler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AE0D02DA2D18B248000A3E6B /* Debug */,
-				AE0D02DB2D18B248000A3E6B /* Release */,
+				AEA1678A2D24050700E48C69 /* Debug */,
+				AEA1678B2D24050700E48C69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = AE0D02CA2D18B248000A3E6B /* Project object */;
+	rootObject = AEA1677A2D24050700E48C69 /* Project object */;
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright ï¿½ 2024 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -145,6 +145,9 @@ namespace WinRuler
 #elif defined(_WIN32) || defined(WIN32)	// If platform is Windows.
 		int cWidth = 700;
 		int cHeight = 740;
+#elif __APPLE__
+        int cWidth = 700;
+        int cHeight = 860;
 #endif
         SetClientSize(wxSize(cWidth, cHeight));
 
