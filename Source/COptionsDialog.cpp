@@ -356,15 +356,16 @@ namespace WinRuler
 					"provides the vertical and horizontal pixels per inch (PPI). "
 					"In some computer configurations (often in laptops), this "
 					"factor indicates a default value of 96 pixels per inch, "
-					"not the correct one. This value is not accurate, which "
-					"gives an incorrect scale in our screen ruler. "
-					"Calibrating the PPI value for the height and width of "
-					"the screen solves this problem. Please put a real ruler "
-					"on your computer screen, close to the displayed scale, "
+					"which is not the correct one. This value is not accurate, "
+					"giving an incorrect scale in our screen ruler. "
+					"Manual calibration of the PPI value for the height and width of "
+					"the screen solves this problem. This calibration is set only for "
+					"WinRuler application. To properly calibrate WinRuler, please put "
+					"a real ruler on your computer screen close to the displayed scale "
 					"and calibrate the scale on the screen by pressing "
-					"the ""Zoom in"" or ""Zoom out"" button. After proper "
-					"calibration, the ruler should indicate the correct "
-					"distances."));
+					"the ""Increase"" or ""Decrease"" button. Note that you must calibrate "
+					"horizontal and vertical PPI values. After proper calibration, "
+					"the ruler should indicate the correct distances."));
 
 		// Create vertical and horizontal panels that will display rulers for
 		// calibration. Create also Increse and Decrese buttons for vertical
