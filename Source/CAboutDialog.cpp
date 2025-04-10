@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -20,22 +20,22 @@ namespace WinRuler
         long Style) :
         wxDialog(Parent, Id, Title, Pos, Size, Style)
     {
-        // Initialize class.
+		// Initialize class variables.
         Init();
 
-        // Create class controls.
+		// Create all controls for the CAboutDialog class.
         CreateControls();
 
-        // Setup sizers.
+		// Setup layout of the CAboutDialog class.
         SetupSizers();
 
-        // Centre dialog.
+		// Centre the CAboutDialog class on the screen.
         Centre();
     }
 
     CAboutDialog::~CAboutDialog()
     {
-        // Release all instances from heap.
+		// Destroy all controls and release them from heap.
         wxDELETE(m_pLicenseDialog);
 
         wxDELETE(m_pCloseButton);
@@ -47,7 +47,7 @@ namespace WinRuler
 
     void CAboutDialog::Init()
     {
-        // Set all class instances as NULL.
+		// Set default values for class variables.
         m_pHeaderStaticBitmap = NULL;
         m_pCopyrightStaticText = NULL;
         m_pVersionStaticText = NULL;

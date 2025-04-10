@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -24,13 +24,16 @@ namespace WinRuler
 	 **/
 	typedef enum ERulerPosition
 	{
-		// Ruler's scale is on left side of the ruler.
+		//! Ruler's scale is on left side of the ruler.
 		rpLeft,
-		// Ruler's scale is on top side of the ruler.
+		
+		//! Ruler's scale is on top side of the ruler.
 		rpTop,
-		// Ruler's scale is on right side of the ruler.
+		
+		//! Ruler's scale is on right side of the ruler.
 		rpRight,
-		// Ruler's scale is on bottom side of the ruler.
+		
+		//! Ruler's scale is on bottom side of the ruler.
 		rpBottom
 	} ERulerPosition;
 
@@ -39,13 +42,16 @@ namespace WinRuler
 	 **/
 	typedef enum ERulerUnits
 	{
-		// Centimetres as unit of measurement.
+		//! Centimetres as unit of measurement.
 		ruCentimetres,
-		// Inches as unit of measurement.
+		
+		//! Inches as unit of measurement.
 		ruInches,
-		// Picas as unit of measurement.
+		
+		//! Picas as unit of measurement.
 		ruPicas,
-		// Pixels as unit of measurement.
+		
+		//! Pixels as unit of measurement.
 		ruPixels
 	} ERulerUnits;
 
@@ -54,11 +60,13 @@ namespace WinRuler
 	 **/
 	typedef enum ERulerBackgroundType
 	{
-		// Solid colour as ruler's background.
+		//! Solid colour as ruler's background.
 		btSolid,
-		// Gradient colour as ruler's background.
+		
+		//! Gradient colour as ruler's background.
 		btGradient,
-		// Image as ruler's background.
+		
+		//! Image as ruler's background.
 		btImage
 	} ERulerBackgroundType;
 
@@ -69,10 +77,10 @@ namespace WinRuler
 	/**
 	 * Portable comparison function for double float numbers.
 	 *
-	 * @param a		First double float number that will be compared.
-	 * @param b		Second double float number that will be compared.
+	 * \param a		First double float number that will be compared.
+	 * \param b		Second double float number that will be compared.
 	 *
-	 * @return  Returns true if a and b numbers are almost equal, false
+	 * \return  Returns true if a and b numbers are almost equal, false
 	 *          otherwise.
 	 **/
 	bool AreSame(
@@ -88,7 +96,7 @@ namespace WinRuler
 	/**
 	 * Sets new PixelPerInch value.
 	 *
-	 * @param NewValue	New value that will be stored as current PixelPerInch
+	 * \param NewValue	New value that will be stored as current PixelPerInch
 	 *					value.
 	 **/
 	void SetPixelPerInch(unsigned int DisplayNo, wxSize& NewPPIValue);
@@ -96,57 +104,57 @@ namespace WinRuler
 	/**
 	 * Gets PixelPerInch value.
 	 *
-	 * @return	Returns current PixelPerInch value.
+	 * \return	Returns current PixelPerInch value.
 	 **/
 	wxSize& GetPixelPerInch(unsigned int DisplayNo);
 
 	/**
 	 * Calculates conversion from inches to pixels (horizontal version).
 	 *
-	 * @param AInchDistance		Inch distance that will be calculated to
+	 * \param AInchDistance		Inch distance that will be calculated to
 	 *							pixels.
 	 *
-	 * @return	Returns result of inches to pixels calculation.
+	 * \return	Returns result of inches to pixels calculation.
 	 **/
 	int InchesToPixelsHorizontal(unsigned int DisplayNo, double AInchDistance);
 
 	/**
 	 * Calculates conversion from inches to pixels (vertical version).
 	 *
-	 * @param AInchDistance		Inch distance that will be calculated to
+	 * \param AInchDistance		Inch distance that will be calculated to
 	 *							pixels.
 	 *
-	 * @return	Returns result of inches to pixels calculation.
+	 * \return	Returns result of inches to pixels calculation.
 	 **/
 	int InchesToPixelsVertical(unsigned int DisplayNo, double AInchDistance);
 
 	/**
 	 * Calculates conversion from pixels to inches (horizontal version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to
+	 * \param APixelDistance	Pixel distance that will be calculated to
 	 *							inches.
 	 *
-	 * @return	Returns result of pixels to inches calculation.
+	 * \return	Returns result of pixels to inches calculation.
 	 **/
 	double PixelsToInchesHorizontal(unsigned int DisplayNo, int APixelDistance);
 
 	/**
 	 * Calculates conversion from pixels to inches (vertical version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to
+	 * \param APixelDistance	Pixel distance that will be calculated to
 	 *							inches.
 	 *
-	 * @return	Returns result of pixels to inches calculation.
+	 * \return	Returns result of pixels to inches calculation.
 	 **/
 	double PixelsToInchesVertical(unsigned int DisplayNo, int APixelDistance);
 
 	/**
 	 * Calculates conversion form centimetres to pixels (horizontal version).
 	 *
-	 * @param ACentimetreDistance	Centimetre distans that will be calculated
+	 * \param ACentimetreDistance	Centimetre distans that will be calculated
 	 *                              to pixels.
 	 *
-	 * @return	Returns result of centimetres to pixels calculation.
+	 * \return	Returns result of centimetres to pixels calculation.
 	 **/
 	int CentimetresToPixelsHorizontal(
         unsigned int DisplayNo, double ACentimetreDistance);
@@ -154,10 +162,10 @@ namespace WinRuler
 	/**
 	 * Calculates conversion form centimetres to pixels (vertical version).
 	 *
-	 * @param ACentimetreDistance	Centimetre distance that will be calculated
+	 * \param ACentimetreDistance	Centimetre distance that will be calculated
 	 *                              to pixels.
 	 *
-	 * @return	Returns result of centimetres to pixels calculation.
+	 * \return	Returns result of centimetres to pixels calculation.
 	 **/
 	int CentimetresToPixelsVertical(
         unsigned int DisplayNo, double ACentimetreDistance);
@@ -165,9 +173,9 @@ namespace WinRuler
 	/**
 	 * Calculates conversion from pixels to centimetres (horizontal version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to
+	 * \param APixelDistance	Pixel distance that will be calculated to
 	 *							centimetres.
-	 * @return	Returns result of pixels to centimetres calculation.
+	 * \return	Returns result of pixels to centimetres calculation.
 	 **/
 	double PixelsToCentimetresHorizontal(
         unsigned int DisplayNo, int APixelDistance);
@@ -175,9 +183,9 @@ namespace WinRuler
 	/**
 	 * Calculates conversion from pixels to centimetres (vertical version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to
+	 * \param APixelDistance	Pixel distance that will be calculated to
 	 *							centimetres.
-	 * @return	Returns result of pixels to centimetres calculation.
+	 * \return	Returns result of pixels to centimetres calculation.
 	 **/
 	double PixelsToCentimetresVertical(
         unsigned int DisplayNo, int APixelDistance);
@@ -185,36 +193,40 @@ namespace WinRuler
 	/**
 	 * Calculates conversion from picas to pixels (horizontal version).
 	 *
-	 * @param APicasDistance	Picas distance that will be calculated to pixels.
+	 * \param APicasDistance	Picas distance that will be calculated to
+	 *							pixels.
 	 *
-	 * @return	Returns result of picas to pixels calculation.
+	 * \return	Returns result of picas to pixels calculation.
 	 **/
 	int PicasToPixelsHorizontal(unsigned int DisplayNo, double APicasDistance);
 
 	/**
 	 * Calculates conversion from picas to pixels (vertical version).
 	 *
-	 * @param APicasDistance	Picas distance that will be calculated to pixels.
+	 * \param APicasDistance	Picas distance that will be calculated to
+	 *							pixels.
 	 *
-	 * @return	Returns result of picas to pixels calculation.
+	 * \return	Returns result of picas to pixels calculation.
 	 **/
 	int PicasToPixelsVertical(unsigned int DisplayNo, double APicasDistance);
 
 	/**
 	 * Calculates conversion from pixels to picas (horizontal version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to picas.
+	 * \param APixelDistance	Pixel distance that will be calculated to
+	 *							picas.
 	 *
-	 * @return	Returns result of pixels to picas calculation.
+	 * \return	Returns result of pixels to picas calculation.
 	 **/
 	double PixelsToPicasHorizontal(unsigned int DisplayNo, int APixelDistance);
 
 	/**
 	 * Calculates conversion from pixels to picas (vertical version).
 	 *
-	 * @param APixelDistance	Pixel distance that will be calculated to picas.
+	 * \param APixelDistance	Pixel distance that will be calculated to
+	 *							picas.
 	 *
-	 * @return	Returns result of pixels to picas calculation.
+	 * \return	Returns result of pixels to picas calculation.
 	 **/
 	double PixelsToPicasVertical(unsigned int DisplayNo, int APixelDistance);
 
@@ -225,10 +237,10 @@ namespace WinRuler
 	/**
 	 * Performs retrival of two values from specially formated string "%d:%d".
 	 *
-	 * @param PositionString		Reference to specially formated position
+	 * \param PositionString		Reference to specially formated position
 	 *								string.
 	 *
-	 * @return	Returns retrieved values represented in wxPoint type format.
+	 * \return	Returns retrieved values represented in wxPoint type format.
 	 **/
 	wxPoint ParsePosition(const wxString& PositionString);
 
@@ -246,17 +258,17 @@ namespace WinRuler
 	/**
 	 * Callback function for EnumWindows.
 	 *
-	 * @param hwnd		Window handle.
-	 * @param lParam	LPARAM instance.
+	 * \param hwnd		Window handle.
+	 * \param lParam	LPARAM instance.
 	 *
-	 * @return	Returns TRUE if operation was successful.
+	 * \return	Returns TRUE if operation was successful.
 	 **/
 	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
 
 	/**
 	 * Returns vector of all visible windows.
 	 *
-	 * @return	Returns vector of all visible windows.
+	 * \return	Returns vector of all visible windows.
 	 **/
 	std::vector<WindowInfo> GetAllWindows();
 #endif

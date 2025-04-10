@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -11,7 +11,7 @@
 namespace WinRuler
 {
 	/**
-	 * NewRulerLengthDialog class definition.
+	 * CNewRulerLengthDialog class definition.
 	 **/
 	class CNewRulerLengthDialog :
 		public wxDialog
@@ -21,13 +21,13 @@ namespace WinRuler
 		/**
 		 * Constructor with default parameters.
 		 *
-		 * @param Parent	Pointer to parent instance.
-		 * @param Id		Window Id. Default: wxID_ANY
-		 * @param Title		Reference to dialog title string.
+		 * \param Parent	Pointer to parent instance.
+		 * \param Id		Window Id. Default: wxID_ANY
+		 * \param Title		Reference to dialog title string.
 		 *					Default: "Choose new ruler's length"
-		 * @param Pos		Dialog position. Default: wxDefaultPosition
-		 * @param Size		Dialog size. Default: wxSize(200, 150)
-		 * @param Style		Dialog style.
+		 * \param Pos		Dialog position. Default: wxDefaultPosition
+		 * \param Size		Dialog size. Default: wxSize(200, 150)
+		 * \param Style		Dialog style.
 		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
 		 **/
 		CNewRulerLengthDialog(
@@ -60,24 +60,24 @@ namespace WinRuler
 		/**
 		 * OnClose() method event.
 		 *
-		 * @param Event		Reference to wxCloseEvent instance.
+		 * \param Event		Reference to wxCloseEvent instance.
 		 **/
 		void OnClose(wxCloseEvent& Event);
 
 		/**
 		 * OnOKButtonClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnOKButtonClicked(wxCommandEvent& Event);
 	private:
-		// Choose static text.
+		//! Choose static text.
 		wxStaticText* m_pChooseStaticText;
 
-		// Spin control.
+		//! Spin control.
 		wxSpinCtrl* m_pSpinCtrl;
 
-		// OK button.
+		//! OK button.
 		wxButton* m_pOKButton;
 	};
 } // end namespace WinRuler

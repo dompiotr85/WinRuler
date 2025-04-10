@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -63,40 +63,48 @@ namespace WinRuler
 			static_cast<double>(GetPixelPerInch(DisplayNo).GetY()));
 	}
 
-	int CentimetresToPixelsHorizontal(unsigned int DisplayNo, double ACentimetreDistance)
+	int CentimetresToPixelsHorizontal(
+		unsigned int DisplayNo, double ACentimetreDistance)
 	{
 		// Calculate how many pixels are in specified distance (in centimetres)
 		// and return result.
 		return static_cast<int>(
-			std::trunc(GetPixelPerInch(DisplayNo).GetX() / 2.54) * ACentimetreDistance);
+			std::trunc(GetPixelPerInch(DisplayNo).GetX() / 2.54) * 
+			ACentimetreDistance);
 	}
 
-	int CentimetresToPixelsVertical(unsigned int DisplayNo, double ACentimetreDistance)
+	int CentimetresToPixelsVertical(
+		unsigned int DisplayNo, double ACentimetreDistance)
 	{
 		// Calculate how many pixels are in specified distance (in centimetres)
 		// and return result.
 		return static_cast<int>(
-			std::trunc(GetPixelPerInch(DisplayNo).GetY() / 2.54) * ACentimetreDistance);
+			std::trunc(GetPixelPerInch(DisplayNo).GetY() / 2.54) * 
+			ACentimetreDistance);
 	}
 
-	double PixelsToCentimetresHorizontal(unsigned int DisplayNo, int APixelDistance)
+	double PixelsToCentimetresHorizontal(
+		unsigned int DisplayNo, int APixelDistance)
 	{
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
 		return static_cast<double>(
 			static_cast<double>(APixelDistance) /
 			static_cast<double>(
-				static_cast<double>(GetPixelPerInch(DisplayNo).GetX() / 2.54)));
+				static_cast<double>(
+					GetPixelPerInch(DisplayNo).GetX() / 2.54)));
 	}
 
-	double PixelsToCentimetresVertical(unsigned int DisplayNo, int APixelDistance)
+	double PixelsToCentimetresVertical(
+		unsigned int DisplayNo, int APixelDistance)
 	{
 		// Calculates how many centimetres are in specified pixel distance and
 		// return result.
 		return static_cast<double>(
 			static_cast<double>(APixelDistance) /
 			static_cast<double>(
-				static_cast<double>(GetPixelPerInch(DisplayNo).GetY() / 2.54)));
+				static_cast<double>(
+					GetPixelPerInch(DisplayNo).GetY() / 2.54)));
 	}
 
 	int PicasToPixelsHorizontal(unsigned int DisplayNo, double APicasDistance)
@@ -104,7 +112,8 @@ namespace WinRuler
 		// Calculates how many pixels are in specified distance (in picas) and
 		// return result.
 		return static_cast<int>(
-			(GetPixelPerInch(DisplayNo).GetX() / 6.0) * APicasDistance);
+			(GetPixelPerInch(DisplayNo).GetX() / 6.0) * 
+			APicasDistance);
 	}
 
 	int PicasToPixelsVertical(unsigned int DisplayNo, double APicasDistance)
@@ -148,7 +157,8 @@ namespace WinRuler
 		else
 		{
 			// Handle bad format.
-			wxLogError("Invalid format for position string: ""%s""", PositionString);
+			wxLogError(
+				"Invalid format for position string: ""%s""", PositionString);
 
 			return wxPoint(0, 0);
 		}

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -142,13 +142,16 @@ namespace WinRuler
 
 	bool CApplication::ApplicationExecutedForTheFirstTime()
 	{
+		// Prepare path to our database file.
 		wxString dbPath = wxGetCwd() + "/WinRuler.db";
 
-		if (!wxFileExists(dbPath))
-		{
-			return true;
-		}
+		// If database file exists, it means that our application was executed
+		// before and database file was already created. Return false.
+		if (wxFileExists(dbPath))
+			return false;
 
-		return false;
+		// If we reach this point, it means that our application is executed
+		// for the first time.
+		return true;
 	}
 } // end namespace WinRuler

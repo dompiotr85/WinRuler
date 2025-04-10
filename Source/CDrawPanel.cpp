@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -50,19 +50,23 @@ namespace WinRuler
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_LEFT,
                 wxString("Scale on &left side"))->Check(
-                    pMainFrame->m_eRulerPosition == ERulerPosition::rpLeft ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpLeft ? 
+                        true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_RIGHT,
                 wxString("Scale on &right side"))->Check(
-                    pMainFrame->m_eRulerPosition == ERulerPosition::rpRight ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpRight ? 
+                        true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_TOP,
                 wxString("Scale on &top"))->Check(
-                    pMainFrame->m_eRulerPosition == ERulerPosition::rpTop ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpTop ? 
+                        true : false);
             pRulerPositionMenu->AppendRadioItem(
                 ID_RULER_POSITION_SCALE_ON_BOTTOM,
                 wxString("Scale on &bottom"))->Check(
-                    pMainFrame->m_eRulerPosition == ERulerPosition::rpBottom ? true : false);
+                    pMainFrame->m_eRulerPosition == ERulerPosition::rpBottom ?
+                        true : false);
 
             // Append pRulerPositionMenu as submenu of ID_RULER_POSITION item.
             pMenu->Append(
@@ -74,19 +78,23 @@ namespace WinRuler
             pMenu->AppendRadioItem(
                 ID_PIXELS_AS_UNIT,
                 wxString("&Pixels as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPixels ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPixels ? 
+                        true : false);
             pMenu->AppendRadioItem(
                 ID_CENTIMETRES_AS_UNIT,
                 wxString("&Centimetres as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ERulerUnits::ruCentimetres ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruCentimetres ? 
+                        true : false);
             pMenu->AppendRadioItem(
                 ID_INCHES_AS_UNIT,
                 wxString("&Inches as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ERulerUnits::ruInches ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruInches ? 
+                        true : false);
             pMenu->AppendRadioItem(
                 ID_PICAS_AS_UNIT,
                 wxString("&Picas as unit"))->Check(
-                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPicas ? true : false);
+                    pMainFrame->m_eRulerUnits == ERulerUnits::ruPicas ? 
+                        true : false);
             pMenu->AppendSeparator();
 
             // Append AlwaysOnTop item separated.
@@ -124,19 +132,19 @@ namespace WinRuler
 
     void CDrawPanel::OnPaintEvent(wxPaintEvent& Event)
     {
-        // Create wxPaintDC.
+		// Create paint device context.
         wxPaintDC dc(this);
 
-        // Draw on created DC.
+		// Render on created device context.
         Render(dc);
     }
 
     void CDrawPanel::PaintNow()
     {
-        // Create wxPaintDC.
+		// Create paint device context.
         wxClientDC dc(this);
 
-        // Draw on created DC.
+		// Render on created device context.
         Render(dc);
     }
 
@@ -196,22 +204,30 @@ namespace WinRuler
         wxString TmpS;
         wxCoord TextWidth, TextHeight;
 
+		// If first marker position is -1, do not draw anything and return.
         if (iFirstMarkerPosition == -1)
-            return
+            return;
 
-        // Set DC's brush to transparent.
+		// Prepare device context. We will draw ruler's markers on it.
+        
+        // Set device context brush to transparent.
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
 
-        // Set DC's pen colour to first marker colour and style to solid.
+		// Set device context pen colour to first marker colour and style to
+        // solid.
         dc.SetPen(wxPen(cFirstMarkerColour, 1, wxPENSTYLE_SOLID));
 
-        // Set DC's font size and font colour.
-        wxFont font(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+		// Set device context font size to 6 and font colour to
+		// m_RulerScaleColour. Additionally, set font style to normal and
+		// weight to normal and family to default.
+        wxFont font(
+            6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
         dc.SetFont(font);
+		// Set device context text foreground colour to m_RulerScaleColour.
         dc.SetTextForeground(cRulerScaleColour);
 
-        // Draw ruler's marker and its information depending on ruler's
-        // position.
+		// Draw ruler's marker and its information depending on ruler's unit of
+		// measurement and ruler's position.
         switch (eRulerPosition)
         {
         case ERulerPosition::rpLeft:
@@ -224,6 +240,7 @@ namespace WinRuler
                     SurfaceRect.GetRight(), SurfaceRect.GetTop() + 4 +
                     iFirstMarkerPosition));
 
+			// Prepare temporary string TmpS for first marker.
             switch (eRulerUnits)
             {
             case ERulerUnits::ruCentimetres:
@@ -258,8 +275,11 @@ namespace WinRuler
                 break;
             }
 
+            // Retrieve text width and text height of TmpS string.
             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+			// Draw text of first marker on device context depending on ruler's
+            // position and text width and height.
             if (SurfaceRect.GetTop() + 4 + iFirstMarkerPosition + 4 +
                 TextHeight > SurfaceRect.GetBottom())
             {
@@ -282,7 +302,7 @@ namespace WinRuler
                         iFirstMarkerPosition + 4));
             }
 
-            // Draw second marker if its value is other than -1.
+            // If second marker's position is other than -1, we can draw it.
             if (iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
@@ -296,6 +316,7 @@ namespace WinRuler
                         SurfaceRect.GetRight(), SurfaceRect.GetTop() + 4 +
                         iSecondMarkerPosition));
 
+                // Prepare temporary string TmpS for second marker.
                 switch (eRulerUnits)
                 {
                 case ERulerUnits::ruCentimetres:
@@ -329,8 +350,11 @@ namespace WinRuler
                     break;
                 }
 
+				// Retrieve text width and text height of TmpS string.
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+                // Draw text of second marker on device context depending on
+                // ruler's position and text width and height.
                 if (SurfaceRect.GetTop() + 4 + iSecondMarkerPosition + 4 +
                     TextHeight > SurfaceRect.GetBottom())
                 {
@@ -364,6 +388,7 @@ namespace WinRuler
                     SurfaceRect.GetLeft() + 4 + iFirstMarkerPosition,
                     SurfaceRect.GetBottom()));
 
+			// Prepare temporary string TmpS for first marker.
             switch (eRulerUnits)
             {
             case ERulerUnits::ruCentimetres:
@@ -393,8 +418,11 @@ namespace WinRuler
                 break;
             }
 
+			// Retrieve text width and text height of TmpS string.
             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+			// Draw text of first marker on device context depending on ruler's
+			// position and text width and height.
             if (SurfaceRect.GetLeft() + 4 + iFirstMarkerPosition +
                 TextWidth > SurfaceRect.GetRight())
             {
@@ -416,7 +444,7 @@ namespace WinRuler
                         ((SurfaceRect.GetHeight() / 3) * 2)));
             }
 
-            // Draw second marker if its value is other than -1.
+            // If second marker's position is other than -1, we can draw it.
             if (iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
@@ -430,6 +458,7 @@ namespace WinRuler
                         SurfaceRect.GetLeft() + 4 + iSecondMarkerPosition,
                         SurfaceRect.GetBottom()));
 
+				// Prepare temporary string TmpS for second marker.
                 switch (eRulerUnits)
                 {
                 case ERulerUnits::ruCentimetres:
@@ -463,8 +492,11 @@ namespace WinRuler
                     break;
                 }
 
+				// Retrieve text width and text height of TmpS string.
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+				// Draw text of second marker on device context depending on
+				// ruler's position and text width and height.
                 if (SurfaceRect.GetLeft() + 4 + iSecondMarkerPosition + 4 +
                     TextWidth > SurfaceRect.GetRight())
                 {
@@ -498,6 +530,7 @@ namespace WinRuler
                     SurfaceRect.GetRight(),
                     SurfaceRect.GetTop() + 4 + iFirstMarkerPosition));
 
+			// Prepare temporary string TmpS for first marker.
             switch (eRulerUnits)
             {
             case ERulerUnits::ruCentimetres:
@@ -528,8 +561,11 @@ namespace WinRuler
                 break;
             }
 
+			// Retrieve text width and text height of TmpS string.
             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+			// Draw text of first marker on device context depending on ruler's
+			// position and text width and height.
             if (SurfaceRect.GetTop() + 4 + iFirstMarkerPosition + 4 +
                 TextHeight > SurfaceRect.GetBottom())
             {
@@ -551,7 +587,7 @@ namespace WinRuler
                         SurfaceRect.GetTop() + 4 + iFirstMarkerPosition + 4));
             }
 
-            // Draw second marker if its value is other than -1.
+			// If second marker's position is other than -1, we can draw it.
             if (iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
@@ -565,6 +601,7 @@ namespace WinRuler
                         SurfaceRect.GetRight(),
                         SurfaceRect.GetTop() + 4 + iSecondMarkerPosition));
 
+				// Prepare temporary string TmpS for second marker.
                 switch (eRulerUnits)
                 {
                 case ERulerUnits::ruCentimetres:
@@ -598,8 +635,11 @@ namespace WinRuler
                     break;
                 }
 
+				// Retrieve text width and text height of TmpS string.
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
-
+                
+				// Draw text of second marker on device context depending on
+				// ruler's position and text width and height.
                 if (SurfaceRect.GetTop() + 4 + iSecondMarkerPosition + 4 +
                     TextHeight > SurfaceRect.GetBottom())
                 {
@@ -634,6 +674,7 @@ namespace WinRuler
                     SurfaceRect.GetLeft() + 4 + iFirstMarkerPosition,
                     SurfaceRect.GetBottom()));
 
+			// Prepare temporary string TmpS for first marker.
             switch (eRulerUnits)
             {
             case ERulerUnits::ruCentimetres:
@@ -666,8 +707,11 @@ namespace WinRuler
                 break;
             }
 
+			// Retrieve text width and text height of TmpS string.
             dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+			// Draw text of first marker on device context depending on ruler's
+			// position and text width and height.
             if (SurfaceRect.GetLeft() + 4 + iFirstMarkerPosition +
                 4 + TextWidth > SurfaceRect.GetRight())
             {
@@ -689,7 +733,7 @@ namespace WinRuler
                         (SurfaceRect.GetHeight() / 3) - TextHeight));
             }
 
-            // Draw second marker if its value is other than -1.
+			// If second marker's position is other than -1, we can draw it.
             if (iSecondMarkerPosition != -1)
             {
                 // Set pen colour to second marker's colour.
@@ -703,6 +747,7 @@ namespace WinRuler
                         SurfaceRect.GetLeft() + 4 + iSecondMarkerPosition,
                         SurfaceRect.GetBottom()));
 
+				// Prepare temporary string TmpS for second marker.
                 switch (eRulerUnits)
                 {
                 case ERulerUnits::ruCentimetres:
@@ -737,8 +782,11 @@ namespace WinRuler
                     break;
                 }
 
+				// Retrieve text width and text height of TmpS string.
                 dc.GetTextExtent(TmpS, &TextWidth, &TextHeight);
 
+				// Draw text of second marker on device context depending on
+				// ruler's position and text width and height.
                 if (SurfaceRect.GetLeft() + 4 + iSecondMarkerPosition + 4 +
                     TextWidth > SurfaceRect.GetRight())
                 {
@@ -771,22 +819,25 @@ namespace WinRuler
         ERulerPosition eRulerPosition,
         ERulerUnits eRulerUnits)
     {
-        // Prepare DC. We will draw ruler's scale on it.
+		// Prepare device context. We will draw ruler's scale on it.
         unsigned int I, sT, pT;
         double ID;
         wxString TmpS;
         wxCoord TextWidth, TextHeight;
 
-        // Set DC's brush to transparent.
+		// Set device context brush to transparent.
         dc.SetBrush(wxBrush(wxTransparentColour, wxBRUSHSTYLE_TRANSPARENT));
 
-        // Set DC's pen to SOLID, with width equal 1 and colour equal
-        // m_RulerScaleColour.
+        // Set device context pen to SOLID, with width equal 1 and colour
+		// equal to m_RulerScaleColour.
         dc.SetPen(wxPen(cRulerScaleColour, 1, wxPENSTYLE_SOLID));
 
-        // Set DC's font size to 6 and font colour.
-        wxFont font(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+        // Set device context font size to 6 and font style to normal, weight
+        // to normal and family to default.
+        wxFont font(
+            6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
         dc.SetFont(font);
+		// Set device context text foreground colour to m_RulerScaleColour.
         dc.SetTextForeground(cRulerScaleColour);
 
         // Depending on ruler's position and ruler's unit of measurement:
@@ -1712,10 +1763,10 @@ namespace WinRuler
             switch (eRulerBackgroundType)
             {
             case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
-                // Prepare DC's brush.
+				// Prepare display context's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw rectangle on whole surface size.
@@ -1723,7 +1774,7 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw gradient rectangle on whole surface size.
@@ -1734,6 +1785,12 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btImage:   // Ruler's background as image.
+                // TODO: For now we use simple bitmap drawing. It must be done
+                //       in a better way.
+
+				dc.DrawBitmap(
+					RulerBackgroundBitmapLeftH,
+					wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
                 dc.DrawBitmap(
                     RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1759,10 +1816,10 @@ namespace WinRuler
             switch (eRulerBackgroundType)
             {
             case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
-                // Prepare DC's brush.
+				// Prepare display context's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw rectangle on whole surface size.
@@ -1770,7 +1827,7 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw gradient rectangle on whole surface size.
@@ -1781,6 +1838,9 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btImage:   // Ruler's background as image.
+                // TODO: For now we use simple bitmap drawing. It must be done
+                //       in a better way.
+
                 dc.DrawBitmap(
                     RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1806,10 +1866,10 @@ namespace WinRuler
             switch (eRulerBackgroundType)
             {
             case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
-                // Prepare DC's brush.
+				// Prepare display context's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw rectangle on whole surface size.
@@ -1817,7 +1877,7 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw gradient rectangle on whole surface size.
@@ -1828,6 +1888,9 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btImage:   // Ruler's background as image.
+                // TODO: For now we use simple bitmap drawing. It must be done
+                //       in a better way.
+
                 dc.DrawBitmap(
                     RulerBackgroundBitmapTopV,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1853,10 +1916,10 @@ namespace WinRuler
             switch (eRulerBackgroundType)
             {
             case ERulerBackgroundType::btSolid:   // Ruler's background as solid.
-                // Prepare DC's brush.
+				// Prepare display context's brush.
                 dc.SetBrush(wxBrush(cRulerBackgroundColour, wxBRUSHSTYLE_SOLID));
 
-                // Prepare DC's pen.
+				// Prepare display context's pen.
                 dc.SetPen(wxPen(wxColor(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw rectangle on whole surface size.
@@ -1864,7 +1927,7 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btGradient:    // Ruler's background as gradient.
-                // Prepare DC's pen.
+				// Prepare display context's pen
                 dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_TRANSPARENT));
 
                 // Draw gradient rectangle on whole surface size.
@@ -1875,6 +1938,9 @@ namespace WinRuler
 
                 break;
             case ERulerBackgroundType::btImage:   // Ruler's background as image.
+                // TODO: For now we use simple bitmap drawing. It must be done
+                //       in a better way.
+
                 dc.DrawBitmap(
                     RulerBackgroundBitmapLeftH,
                     wxPoint(SurfaceRect.GetX(), SurfaceRect.GetY()));
@@ -1898,14 +1964,15 @@ namespace WinRuler
             break;
         }
 
-        // If m_eRulerBackgroundType wasn't btImage, then draw black outline.
-        if (eRulerBackgroundType != ERulerBackgroundType::btImage)
-        {
-            dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
-            dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
-            dc.DrawRectangle(
-                wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
-        }
+        // If m_eRulerBackgroundType is btImage, then return. Otherwise we will
+		// draw black outline around ruler.
+		if (eRulerBackgroundType == ERulerBackgroundType::btImage)
+			return;
+
+        dc.SetPen(wxPen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID));
+        dc.SetBrush(wxBrush(wxColour(0, 0, 0), wxBRUSHSTYLE_TRANSPARENT));
+        dc.DrawRectangle(
+            wxRect(0, 0, SurfaceRect.GetWidth(), SurfaceRect.GetHeight()));
     }
 
     void CDrawPanel::OnLeftDown(wxMouseEvent& Event)
@@ -1913,14 +1980,14 @@ namespace WinRuler
         // Retrieve Event position.
         wxPoint Pos = Event.GetPosition();
 
-        // Get pointer to our CMainFrame from CDrawPanel parent instance.
+		// Retrieve pointer to CMainFrame from CDrawPanel parent instance.
         CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
-        // Retrieve CMainFrame ClientWidth and ClientHeight.
+        // Get client width and height from pMainFrame.
         int Width, Height, Offset;
         pMainFrame->GetClientSize(&Width, &Height);
 
-        // Retrieve CMainFrame m_nOffsetBorder.
+        // Retrieve also m_nOffsetBorder from pMainFrame.
         Offset = pMainFrame->m_iOffsetBorder;
 
         // If mouse left button is down, then we can set second marker position

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -11,6 +11,9 @@
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
 
+/**
+ * Enumeration of options ids.
+ **/
 enum EOptionsIDs
 {
 	ID_BackgroundTypeChoice = 40,
@@ -33,13 +36,13 @@ namespace WinRuler
 		/**
 		 * Constructor with default parameters.
 		 *
-		 * @param Parent	Pointer to parent instance.
-		 * @param Id		Window Id. Default: wxID_ANY
-		 * @param Title		Reference to dialog title string.
+		 * \param Parent	Pointer to parent instance.
+		 * \param Id		Window Id. Default: wxID_ANY
+		 * \param Title		Reference to dialog title string.
 		 *					Default: "Options"
-		 * @param Pos		Dialog position. Default: wxDefaultPosition
-		 * @param Size		Dialog size. Default: wxSize(700, 560)
-		 * @param Style		Dialog style.
+		 * \param Pos		Dialog position. Default: wxDefaultPosition
+		 * \param Size		Dialog size. Default: wxSize(700, 560)
+		 * \param Style		Dialog style.
 		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
 		 **/
 		COptionsDialog(
@@ -102,49 +105,49 @@ namespace WinRuler
 		/**
 		 * OnClose() method event.
 		 *
-		 * @param Event		Reference to wxCloseEvent instance.
+		 * \param Event		Reference to wxCloseEvent instance.
 		 **/
 		void OnClose(wxCloseEvent& Event);
 
 		/**
 		 * OnBackgroundTypeChoiceChanged() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnBackgroundTypeChoiceChanged(wxCommandEvent& Event);
 
 		/**
 		 * OnRulerTransparencyCheckBoxClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnRulerTransparencyCheckBoxClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnVerticalRulerIncreaseButtonClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnVerticalRulerIncreaseButtonClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnVerticalRulerDecreaseButtonClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnVerticalRulerDecreaseButtonClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnHorizontalRulerIncreaseButtonClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnHorizontalRulerIncreaseButtonClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnHorizontalRulerDecreaseButtonClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
 
@@ -152,130 +155,130 @@ namespace WinRuler
 		/**
 		 * OnSnapToEdgesOfScreenCheckBoxClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnSnapToEdgesOfScreenCheckBoxClicked(wxCommandEvent& Event);
 
 		/**
 		 * OnSnapToOtherWindowsCheckBoxClicked() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnSnapToOtherWindowsCheckBoxClicked(wxCommandEvent& Event);
 #endif
 	public:
-		// Ruler panel.
+		//! Ruler panel.
 		wxPanel* m_pRulerPanel;
 
-		// Calibration panel.
+		//! Calibration panel.
 		wxPanel* m_pCalibrationPanel;
 
-		// Additional features panel.
+		//! Additional features panel.
 		wxPanel* m_pAdditionalFeaturesPanel;
 
-		// Bottom panel.
+		//! Bottom panel.
 		wxPanel* m_pBottomPanel;
 
-		// Bottom OK button.
+		//! Bottom OK button.
 		wxButton* m_pOKButton;
 
-		// Notebook.
+		//! Notebook.
 		wxNotebook* m_pNotebook;
 
-		// Background static box.
+		//! Background static box.
 		wxStaticBox* m_pBackgroundStaticBox;
 
 		wxStaticText* m_pBackgroundTypeText;
 
-		// Background type choice.
+		//! Background type choice.
 		wxChoice* m_pBackgroundTypeChoice;
 
-		// Background colours static texts.
+		//! Background colours static texts.
 		wxStaticText* m_pBackgroundColourText;
 		wxStaticText* m_pBackgroundStartEndColourText;
 		wxStaticText* m_pBackgroundImageText;
 
-		// Background colours.
+		//! Background colours.
 		wxColourPickerCtrl* m_pBackgroundColourPicker;
 		wxColourPickerCtrl* m_pBackgroundStartColourPicker;
 		wxColourPickerCtrl* m_pBackgroundEndColourPicker;
 
-		// Background image.
+		//! Background image.
 		wxFilePickerCtrl* m_pBackgroundImagePicker;
 
-		// Scale and markers static box.
+		//! Scale and markers static box.
 		wxStaticBox* m_pScaleAndMarkersStaticBox;
 
-		// Ruler scale colour text.
+		//! Ruler scale colour text.
 		wxStaticText* m_pRulerScaleColourText;
 
-		// Ruler scale colour.
+		//! Ruler scale colour.
 		wxColourPickerCtrl* m_pRulerScaleColourPicker;
 
-		// First and second marker colour text.
+		//! First and second marker colour text.
 		wxStaticText* m_pRulerFirstMarkerColourText;
 		wxStaticText* m_pRulerSecondMarkerColourText;
 
-		// First and second marker colour.
+		//! First and second marker colour.
 		wxColourPickerCtrl* m_pFirstMarkerColourPicker;
 		wxColourPickerCtrl* m_pSecondMarkerColourPicker;
 
-		// Special options static box.
+		//! Special options static box.
 		wxStaticBox* m_pSpecialOptionsStaticBox;
 
-		// Ruler transparency.
+		//! Ruler transparency.
 		wxCheckBox* m_pRulerTransparencyCheckBox;
 
-		// Ruler transparency text.
+		//! Ruler transparency text.
 		wxStaticText* m_pRulerTransparencyText;
 
-		// Ruler transparency value.
+		//! Ruler transparency value.
 		wxSlider* m_pRulerTransparencySlider;
 
-		// Calibrate static box.
+		//! Calibrate static box.
 		wxStaticBox* m_pCalibrateStaticBox;
 
-		// Calibrate info text.
+		//! Calibrate info text.
 		wxStaticText* m_pCalibrateInfoText;
 
-		// Vertical and horizontal panels.
+		//! Vertical and horizontal panels.
 		wxPanel* m_pVRulerPanel;
 		wxPanel* m_pHRulerPanel;
 
-		// Vertical increse & decrese buttons.
+		//! Vertical increse & decrese buttons.
 		wxButton* m_pV_IncButton;
 		wxButton* m_pV_DecButton;
 
-		// Horizontal increse & decrese buttons.
+		//! Horizontal increse & decrese buttons.
 		wxButton* m_pH_IncButton;
 		wxButton* m_pH_DecButton;
 
-		// Horizontal and vertical PPI static text.
+		//! Horizontal and vertical PPI static text.
 		wxStaticText* m_pVPPIStaticText;
 		wxStaticText* m_pHPPIStaticText;
 
-		// Snapping to edges of the screen static box.
+		//! Snapping to edges of the screen static box.
 		wxStaticBox* m_pSnapToEdgesOfScreenStaticBox;
 
-		// Snapping to edges of the screen check box.
+		//! Snapping to edges of the screen check box.
 		wxCheckBox* m_pSnapToEdgesOfScreenCheckBox;
 
-		// Snapping to edges of the screen distance static text.
+		//! Snapping to edges of the screen distance static text.
 		wxStaticText* m_pSnapToEdgesOfScreenStaticText;
 
-		// Snapping to edges of the screen distance spin control.
+		//! Snapping to edges of the screen distance spin control.
 		wxSpinCtrl* m_pSnapToEdgesOfScreenSpinCtrl;
 
-		// Snapping to other windows static box.
+		//! Snapping to other windows static box.
 		wxStaticBox* m_pSnapToOtherWindowsStaticBox;
 
-		// Snapping to other windows check box.
+		//! Snapping to other windows check box.
 		wxCheckBox* m_pSnapToOtherWindowsCheckBox;
 
-		// Snapping to other windows static text.
+		//! Snapping to other windows static text.
 		wxStaticText* m_pSnapToOtherWindowsStaticText;
 
-		// Snapping to other windows spin control.
+		//! Snapping to other windows spin control.
 		wxSpinCtrl* m_pSnapToOtherWindowsSpinCtrl;
 	};
 } // end namespace WinRuler
