@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -112,16 +112,28 @@ namespace WinRuler
 			wxID_EXIT);
 
 		// Release COptionsDialog instance.
-		wxDELETE(m_pOptionsDialog);
+		if (m_pOptionsDialog != nullptr)
+		{
+			wxDELETE(m_pOptionsDialog);
+		}
 
 		// Release CAboutDialog instance.
-		wxDELETE(m_pAboutDialog);
+		if (m_pAboutDialog != nullptr)
+		{
+			wxDELETE(m_pAboutDialog);
+		}
 
 		// Release CNewRulerLengthDialog instance.
-		wxDELETE(m_pNewRulerLengthDialog);
+		if (m_pNewRulerLengthDialog != nullptr)
+		{
+			wxDELETE(m_pNewRulerLengthDialog);
+		}
 
 		// Release CDrawPanel instance.
-		wxDELETE(m_pDrawPanel);
+		if (m_pDrawPanel != nullptr)
+		{
+			wxDELETE(m_pDrawPanel);
+		}
 	}
 
 	void CMainFrame::Init()
@@ -321,12 +333,14 @@ namespace WinRuler
 				SetTransparent(255);
 			}
 
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 			// Set snap to edges of the screen distance and snap to other
 			// windows distance.
             m_iSnapToEdgesOfScreenDistance =
                 m_pOptionsDialog->m_pSnapToEdgesOfScreenSpinCtrl->GetValue();
             m_iSnapToOtherWindowsDistance =
                 m_pOptionsDialog->m_pSnapToOtherWindowsSpinCtrl->GetValue();
+#endif
 
 			// Save all settings of our application.
 			SaveApplicationSettings();
@@ -346,7 +360,8 @@ namespace WinRuler
 #endif
 
 		// Create new CNewRulerLengthDialog instance.
-		m_pNewRulerLengthDialog = new CNewRulerLengthDialog(static_cast<wxFrame*>(this));
+		m_pNewRulerLengthDialog =
+            new CNewRulerLengthDialog(static_cast<wxFrame*>(this));
 
 		// Call CNewRulerLengthDialog::ShowModal() method.
 		if (m_pNewRulerLengthDialog->ShowModal() == wxID_OK)
@@ -1124,6 +1139,9 @@ namespace WinRuler
 
 	void CMainFrame::SnapToOtherWindows()
 	{
+#ifdef __unix__	// If platform is Linux.
+
+#elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
 		// Get CMainFrame window handle.
 		HWND RulerHwnd = reinterpret_cast<HWND>(this->GetHandle());
 
@@ -1134,14 +1152,14 @@ namespace WinRuler
 		// Retrieve informations about all windows.
 		auto windows = GetAllWindows();
 
-		// Itterate throu all windows.
+		// Iterate through all windows.
 		for (const auto& win : windows)
 		{
 			// Skip CMainFrame window.
 			if (win.hwnd == RulerHwnd)
 				continue;
 
-			// Snap to horizontal edges of itterated window.
+			// Snap to horizontal edges of iterated window.
 			if (abs(RulerRect.right - win.Rect.left) <= m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.left =
@@ -1155,7 +1173,7 @@ namespace WinRuler
 				RulerRect.left = win.Rect.right;
 			}
 
-			// Snap to vertical edges of itterated window.
+			// Snap to vertical edges of iterated window.
 			if (abs(RulerRect.bottom - win.Rect.top) <= m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.top =
@@ -1176,6 +1194,7 @@ namespace WinRuler
 			RulerRect.left, RulerRect.top,
 			RulerRect.right - RulerRect.left, RulerRect.bottom - RulerRect.top,
 			TRUE);
+#endif
 	}
 
 	void CMainFrame::OnMouseEvent(wxMouseEvent& Event)

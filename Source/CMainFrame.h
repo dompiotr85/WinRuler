@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -74,7 +74,7 @@ namespace WinRuler
 		/**
 		 * CMainFrame constructor.
 		 *
-		 * @param Title		Reference to MainFrame title string.
+		 * \param Title		Reference to MainFrame title string.
 		 **/
 		CMainFrame(const wxString& Title);
 
@@ -101,14 +101,14 @@ namespace WinRuler
 		/**
 		 * This method should be called for proper change of ruler's position.
 		 *
-		 * @param NewPosition		New ruler's position that will be set.
+		 * \param NewPosition		New ruler's position that will be set.
 		 **/
 		void ChangeRulerPosition(ERulerPosition NewPosition);
 
 		/**
 		 * This method should be called for proper change of StayOnTop state.
 		 *
-		 * @param State		New StayOnTop state.
+		 * \param State		New StayOnTop state.
 		 **/
 		void StayOnTop(bool State);
 
@@ -116,21 +116,21 @@ namespace WinRuler
 		 * This method should be called for proper change of ruler's unit of
 		 * measurement.
 		 *
-		 * @param NewUnit	New ruler's unit of measurement.
+		 * \param NewUnit	New ruler's unit of measurement.
 		 **/
 		void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
 
 		/**
 		 * This method should be called for proper change of the ruler's length.
 		 *
-		 * @param NewLength		New ruler's length.
+		 * \param NewLength		New ruler's length.
 		 **/
 		void ChangeRulerLength(int NewLength);
 
 		/**
 		 * Loads and prepare ruler's images for background image type drawing.
 		 *
-		 * @return	Returns true if ruler's background image was loaded
+		 * \return	Returns true if ruler's background image was loaded
 		 *			properly, otherwise false.
 		 **/
 		bool LoadAndPrepareRulerBackgroundImage();
@@ -163,8 +163,8 @@ namespace WinRuler
 
 		/**
 		 * Performs snapping to edges of the screen.
-		 * 
-		 * @param Pos		Reference to current position as wxPoint instance.
+		 *
+		 * \param Pos		Reference to current position as wxPoint instance.
 		 **/
 		void SnapToEdges(wxPoint& Pos);
 
@@ -176,28 +176,28 @@ namespace WinRuler
 		/**
 		 * OnExit() method event.
 		 *
-		 * @param Event		Reference to wxCommandEvent instance.
+		 * \param Event		Reference to wxCommandEvent instance.
 		 */
 		void OnExit(wxCommandEvent& Event);
 
 		/**
 		 * OnClose() method event.
 		 *
-		 * @param Event		Reference to wxCloseEvent instance.
+		 * \param Event		Reference to wxCloseEvent instance.
 		 **/
 		void OnClose(wxCloseEvent& Event);
 
 		/**
 		 * OnMouseEvent() method event.
 		 *
-		 * @param Event		Reference to wxMouseEvent instance.
+		 * \param Event		Reference to wxMouseEvent instance.
 		 **/
 		void OnMouseEvent(wxMouseEvent& Event);
 
 		/**
 		 * OnMove() method event.
-		 * 
-		 * @param Event		Reference to wxMoveEvent instance.
+		 *
+		 * \param Event		Reference to wxMoveEvent instance.
 		 **/
 		void OnMove(wxMoveEvent& Event);
 	protected:
@@ -209,7 +209,7 @@ namespace WinRuler
 		/**
 		 * Performs border hit test and returns hit position.
 		 *
-		 * @param Pos		Reference to wxPoint instance.
+		 * \param Pos		Reference to wxPoint instance.
 		 *
 		 * @return	Returns hit position described as HT_Pos.
 		 **/
@@ -218,7 +218,7 @@ namespace WinRuler
 		/**
 		 * Sets resize cursor for specified hit position.
 		 *
-		 * @param htPos		Hit position specified.
+		 * \param htPos		Hit position specified.
 		 **/
 		void SetResizeCursor(int HitPos);
 
@@ -226,7 +226,7 @@ namespace WinRuler
 		 * This method is called when mouse is leaving border specified by
 		 * hit position.
 		 *
-		 * @param hitPos	Hit position specified.
+		 * \param hitPos	Hit position specified.
 		 **/
 		void OnLeaveBorder(int HitPos);
 
@@ -240,33 +240,33 @@ namespace WinRuler
 		 **/
 		void ResizeSize(const wxPoint& Pos);
 	public:
-		// Ruler's scale position.
+		//! Ruler's scale position.
 		ERulerPosition m_eRulerPosition = rpTop;
 
-		// Ruler's unit of measurement.
+		//! Ruler's unit of measurement.
 		ERulerUnits m_eRulerUnits = ruCentimetres;
 
-		// Ruler's background type.
+		//! Ruler's background type.
 		ERulerBackgroundType m_eRulerBackgroundType = btSolid;
 
-		// Ruler's scale colour.
+		//! Ruler's scale colour.
 		wxColour m_cRulerScaleColour = wxColour(0, 0, 0);
 
-		// Ruler's background colour (used in btSolid background type).
+		//! Ruler's background colour (used in btSolid background type).
 		wxColour m_cRulerBackgroundColour = wxColour(255, 164, 119);
 
-		// Ruler's background start colour (used in btGradient background
-		// type).
+		//! Ruler's background start colour (used in btGradient background
+		//! type).
 		wxColour m_cRulerBackgroundStartColour = wxColour(255, 196, 119);
 
-		// Ruler's background end colour (used in btGradient background type).
+		//! Ruler's background end colour (used in btGradient background type).
 		wxColour m_cRulerBackgroundEndColour = wxColour(255, 142, 61);
 
-		// Ruler's background image that act as skin.
+		//! Ruler's background image that act as skin.
 		wxString m_sRulerBackgroundImagePath = wxString("");
 
-		// wxBitmaps for clipped background image. Those bitmaps are used for
-		// drawing ruler when m_eRulerBackgroundType is in btImage mode.
+		//! wxBitmaps for clipped background image. Those bitmaps are used for
+		//! drawing ruler when m_eRulerBackgroundType is in btImage mode.
 		wxBitmap m_RulerBackgroundBitmapLeftH;
 		wxBitmap m_RulerBackgroundBitmapMiddleH;
 		wxBitmap m_RulerBackgroundBitmapRightH;
@@ -274,74 +274,74 @@ namespace WinRuler
 		wxBitmap m_RulerBackgroundBitmapMiddleV;
 		wxBitmap m_RulerBackgroundBitmapBottomV;
 
-		// Ruler's length.
+		//! Ruler's length.
 		int m_iRulerLength = 800;
 
-		// Ruler's minimum length limit.
+		//! Ruler's minimum length limit.
 		int m_iRulerMinimumLengthLimit = 100;
 
-		// Ruler AlwaysOnTop state.
+		//! Ruler AlwaysOnTop state.
 		bool m_bAlwaysOnTop = true;
 
-		// Ruler transparency state.
+		//! Ruler transparency state.
 		bool m_bRulerTransparency = false;
 
-		// Ruler transparency value.
+		//! Ruler transparency value.
 		wxByte m_iRulerTransparencyValue = 255;
 
-		// First marker position.
+		//! First marker position.
 		int m_iFirstMarkerPosition = 0;
 
-		// Second marker position.
+		//! Second marker position.
 		int m_iSecondMarkerPosition = -1;
 
-		// First marker colour.
+		//! First marker colour.
 		wxColour m_cFirstMarkerColour = wxColour(0, 0, 255);
 
-		// Second marker colour.
+		//! Second marker colour.
 		wxColour m_cSecondMarkerColour = wxColour(255, 0, 0);
 
-		// Snap to edges of the screen state.
+		//! Snap to edges of the screen state.
 		bool m_bSnapToEdgesOfScreen = true;
 
-		// Snap to edges of visible windows state.
+		//! Snap to edges of visible windows state.
 		bool m_bSnapToOtherWindows = true;
 
-		// Snap to edges of the screen distance value.
+		//! Snap to edges of the screen distance value.
 		int m_iSnapToEdgesOfScreenDistance = 4;
 
-		// Snap to edges of visible windows distance value.
+		//! Snap to edges of visible windows distance value.
 		int m_iSnapToOtherWindowsDistance = 4;
 	public:
-		// Pointer to CDrawPanel instance, which is used for all drawing of our
-		// ruler.
+		//! Pointer to CDrawPanel instance, which is used for all drawing of
+		//! our ruler.
 		CDrawPanel* m_pDrawPanel;
 
-		// Pointer to CAboutDialog instance.
+		//! Pointer to CAboutDialog instance.
 		CAboutDialog* m_pAboutDialog;
 
-		// Pointer to CNewRulerLengthDialog instance.
+		//! Pointer to CNewRulerLengthDialog instance.
 		CNewRulerLengthDialog* m_pNewRulerLengthDialog;
 
-		// Pointer to COptionsDialog instance.
+		//! Pointer to COptionsDialog instance.
 		COptionsDialog* m_pOptionsDialog;
 	public:
-		// Is caption drag starts operation.
+		//! Is caption drag starts operation.
 		bool m_bCaptionDragStart;
 
-		// Mouse position when dragging started.
+		//! Mouse position when dragging started.
 		wxPoint m_ptDragStart;
 
-		// Default width of the border.
+		//! Default width of the border.
 		int	m_iOffsetBorder;
 
-		// Record the hit position when resizing the frame.
+		//! Record the hit position when resizing the frame.
 		int m_eBorderDragMode;
 
-		// Border rectangle values when drag beginning.
+		//! Border rectangle values when drag beginning.
 		wxRect m_rectBorder;
 
-		// Direction vector.
+		//! Direction vector.
 		wxPoint m_ptDirection;
 	};
 } // end namespace WinRuler

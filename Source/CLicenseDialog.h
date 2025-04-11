@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024 Piotr Domanski
+ * Copyright © 2024-2025 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -11,7 +11,7 @@
 namespace WinRuler
 {
 	/**
-	 * LicenseDialog class definition.
+	 * CLicenseDialog class definition.
 	 **/
     class CLicenseDialog :
         public wxDialog
@@ -21,13 +21,13 @@ namespace WinRuler
 		/**
 		 * Constructor with default parameters.
 		 *
-		 * @param Parent	Pointer to parent instance.
-		 * @param Id		Window Id. Default: wxID_ANY
-		 * @param Title		Reference to dialog title string.
+		 * \param Parent	Pointer to parent instance.
+		 * \param Id		Window Id. Default: wxID_ANY
+		 * \param Title		Reference to dialog title string.
 		 *					Default: "MIT License"
-		 * @param Pos		Dialog position. Default: wxDefaultPosition
-		 * @param Size		Dialog size. Default: wxSize(500, 320)
-		 * @param Style		Dialog style.
+		 * \param Pos		Dialog position. Default: wxDefaultPosition
+		 * \param Size		Dialog size. Default: wxSize(500, 320)
+		 * \param Style		Dialog style.
 		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
 		 **/
 		CLicenseDialog(
@@ -60,14 +60,14 @@ namespace WinRuler
 		/**
 		 * OnClose() method event.
 		 *
-		 * @param Event		Reference to wxCloseEvent instance.
+		 * \param Event		Reference to wxCloseEvent instance.
 		 **/
 		void OnClose(wxCloseEvent& Event);
 	public:
-		// Rich text control.
+		//! Rich text control.
 		wxRichTextCtrl* m_pTextCtrl;
 
-		// Close button.
+		//! Close button.
 		wxButton* m_pCloseButton;
     };
 } // end namespace WinRuler

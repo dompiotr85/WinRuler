@@ -528,23 +528,25 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# JetBrains Rider
+# JetBrains Rider.
 *.sln.iml
 
 ############################################################
-# Code::Blocks IDE temporary files.
+# Ignore Code::Blocks IDE temporary files and build files.
 ############################################################
 
-# specific to CodeBlocks IDE
+# Specific to CodeBlocks IDE
 *.layout
 *.depend
-# generated directories
+
+# Generated directories
 bin/
 obj/
 
 ############################################################
-# CMake temporary files.
+# Ignore CMake temporary files and build files.
 ############################################################
+
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -558,3 +560,51 @@ CTestTestfile.cmake
 _deps
 
 build
+
+###########################################################
+# Ignore Xcode temporary, user specific and build files and
+# directories.
+###########################################################
+
+## Build generated
+build/
+DerivedData
+
+# NB: NIB/XIB files still exist even on Storyboard projects, so we want this
+*~.nib
+*.swp
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.xcscheme
+
+# User settings
+xcuserdata/
+
+# Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
