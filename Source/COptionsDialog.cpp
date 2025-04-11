@@ -13,6 +13,7 @@ namespace WinRuler
 	EVT_CLOSE(COptionsDialog::OnClose)
 	EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
 	EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
+	EVT_CHOICE(ID_CalibrateUnitOfMeasurementTypeChoice, COptionsDialog::OnCalibrateUnitOfMeasurementTypeChoiceChanged)
 	EVT_BUTTON(ID_VerticalRulerIncreaseButton, COptionsDialog::OnVerticalRulerIncreaseButtonClicked)
 	EVT_BUTTON(ID_VerticalRulerDecreaseButton, COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
 	EVT_BUTTON(ID_HorizontalRulerIncreaseButton, COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
@@ -21,7 +22,6 @@ namespace WinRuler
 	EVT_CHECKBOX(ID_SnapToEdgesOfScreen, COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
 	EVT_CHECKBOX(ID_SnapToOtherWindows, COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
 #endif
-
 
 	END_EVENT_TABLE()
 
@@ -133,9 +133,6 @@ namespace WinRuler
 
 	void COptionsDialog::CreateControls()
 	{
-		// Retrieve pointer to CMainFrame.
-		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
-
 		// Set client size.
 		// @todo	Right now code below is a dirty hack. Implementation of
 		//			OS and platform detection need to be done.
@@ -164,9 +161,221 @@ namespace WinRuler
 		m_pAdditionalFeaturesPanel = new wxPanel(m_pNotebook, wxID_ANY);
 #endif
 
-		///////////////////////////////////////////////////////////////////////
-		// Ruler page.
-		//
+		// Creates Ruler page controls.
+		CreateRulerPageControls();
+
+		// Creates Calibration page controls.
+		CreateCalibrationPageControls();
+
+		// Creates Additional features page controls.
+		CreateAdditionalFeaturesPageControls();
+
+		// Add created notebook pages to notebook.
+		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
+		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
+#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+		m_pNotebook->AddPage(
+            m_pAdditionalFeaturesPanel, wxString("Additional features"));
+#endif
+
+		// Add BottomPanel and OKButton.
+		m_pBottomPanel = new wxPanel(this, wxID_ANY);
+		m_pOKButton = new wxButton(m_pBottomPanel, wxID_OK, wxString("&OK"));
+	}
+
+	void COptionsDialog::SetupSizers()
+	{
+		// Setup ruler page sizers.
+		SetupRulerPageSizers();
+
+		// Setup calibration page sizers.
+		SetupCalibrationPageSizers();
+
+
+		// Setup additional features page sizers.
+		SetupAdditionalFeaturesPageSizers();
+
+		// Create wxBoxSizer and fit our Notebook and Bottom panel.
+		wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
+
+		wxSizerFlags flags1 =
+			wxSizerFlags().Proportion(0).Expand().Border(wxALL, 5);
+		wxSizerFlags flags2 =
+			wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5);
+
+		pBoxSizer->Add(m_pNotebook, flags2);
+		pBoxSizer->Add(m_pBottomPanel, flags1);
+
+		SetSizerAndFit(pBoxSizer);
+
+		// Centre OK button.
+		m_pOKButton->Centre();
+	}
+
+	void COptionsDialog::VRulerPanel_OnPaintEvent(wxPaintEvent& Event)
+	{
+		// Create wxPaintDC.
+		wxPaintDC dc(m_pVRulerPanel);
+
+		// Draw on created DC.
+		VRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::HRulerPanel_OnPaintEvent(wxPaintEvent& Event)
+	{
+		// Create wxPaintDC.
+		wxPaintDC dc(m_pHRulerPanel);
+
+		// Draw on created DC.
+		HRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::VRulerPanel_PaintNow()
+	{
+		// Create wxPaintDC.
+		wxClientDC dc(m_pVRulerPanel);
+
+		// Draw on created DC.
+		VRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::HRulerPanel_PaintNow()
+	{
+		// Create wxPaintDC.
+		wxClientDC dc(m_pHRulerPanel);
+
+		// Draw on created DC.
+		HRulerPanel_Render(dc);
+	}
+
+	void COptionsDialog::VRulerPanel_Render(wxDC& dc)
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve surface size.
+		wxSize size(m_pVRulerPanel->GetClientSize());
+		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
+
+		// Draw ruler's surface on specified display context.
+		pMainFrame->m_pDrawPanel->DrawRulerSurface(
+			dc, surfaceRect,
+			ERulerPosition::rpLeft,
+			pMainFrame->m_eRulerBackgroundType,
+			pMainFrame->m_cRulerBackgroundColour,
+			pMainFrame->m_cRulerBackgroundStartColour,
+			pMainFrame->m_cRulerBackgroundEndColour,
+			pMainFrame->m_RulerBackgroundBitmapLeftH,
+			pMainFrame->m_RulerBackgroundBitmapMiddleH,
+			pMainFrame->m_RulerBackgroundBitmapRightH,
+			pMainFrame->m_RulerBackgroundBitmapTopV,
+			pMainFrame->m_RulerBackgroundBitmapMiddleV,
+			pMainFrame->m_RulerBackgroundBitmapBottomV);
+
+		// Draw ruler's scale.
+		int nSelection =
+			m_pCalibrateUnitOfMeasurementTypeChoice->GetSelection();
+		ERulerUnits rulerUnits = ERulerUnits::ruCentimetres;
+
+		// If selection is valid, set ruler units to selected one.
+		if (nSelection != wxNOT_FOUND)
+		{
+			switch (nSelection)
+			{
+			case 0:	// Centimetres.
+				rulerUnits = ERulerUnits::ruCentimetres;
+
+				break;
+			case 1:	// Inches.
+				rulerUnits = ERulerUnits::ruInches;
+
+				break;
+			}
+		}
+		else // If selection is invalid, set ruler units to default one.
+			rulerUnits = ERulerUnits::ruCentimetres;
+
+		pMainFrame->m_pDrawPanel->DrawRulerScale(
+			dc, surfaceRect, pMainFrame->m_cRulerScaleColour,
+			ERulerPosition::rpLeft, rulerUnits);
+
+		// Draw ruler's markers.
+		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
+			dc, surfaceRect,
+			ERulerPosition::rpLeft,
+			pMainFrame->m_eRulerUnits,
+			pMainFrame->m_cRulerScaleColour,
+			pMainFrame->m_cFirstMarkerColour,
+			pMainFrame->m_cSecondMarkerColour,
+			-1, -1);
+	}
+
+	void COptionsDialog::HRulerPanel_Render(wxDC& dc)
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
+		// Retrieve surface size.
+		wxSize size(m_pHRulerPanel->GetClientSize());
+		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
+
+		// Draw ruler's surface.
+		pMainFrame->m_pDrawPanel->DrawRulerSurface(
+			dc, surfaceRect,
+			ERulerPosition::rpTop,
+			pMainFrame->m_eRulerBackgroundType,
+			pMainFrame->m_cRulerBackgroundColour,
+			pMainFrame->m_cRulerBackgroundStartColour,
+			pMainFrame->m_cRulerBackgroundEndColour,
+			pMainFrame->m_RulerBackgroundBitmapLeftH,
+			pMainFrame->m_RulerBackgroundBitmapMiddleH,
+			pMainFrame->m_RulerBackgroundBitmapRightH,
+			pMainFrame->m_RulerBackgroundBitmapTopV,
+			pMainFrame->m_RulerBackgroundBitmapMiddleV,
+			pMainFrame->m_RulerBackgroundBitmapBottomV);
+
+		// Draw ruler's scale.
+		int nSelection =
+			m_pCalibrateUnitOfMeasurementTypeChoice->GetSelection();
+		ERulerUnits rulerUnits = ERulerUnits::ruCentimetres;
+
+		// If selection is valid, set ruler units to selected one.
+		if (nSelection != wxNOT_FOUND)
+		{
+			switch (nSelection)
+			{
+			case 0:	// Centimetres.
+				rulerUnits = ERulerUnits::ruCentimetres;
+
+				break;
+			case 1:	// Inches.
+				rulerUnits = ERulerUnits::ruInches;
+
+				break;
+			}
+		}
+		else // If selection is invalid, set ruler units to default one.
+			rulerUnits = ERulerUnits::ruCentimetres;
+
+		pMainFrame->m_pDrawPanel->DrawRulerScale(
+			dc, surfaceRect, pMainFrame->m_cRulerScaleColour,
+			ERulerPosition::rpTop, rulerUnits);
+
+		// Draw ruler's markers.
+		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
+			dc, surfaceRect,
+			ERulerPosition::rpTop,
+			pMainFrame->m_eRulerUnits,
+			pMainFrame->m_cRulerScaleColour,
+			pMainFrame->m_cFirstMarkerColour,
+			pMainFrame->m_cSecondMarkerColour,
+			-1, -1);
+	}
+
+	void COptionsDialog::CreateRulerPageControls()
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 		// Create ruler background StaticBox.
 		m_pBackgroundStaticBox =
@@ -337,11 +546,10 @@ namespace WinRuler
 			m_pRulerTransparencyText->Enable(false);
 			m_pRulerTransparencySlider->Enable(false);
 		}
+	}
 
-		///////////////////////////////////////////////////////////////////////
-		// Calibration page.
-		//
-
+	void COptionsDialog::CreateCalibrationPageControls()
+	{
 		// Create Calibrate static box.
 		m_pCalibrateStaticBox =
 			new wxStaticBox(
@@ -353,19 +561,42 @@ namespace WinRuler
 				m_pCalibrateStaticBox, wxID_ANY,
 				wxString(
 					"WinRuler is based on a operating system factor that "
-					"provides the vertical and horizontal pixels per inch (PPI). "
-					"In some computer configurations (often in laptops), this "
-					"factor indicates a default value of 96 pixels per inch, "
-					"which is not the correct one. This value is not accurate, "
-					"giving an incorrect scale in our screen ruler. "
-					"Manual calibration of the PPI value for the height and width of "
-					"the screen solves this problem. This calibration is set only for "
-					"WinRuler application. To properly calibrate WinRuler, please put "
-					"a real ruler on your computer screen close to the displayed scale "
-					"and calibrate the scale on the screen by pressing "
-					"the ""Increase"" or ""Decrease"" button. Note that you must calibrate "
-					"horizontal and vertical PPI values. After proper calibration, "
-					"the ruler should indicate the correct distances."));
+					"provides the vertical and horizontal pixels per inch "
+					"(PPI). In some computer configurations (often in "
+					"laptops), this factor indicates a default value of 96 "
+					"pixels per inch, which is not the correct one. This "
+					"value is not accurate, giving an incorrect scale in our "
+					"screen ruler. Manual calibration of the PPI value for "
+					"the height and width of the screen solves this problem. "
+					"This calibration is set only for WinRuler application. "
+					"To properly calibrate WinRuler, please put a real ruler "
+					"on your computer screen close to the displayed scale and "
+					"calibrate the scale on the screen by pressing the "
+					"""Increase"" or ""Decrease"" button. Note that you must "
+					"calibrate horizontal and vertical PPI values. After "
+					"proper calibration, the ruler should indicate the "
+					"correct distances."));
+
+		// Create unit of measurement type choice.
+		wxArrayString Choices;
+		Choices.Add(wxString("Centimetres"));
+		Choices.Add(wxString("Inches"));
+
+		m_pCalibrateUnitOfMeasurementTypeText =
+			new wxStaticText(
+					m_pCalibrateStaticBox, wxID_ANY,
+					wxString("Unit of measurement type:"));
+
+		m_pCalibrateUnitOfMeasurementTypeChoice =
+			new wxChoice(
+					m_pCalibrateStaticBox,
+					ID_CalibrateUnitOfMeasurementTypeChoice,
+					wxDefaultPosition, wxDefaultSize, Choices);
+
+		// Select current unit of measurement type.
+		m_pCalibrateUnitOfMeasurementTypeChoice->Select(0);
+
+
 
 		// Create vertical and horizontal panels that will display rulers for
 		// calibration. Create also Increse and Decrese buttons for vertical
@@ -407,16 +638,18 @@ namespace WinRuler
 			new wxStaticText(
 				m_pCalibrateStaticBox, wxID_ANY,
 				wxString::Format(
-                     "Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
+					"Vertical PPI: %d", g_vPixelPerInch[0].GetY()));
 		m_pHPPIStaticText =
 			new wxStaticText(
 				m_pCalibrateStaticBox, wxID_ANY,
 				wxString::Format(
-                     "Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+					"Horizontal PPI: %d", g_vPixelPerInch[0].GetX()));
+	}
 
-		///////////////////////////////////////////////////////////////////////
-		// Additional feature page.
-		//
+	void COptionsDialog::CreateAdditionalFeaturesPageControls()
+	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 #if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		// Create snap to edges of the screen static box.
@@ -495,28 +728,10 @@ namespace WinRuler
 		m_pSnapToOtherWindowsSpinCtrl->Enable(
 			pMainFrame->m_bSnapToOtherWindows);
 #endif
-
-		///////////////////////////////////////////////////////////////////////
-
-		// Add created notebook pages to notebook.
-		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
-		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
-		m_pNotebook->AddPage(
-            m_pAdditionalFeaturesPanel, wxString("Additional features"));
-#endif
-
-		// Add BottomPanel and OKButton.
-		m_pBottomPanel = new wxPanel(this, wxID_ANY);
-		m_pOKButton = new wxButton(m_pBottomPanel, wxID_OK, wxString("&OK"));
 	}
 
-	void COptionsDialog::SetupSizers()
+	void COptionsDialog::SetupRulerPageSizers()
 	{
-		///////////////////////////////////////////////////////////////////////
-		// Ruler page.
-		//
-
 		// Create wxBoxSizer and apply it on all components inside
 		// m_pBackgroundStaticBox.
 		wxBoxSizer* pBackgroundBoxSizer = new wxBoxSizer(wxVERTICAL);
@@ -579,16 +794,23 @@ namespace WinRuler
 		pStaticBoxSizer->Add(m_pSpecialOptionsStaticBox, flags2);
 
 		m_pRulerPanel->SetSizerAndFit(pStaticBoxSizer);
+	}
 
-		///////////////////////////////////////////////////////////////////////
-		// Calibration page.
-		//
-
+	void COptionsDialog::SetupCalibrationPageSizers()
+	{
 		// Create wxBoxSizer and fit all calibrate components.
 		wxBoxSizer* pCalibrateBoxSizer = new wxBoxSizer(wxVERTICAL);
 
+		wxSizerFlags flags1 =
+			wxSizerFlags().Proportion(0).Expand().Border(wxALL, 5);
+		wxSizerFlags flags2 =
+			wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5);
+
 		pCalibrateBoxSizer->AddSpacer(20);
 		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, flags2);
+		pCalibrateBoxSizer->AddSpacer(5);
+		pCalibrateBoxSizer->Add(m_pCalibrateUnitOfMeasurementTypeText, flags1);
+		pCalibrateBoxSizer->Add(m_pCalibrateUnitOfMeasurementTypeChoice, flags1);
 
 		wxBoxSizer* pVerticalSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -630,24 +852,27 @@ namespace WinRuler
 		pStaticBoxSizer2->Add(m_pCalibrateStaticBox, flags2);
 
 		m_pCalibrationPanel->SetSizerAndFit(pStaticBoxSizer2);
+	}
 
-		///////////////////////////////////////////////////////////////////////
-		// Additional features page.
-		//
+	void COptionsDialog::SetupAdditionalFeaturesPageSizers()
+	{
 #if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		wxBoxSizer* pSnappingBoxSizer = new wxBoxSizer(wxVERTICAL);
 
-		pSnappingBoxSizer->Add(m_pSnapToEdgesOfScreenStaticBox, flags1);
-		pSnappingBoxSizer->Add(m_pSnapToOtherWindowsStaticBox, flags1);
+		wxSizerFlags flags =
+			wxSizerFlags().Proportion(0).Expand().Border(wxALL, 5);
+
+		pSnappingBoxSizer->Add(m_pSnapToEdgesOfScreenStaticBox, flags);
+		pSnappingBoxSizer->Add(m_pSnapToOtherWindowsStaticBox, flags);
 
 		m_pAdditionalFeaturesPanel->SetSizerAndFit(pSnappingBoxSizer);
 
 		wxBoxSizer* pSnapToEdgesBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		pSnapToEdgesBoxSizer->AddSpacer(20);
-		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenCheckBox, flags1);
-		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenStaticText, flags1);
-		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenSpinCtrl, flags1);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenCheckBox, flags);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenStaticText, flags);
+		pSnapToEdgesBoxSizer->Add(m_pSnapToEdgesOfScreenSpinCtrl, flags);
 
 		m_pSnapToEdgesOfScreenStaticBox->SetSizerAndFit(pSnapToEdgesBoxSizer);
 
@@ -655,148 +880,15 @@ namespace WinRuler
 
 		pSnapToOtherWindowsBoxSizer->AddSpacer(20);
 		pSnapToOtherWindowsBoxSizer->Add(
-            m_pSnapToOtherWindowsCheckBox, flags1);
+			m_pSnapToOtherWindowsCheckBox, flags);
 		pSnapToOtherWindowsBoxSizer->Add(
-            m_pSnapToOtherWindowsStaticText, flags1);
+			m_pSnapToOtherWindowsStaticText, flags);
 		pSnapToOtherWindowsBoxSizer->Add(
-            m_pSnapToOtherWindowsSpinCtrl, flags1);
+			m_pSnapToOtherWindowsSpinCtrl, flags);
 
 		m_pSnapToOtherWindowsStaticBox->SetSizerAndFit(
-            pSnapToOtherWindowsBoxSizer);
+			pSnapToOtherWindowsBoxSizer);
 #endif
-
-		///////////////////////////////////////////////////////////////////////
-
-		// Create wxBoxSizer and fit our Notebook and Bottom panel.
-		wxBoxSizer* pBoxSizer = new wxBoxSizer(wxVERTICAL);
-
-		pBoxSizer->Add(m_pNotebook, flags2);
-		pBoxSizer->Add(m_pBottomPanel, flags1);
-
-		SetSizerAndFit(pBoxSizer);
-
-		// Centre OK button.
-		m_pOKButton->Centre();
-	}
-
-	void COptionsDialog::VRulerPanel_OnPaintEvent(wxPaintEvent& Event)
-	{
-		// Create wxPaintDC.
-		wxPaintDC dc(m_pVRulerPanel);
-
-		// Draw on created DC.
-		VRulerPanel_Render(dc);
-	}
-
-	void COptionsDialog::HRulerPanel_OnPaintEvent(wxPaintEvent& Event)
-	{
-		// Create wxPaintDC.
-		wxPaintDC dc(m_pHRulerPanel);
-
-		// Draw on created DC.
-		HRulerPanel_Render(dc);
-	}
-
-	void COptionsDialog::VRulerPanel_PaintNow()
-	{
-		// Create wxPaintDC.
-		wxClientDC dc(m_pVRulerPanel);
-
-		// Draw on created DC.
-		VRulerPanel_Render(dc);
-	}
-
-	void COptionsDialog::HRulerPanel_PaintNow()
-	{
-		// Create wxPaintDC.
-		wxClientDC dc(m_pHRulerPanel);
-
-		// Draw on created DC.
-		HRulerPanel_Render(dc);
-	}
-
-	void COptionsDialog::VRulerPanel_Render(wxDC& dc)
-	{
-		// Retrieve pointer to CMainFrame class.
-		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
-
-		// Retrieve surface size.
-		wxSize size(m_pVRulerPanel->GetClientSize());
-		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
-
-		// Draw ruler's surface.
-		pMainFrame->m_pDrawPanel->DrawRulerSurface(
-			dc, surfaceRect,
-			ERulerPosition::rpLeft,
-			pMainFrame->m_eRulerBackgroundType,
-			pMainFrame->m_cRulerBackgroundColour,
-			pMainFrame->m_cRulerBackgroundStartColour,
-			pMainFrame->m_cRulerBackgroundEndColour,
-			pMainFrame->m_RulerBackgroundBitmapLeftH,
-			pMainFrame->m_RulerBackgroundBitmapMiddleH,
-			pMainFrame->m_RulerBackgroundBitmapRightH,
-			pMainFrame->m_RulerBackgroundBitmapTopV,
-			pMainFrame->m_RulerBackgroundBitmapMiddleV,
-			pMainFrame->m_RulerBackgroundBitmapBottomV);
-
-		// Draw ruler's scale.
-		pMainFrame->m_pDrawPanel->DrawRulerScale(
-			dc, surfaceRect,
-			pMainFrame->m_cRulerScaleColour,
-			ERulerPosition::rpLeft,
-			ERulerUnits::ruInches);
-
-		// Draw ruler's markers.
-		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
-			dc, surfaceRect,
-			ERulerPosition::rpLeft,
-			pMainFrame->m_eRulerUnits,
-			pMainFrame->m_cRulerScaleColour,
-			pMainFrame->m_cFirstMarkerColour,
-			pMainFrame->m_cSecondMarkerColour,
-			-1, -1);
-	}
-
-	void COptionsDialog::HRulerPanel_Render(wxDC& dc)
-	{
-		// Retrieve pointer to CMainFrame class.
-		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
-
-		// Retrieve surface size.
-		wxSize size(m_pHRulerPanel->GetClientSize());
-		wxRect surfaceRect(0, 0, size.GetWidth(), size.GetHeight());
-
-		// Draw ruler's surface.
-		pMainFrame->m_pDrawPanel->DrawRulerSurface(
-			dc, surfaceRect,
-			ERulerPosition::rpTop,
-			pMainFrame->m_eRulerBackgroundType,
-			pMainFrame->m_cRulerBackgroundColour,
-			pMainFrame->m_cRulerBackgroundStartColour,
-			pMainFrame->m_cRulerBackgroundEndColour,
-			pMainFrame->m_RulerBackgroundBitmapLeftH,
-			pMainFrame->m_RulerBackgroundBitmapMiddleH,
-			pMainFrame->m_RulerBackgroundBitmapRightH,
-			pMainFrame->m_RulerBackgroundBitmapTopV,
-			pMainFrame->m_RulerBackgroundBitmapMiddleV,
-			pMainFrame->m_RulerBackgroundBitmapBottomV);
-
-		// Draw ruler's scale.
-		pMainFrame->m_pDrawPanel->DrawRulerScale(
-			dc, surfaceRect,
-			pMainFrame->m_cRulerScaleColour,
-			ERulerPosition::rpTop,
-			ERulerUnits::ruInches);
-
-		// Draw ruler's markers.
-		pMainFrame->m_pDrawPanel->DrawRulerMarkers(
-			dc, surfaceRect,
-			ERulerPosition::rpTop,
-			pMainFrame->m_eRulerUnits,
-			pMainFrame->m_cRulerScaleColour,
-			pMainFrame->m_cFirstMarkerColour,
-			pMainFrame->m_cSecondMarkerColour,
-			-1, -1);
 	}
 
 	void COptionsDialog::OnRulerTransparencyCheckBoxClicked(
@@ -891,7 +983,7 @@ namespace WinRuler
 	void COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked(
         wxCommandEvent& Event)
 	{
-		// Retrieve our MainFrame.
+		// Retrieve CMainFrame pointer.
 		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
 		// Retrieve our check box by static casting of Event object.
@@ -910,6 +1002,8 @@ namespace WinRuler
 
 	void COptionsDialog::OnBackgroundTypeChoiceChanged(wxCommandEvent& Event)
 	{
+		// Depending on selected background type, enable or disable proper
+		// controls.
 		switch (Event.GetSelection())
 		{
 		case btSolid:
@@ -943,6 +1037,15 @@ namespace WinRuler
 
 			break;
 		}
+	}
+
+	void COptionsDialog::OnCalibrateUnitOfMeasurementTypeChoiceChanged(
+		wxCommandEvent& Event)
+	{
+		// When this event is triggered, we need to redraw both vertical and
+		// horizontal ruler panels.
+		m_pVRulerPanel->Refresh();
+		m_pHRulerPanel->Refresh();
 	}
 
 	void COptionsDialog::OnClose(wxCloseEvent& Event)

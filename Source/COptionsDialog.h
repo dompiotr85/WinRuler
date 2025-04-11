@@ -18,12 +18,13 @@ enum EOptionsIDs
 {
 	ID_BackgroundTypeChoice = 40,
 	ID_RulerTransparency = 41,
-	ID_VerticalRulerIncreaseButton = 42,
-	ID_VerticalRulerDecreaseButton = 43,
-	ID_HorizontalRulerIncreaseButton = 44,
-	ID_HorizontalRulerDecreaseButton = 45,
-	ID_SnapToEdgesOfScreen = 46,
-	ID_SnapToOtherWindows = 47
+	ID_CalibrateUnitOfMeasurementTypeChoice = 42,
+	ID_VerticalRulerIncreaseButton = 43,
+	ID_VerticalRulerDecreaseButton = 44,
+	ID_HorizontalRulerIncreaseButton = 45,
+	ID_HorizontalRulerDecreaseButton = 46,
+	ID_SnapToEdgesOfScreen = 47,
+	ID_SnapToOtherWindows = 48
 };
 
 namespace WinRuler
@@ -101,6 +102,35 @@ namespace WinRuler
 		void VRulerPanel_Render(wxDC& dc);
 		void HRulerPanel_Render(wxDC& dc);
 	private:
+		/**
+		 * Creates controls for the ruler page.
+		 **/
+		void CreateRulerPageControls();
+
+		/**
+		 * Creates controls for the calibration page.
+		 **/
+		void CreateCalibrationPageControls();
+
+		/**
+		 * Creates controls for the additional features page.
+		 **/
+		void CreateAdditionalFeaturesPageControls();
+
+		/**
+		 * Setup ruler page sizers.
+		 **/
+		void SetupRulerPageSizers();
+
+		/**
+		 * Setup calibration page sizers.
+		 **/
+		void SetupCalibrationPageSizers();
+
+		/**
+		 * Setup additional features page sizers.
+		 **/
+		void SetupAdditionalFeaturesPageSizers();
 
 		/**
 		 * OnClose() method event.
@@ -115,6 +145,14 @@ namespace WinRuler
 		 * \param Event		Reference to wxCommandEvent instance.
 		 **/
 		void OnBackgroundTypeChoiceChanged(wxCommandEvent& Event);
+
+		/**
+		 * OnCalibrateUnitOfMeasurementTypeChoiceChanged() method event.
+		 *
+		 * \param Event		Reference to wxCommandEvent instance.
+		 **/
+		void OnCalibrateUnitOfMeasurementTypeChoiceChanged(
+			wxCommandEvent& Event);
 
 		/**
 		 * OnRulerTransparencyCheckBoxClicked() method event.
@@ -240,6 +278,12 @@ namespace WinRuler
 
 		//! Calibrate info text.
 		wxStaticText* m_pCalibrateInfoText;
+
+		//! Calibrate unit of measurement type text.
+		wxStaticText* m_pCalibrateUnitOfMeasurementTypeText;
+
+		//! Calibrate unit of measurement type choice.
+		wxChoice* m_pCalibrateUnitOfMeasurementTypeChoice;
 
 		//! Vertical and horizontal panels.
 		wxPanel* m_pVRulerPanel;
