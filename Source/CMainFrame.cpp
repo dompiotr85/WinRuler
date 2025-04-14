@@ -429,7 +429,10 @@ namespace WinRuler
 	void CMainFrame::OnAlwaysOnTopClicked(wxCommandEvent& WXUNUSED(Event))
 	{
 #ifdef _DEBUG
-	    wxLogInfo(!m_bAlwaysOnTop ? wxString("AlwaysOnTop enabled.") : wxString("AlwaysOnTop disabled."));
+	    wxLogInfo(
+               !m_bAlwaysOnTop ?
+                    wxString("AlwaysOnTop enabled.") :
+                    wxString("AlwaysOnTop disabled."));
 #endif
 
 		// Change ruler's StayOnTop state to negative one.
@@ -1115,7 +1118,8 @@ namespace WinRuler
 		}
 
 		if (abs((Pos.x + WindowSize.GetX()) -
-				(ScreenRect.GetX() + ScreenRect.GetWidth())) <= m_iSnapToEdgesOfScreenDistance)
+				(ScreenRect.GetX() + ScreenRect.GetWidth())) <=
+                    m_iSnapToEdgesOfScreenDistance)
 		{ // Right edge of the screen.
 			Pos.x =
 				ScreenRect.GetX() + ScreenRect.GetWidth() - WindowSize.GetX();
@@ -1127,7 +1131,8 @@ namespace WinRuler
 		}
 
 		if (abs((Pos.y + WindowSize.GetY()) -
-				(ScreenRect.GetY() + ScreenRect.GetHeight())) <= m_iSnapToEdgesOfScreenDistance)
+				(ScreenRect.GetY() + ScreenRect.GetHeight())) <=
+                    m_iSnapToEdgesOfScreenDistance)
 		{ // Bottom edge of the screen.
 			Pos.y =
 				ScreenRect.GetY() + ScreenRect.GetHeight() - WindowSize.GetY();
@@ -1160,13 +1165,15 @@ namespace WinRuler
 				continue;
 
 			// Snap to horizontal edges of iterated window.
-			if (abs(RulerRect.right - win.Rect.left) <= m_iSnapToOtherWindowsDistance)
+			if (abs(RulerRect.right - win.Rect.left) <=
+                    m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.left =
 					win.Rect.left - (RulerRect.right - RulerRect.left);
 				RulerRect.right = win.Rect.left;
 			}
-			else if (abs(RulerRect.left - win.Rect.right) <= m_iSnapToOtherWindowsDistance)
+			else if (abs(RulerRect.left - win.Rect.right) <=
+                    m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.right =
 					win.Rect.right + (RulerRect.right - RulerRect.left);
@@ -1174,13 +1181,15 @@ namespace WinRuler
 			}
 
 			// Snap to vertical edges of iterated window.
-			if (abs(RulerRect.bottom - win.Rect.top) <= m_iSnapToOtherWindowsDistance)
+			if (abs(RulerRect.bottom - win.Rect.top) <=
+                    m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.top =
 					win.Rect.top - (RulerRect.bottom - RulerRect.top);
 				RulerRect.bottom = win.Rect.top;
 			}
-			else if (abs(RulerRect.top - win.Rect.bottom) <= m_iSnapToOtherWindowsDistance)
+			else if (abs(RulerRect.top - win.Rect.bottom) <=
+                        m_iSnapToOtherWindowsDistance)
 			{
 				RulerRect.bottom =
 					win.Rect.bottom + (RulerRect.bottom - RulerRect.top);

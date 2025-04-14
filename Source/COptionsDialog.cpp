@@ -599,7 +599,7 @@ namespace WinRuler
 
 
 		// Create vertical and horizontal panels that will display rulers for
-		// calibration. Create also Increse and Decrese buttons for vertical
+		// calibration. Create also Increase and Decrease buttons for vertical
 		// and horizontal ruler.
 		m_pVRulerPanel =
 			new wxPanel(
@@ -611,11 +611,11 @@ namespace WinRuler
 		m_pV_IncButton =
 			new wxButton(
 				m_pCalibrateStaticBox, ID_VerticalRulerIncreaseButton,
-				wxString("&Increse"));
+				wxString("&Increase"));
 		m_pV_DecButton =
 			new wxButton(
 				m_pCalibrateStaticBox, ID_VerticalRulerDecreaseButton,
-				wxString("&Decrese"));
+				wxString("&Decrease"));
 
 		m_pHRulerPanel =
 			new wxPanel(
@@ -627,11 +627,11 @@ namespace WinRuler
 		m_pH_IncButton =
 			new wxButton(
 				m_pCalibrateStaticBox, ID_HorizontalRulerIncreaseButton,
-				wxString("&Increse"));
+				wxString("&Increase"));
 		m_pH_DecButton =
 			new wxButton(
 				m_pCalibrateStaticBox, ID_HorizontalRulerDecreaseButton,
-				wxString("&Decrese"));
+				wxString("&Decrease"));
 
 		// Create vertical and horizontal PPI static texts.
 		m_pVPPIStaticText =
@@ -648,9 +648,6 @@ namespace WinRuler
 
 	void COptionsDialog::CreateAdditionalFeaturesPageControls()
 	{
-		// Retrieve pointer to CMainFrame class.
-		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
-
 #if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		// Create snap to edges of the screen static box.
 		m_pSnapToEdgesOfScreenStaticBox =
