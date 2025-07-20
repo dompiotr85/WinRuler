@@ -121,7 +121,8 @@ namespace WinRuler
 		void ChangeRulerUnitOfMeasurement(ERulerUnits NewUnit);
 
 		/**
-		 * This method should be called for proper change of the ruler's length.
+		 * This method should be called for proper change of the ruler's
+		 * length.
 		 *
 		 * \param NewLength		New ruler's length.
 		 **/
@@ -149,7 +150,8 @@ namespace WinRuler
 		 * database.
 		 **/
 		bool SaveSettingsToDatabase(
-			const wxString& dbPath, const std::map<wxString, wxString>& Settings);
+			const wxString& dbPath,
+			const std::map<wxString, wxString>& Settings);
 
 		/**
 		 * Loads all settings of our application.

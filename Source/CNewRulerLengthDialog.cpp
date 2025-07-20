@@ -95,7 +95,8 @@ namespace WinRuler
         SetSizerAndFit(pBoxSizer);
     }
 
-    void CNewRulerLengthDialog::OnOKButtonClicked(wxCommandEvent& WXUNUSED(Event))
+    void CNewRulerLengthDialog::OnOKButtonClicked(
+        wxCommandEvent& WXUNUSED(Event))
     {
         // Retrieve CMainFrame instance.
         CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());

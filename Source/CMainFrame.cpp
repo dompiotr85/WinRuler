@@ -39,9 +39,11 @@ namespace WinRuler
 	EVT_MENU(ID_PICAS_AS_UNIT, CMainFrame::OnPicasAsUnitClicked)
 	EVT_MENU(ID_ALWAYS_ON_TOP, CMainFrame::OnAlwaysOnTopClicked)
 	EVT_MENU(ID_RULER_POSITION_SCALE_ON_LEFT, CMainFrame::OnScaleOnLeftClicked)
-	EVT_MENU(ID_RULER_POSITION_SCALE_ON_RIGHT, CMainFrame::OnScaleOnRightClicked)
+	EVT_MENU(
+		ID_RULER_POSITION_SCALE_ON_RIGHT, CMainFrame::OnScaleOnRightClicked)
 	EVT_MENU(ID_RULER_POSITION_SCALE_ON_TOP, CMainFrame::OnScaleOnTopClicked)
-	EVT_MENU(ID_RULER_POSITION_SCALE_ON_BOTTOM, CMainFrame::OnScaleOnBottomClicked)
+	EVT_MENU(
+		ID_RULER_POSITION_SCALE_ON_BOTTOM, CMainFrame::OnScaleOnBottomClicked)
 	EVT_MENU(wxID_ABOUT, CMainFrame::OnAboutClicked)
 	EVT_MENU(wxID_CLOSE, CMainFrame::OnCloseClicked)
 
@@ -89,7 +91,9 @@ namespace WinRuler
 		}
 
 		// Bind OnExit event for command button clicked event.
-		Bind(wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, wxID_EXIT);
+		Bind(
+			wxEVT_COMMAND_BUTTON_CLICKED, &CMainFrame::OnExit, this, 
+			wxID_EXIT);
 
 		// Bind OnClose event for close window event.
 		Bind(wxEVT_CLOSE_WINDOW, &CMainFrame::OnClose, this);
@@ -234,12 +238,16 @@ namespace WinRuler
 
 		// Load image from m_sRulerBackgroundImagePath location to Bitmap
 		// instance.
-		wxBitmap* Bitmap = new wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
+		wxBitmap* Bitmap = 
+			new wxBitmap(m_sRulerBackgroundImagePath, wxBITMAP_TYPE_PNG);
 
 		// Extract parts of loaded Bitmap into separate bitmaps.
-		m_RulerBackgroundBitmapLeftH = Bitmap->GetSubBitmap(wxRect(0, 0, 4, 60));
-		m_RulerBackgroundBitmapMiddleH = Bitmap->GetSubBitmap(wxRect(4, 0, 2, 60));
-		m_RulerBackgroundBitmapRightH = Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
+		m_RulerBackgroundBitmapLeftH = 
+			Bitmap->GetSubBitmap(wxRect(0, 0, 4, 60));
+		m_RulerBackgroundBitmapMiddleH = 
+			Bitmap->GetSubBitmap(wxRect(4, 0, 2, 60));
+		m_RulerBackgroundBitmapRightH = 
+			Bitmap->GetSubBitmap(wxRect(6, 0, 4, 60));
 
 		// Rotate previously created bitmaps and store them in other bitmaps.
 		m_RulerBackgroundBitmapTopV =
@@ -279,20 +287,28 @@ namespace WinRuler
 			// Set ruler background colour.
 			m_cRulerBackgroundColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pBackgroundColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pBackgroundColourPicker->
+					GetColour());
 
 			// Set ruler background start colour and end colour.
 			m_cRulerBackgroundStartColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pBackgroundStartColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pBackgroundStartColourPicker->
+					GetColour());
 			m_cRulerBackgroundEndColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pBackgroundEndColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pBackgroundEndColourPicker->
+					GetColour());
 
 			// Set ruler background image.
 			m_sRulerBackgroundImagePath =
 				static_cast<wxString>(
-					m_pOptionsDialog->m_pBackgroundImagePicker->GetFileName().GetFullPath());
+					m_pOptionsDialog->
+					m_pBackgroundImagePicker->
+					GetFileName().GetFullPath());
 
 			// Load and prepare ruler background images.
 			if ((m_eRulerBackgroundType == ERulerBackgroundType::btImage) &&
@@ -304,23 +320,33 @@ namespace WinRuler
 			// Set ruler scale colour.
 			m_cRulerScaleColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pRulerScaleColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pRulerScaleColourPicker->
+					GetColour());
 
 			// Set first and second marker colour.
 			m_cFirstMarkerColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pFirstMarkerColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pFirstMarkerColourPicker->
+					GetColour());
 			m_cSecondMarkerColour =
 				static_cast<wxColour>(
-					m_pOptionsDialog->m_pSecondMarkerColourPicker->GetColour());
+					m_pOptionsDialog->
+					m_pSecondMarkerColourPicker->
+					GetColour());
 
 			// Set ruler transparency.
 			m_bRulerTransparency =
 				static_cast<bool>(
-					m_pOptionsDialog->m_pRulerTransparencyCheckBox->IsChecked());
+					m_pOptionsDialog->
+					m_pRulerTransparencyCheckBox->
+					IsChecked());
 			m_iRulerTransparencyValue =
 				static_cast<wxByte>(
-					m_pOptionsDialog->m_pRulerTransparencySlider->GetValue());
+					m_pOptionsDialog->
+					m_pRulerTransparencySlider->
+					GetValue());
 			if (m_bRulerTransparency)
 			{
 				if (CanSetTransparent())
@@ -337,9 +363,13 @@ namespace WinRuler
 			// Set snap to edges of the screen distance and snap to other
 			// windows distance.
             m_iSnapToEdgesOfScreenDistance =
-                m_pOptionsDialog->m_pSnapToEdgesOfScreenSpinCtrl->GetValue();
+                m_pOptionsDialog->
+				m_pSnapToEdgesOfScreenSpinCtrl->
+				GetValue();
             m_iSnapToOtherWindowsDistance =
-                m_pOptionsDialog->m_pSnapToOtherWindowsSpinCtrl->GetValue();
+                m_pOptionsDialog->
+				m_pSnapToOtherWindowsSpinCtrl->
+				GetValue();
 #endif
 
 			// Save all settings of our application.
@@ -387,7 +417,8 @@ namespace WinRuler
 		SaveApplicationSettings();
 	}
 
-	void CMainFrame::OnCentimetresAsUnitClicked(wxCommandEvent& WXUNUSED(Event))
+	void CMainFrame::OnCentimetresAsUnitClicked(
+		wxCommandEvent& WXUNUSED(Event))
 	{
 #ifdef _DEBUG
 	    wxLogInfo(wxString("Centimetres as unit of measurement selected."));
@@ -628,7 +659,8 @@ namespace WinRuler
 		// If requested NewLength is already set or requested NewLength is
 		// smaller than m_iRulerMinimumLengthLimit, then return from this
 		// method.
-		if (NewLength == m_iRulerLength || NewLength < m_iRulerMinimumLengthLimit)
+		if (NewLength == m_iRulerLength || 
+			NewLength < m_iRulerMinimumLengthLimit)
 			return;
 
 		// Set NewLength as current ruler's length.
@@ -909,7 +941,8 @@ namespace WinRuler
 
 	void CMainFrame::LoadApplicationSettings()
 	{
-		// SQLite database file is stored in "$(CURRENT_DIRECTORY)/WinRuler.db".
+		// SQLite database file is stored in 
+		// "$(CURRENT_DIRECTORY)/WinRuler.db".
 		wxString dbPath = wxGetCwd() + "/WinRuler.db";
 		std::map<wxString, wxString> Settings;
 
@@ -1009,7 +1042,8 @@ namespace WinRuler
 			}
 			else if (Key == "snap_to_edges_distance")
 			{
-				m_iSnapToEdgesOfScreenDistance = static_cast<int>(wxAtoi(Value));
+				m_iSnapToEdgesOfScreenDistance = 
+					static_cast<int>(wxAtoi(Value));
 			}
 			else if (Key == "snap_to_other_windows")
 			{
@@ -1017,7 +1051,8 @@ namespace WinRuler
 			}
 			else if (Key == "snap_to_other_windows_distance")
 			{
-				m_iSnapToOtherWindowsDistance = static_cast<int>(wxAtoi(Value));
+				m_iSnapToOtherWindowsDistance = 
+					static_cast<int>(wxAtoi(Value));
 			}
 
 #ifdef _DEBUG
@@ -1029,7 +1064,8 @@ namespace WinRuler
 
 	void CMainFrame::SaveApplicationSettings()
 	{
-		// SQLite database file is stored in "$(CURRENT_DIRECTORY)/WinRuler.db".
+		// SQLite database file is stored in 
+		// "$(CURRENT_DIRECTORY)/WinRuler.db".
 		wxString dbPath = wxGetCwd() + "/WinRuler.db";
 		std::map<wxString, wxString> Settings;
 
@@ -1092,7 +1128,9 @@ namespace WinRuler
 		// this method.
 		if (!SaveSettingsToDatabase(dbPath, Settings))
 		{
-			wxLogError("There was an error while saving application settings!");
+			wxLogError(
+				"There was an error while saving application settings!");
+
 			return;
 		}
 

@@ -13,8 +13,8 @@ namespace WinRuler
 {
 	bool CApplication::OnInit()
 	{
-		// Execute inherited method OnInit().
-		wxApp::OnInit();
+		// Set frame appearance to use system theme.
+		SetAppearance(wxApp::Appearance::System);
 
 		// Only in Debug, create our wxLog instance and set it as active
 		// target.
@@ -125,9 +125,12 @@ namespace WinRuler
 
 		// If retrieved event type is motion or left button down or left button
 		// up, then ...
-		if (Type == wxEVT_MOTION || Type == wxEVT_LEFT_DOWN || Type == wxEVT_LEFT_UP)
+		if (Type == wxEVT_MOTION || 
+			Type == wxEVT_LEFT_DOWN || 
+			Type == wxEVT_LEFT_UP)
 		{
-			// ... have only go up once; then this subroutine will be called again
+			// ... have only go up once; then this subroutine will be called
+			// again.
 			//Event.ResumePropagation(100);
 			Event.ResumePropagation(1);
 

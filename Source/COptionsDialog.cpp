@@ -11,16 +11,34 @@ namespace WinRuler
 	BEGIN_EVENT_TABLE(COptionsDialog, wxDialog)
 
 	EVT_CLOSE(COptionsDialog::OnClose)
-	EVT_CHOICE(ID_BackgroundTypeChoice, COptionsDialog::OnBackgroundTypeChoiceChanged)
-	EVT_CHECKBOX(ID_RulerTransparency, COptionsDialog::OnRulerTransparencyCheckBoxClicked)
-	EVT_CHOICE(ID_CalibrateUnitOfMeasurementTypeChoice, COptionsDialog::OnCalibrateUnitOfMeasurementTypeChoiceChanged)
-	EVT_BUTTON(ID_VerticalRulerIncreaseButton, COptionsDialog::OnVerticalRulerIncreaseButtonClicked)
-	EVT_BUTTON(ID_VerticalRulerDecreaseButton, COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
-	EVT_BUTTON(ID_HorizontalRulerIncreaseButton, COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
-	EVT_BUTTON(ID_HorizontalRulerDecreaseButton, COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
+	EVT_CHOICE(
+		ID_BackgroundTypeChoice, 
+		COptionsDialog::OnBackgroundTypeChoiceChanged)
+	EVT_CHECKBOX(
+		ID_RulerTransparency, 
+		COptionsDialog::OnRulerTransparencyCheckBoxClicked)
+	EVT_CHOICE(
+		ID_CalibrateUnitOfMeasurementTypeChoice, 
+		COptionsDialog::OnCalibrateUnitOfMeasurementTypeChoiceChanged)
+	EVT_BUTTON(
+		ID_VerticalRulerIncreaseButton, 
+		COptionsDialog::OnVerticalRulerIncreaseButtonClicked)
+	EVT_BUTTON(
+		ID_VerticalRulerDecreaseButton, 
+		COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
+	EVT_BUTTON(
+		ID_HorizontalRulerIncreaseButton, 
+		COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
+	EVT_BUTTON(
+		ID_HorizontalRulerDecreaseButton, 
+		COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
 #if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
-	EVT_CHECKBOX(ID_SnapToEdgesOfScreen, COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
-	EVT_CHECKBOX(ID_SnapToOtherWindows, COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
+	EVT_CHECKBOX(
+		ID_SnapToEdgesOfScreen, 
+		COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
+	EVT_CHECKBOX(
+		ID_SnapToOtherWindows, 
+		COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
 #endif
 
 	END_EVENT_TABLE()
@@ -496,8 +514,8 @@ namespace WinRuler
 		m_pRulerTransparencySlider =
 			new wxSlider(
 				m_pSpecialOptionsStaticBox, wxID_ANY,
-				static_cast<int>(pMainFrame->m_iRulerTransparencyValue), 0, 255,
-				wxDefaultPosition, wxDefaultSize,
+				static_cast<int>(pMainFrame->m_iRulerTransparencyValue),
+				0, 255, wxDefaultPosition, wxDefaultSize,
 				wxSL_HORIZONTAL | wxSL_VALUE_LABEL);
 
 		// At the end of ruler page creation, enable proper items depending on
@@ -648,6 +666,9 @@ namespace WinRuler
 
 	void COptionsDialog::CreateAdditionalFeaturesPageControls()
 	{
+		// Retrieve pointer to CMainFrame class.
+		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
+
 #if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
 		// Create snap to edges of the screen static box.
 		m_pSnapToEdgesOfScreenStaticBox =
@@ -807,7 +828,8 @@ namespace WinRuler
 		pCalibrateBoxSizer->Add(m_pCalibrateInfoText, flags2);
 		pCalibrateBoxSizer->AddSpacer(5);
 		pCalibrateBoxSizer->Add(m_pCalibrateUnitOfMeasurementTypeText, flags1);
-		pCalibrateBoxSizer->Add(m_pCalibrateUnitOfMeasurementTypeChoice, flags1);
+		pCalibrateBoxSizer->Add(
+			m_pCalibrateUnitOfMeasurementTypeChoice, flags1);
 
 		wxBoxSizer* pVerticalSizer = new wxBoxSizer(wxVERTICAL);
 
