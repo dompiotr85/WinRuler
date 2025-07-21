@@ -164,7 +164,8 @@ namespace WinRuler
 		}
 	}
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+// If platform is Windows, then we can use WinAPI to get all windows.
+#ifdef WR_WINDOWS
 	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	{
 		std::vector<WindowInfo>* WindowsVec =

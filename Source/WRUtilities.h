@@ -10,11 +10,14 @@
 #include <limits>
 #include <cstdio> // For sscanf()
 #include <iostream>
+
+#include "WRPlatform.h"
+
 #include <wx/wx.h>
 
-#ifdef __unix__	// If platform is Linux.
-#elif defined(_WIN32) || defined(WIN32)	// If platform in Windows.
- #include <Windows.h>
+// Include Windows headers only if platform is Windows.
+#ifdef WR_WINDOWS
+# include <Windows.h>
 #endif
 
 namespace WinRuler

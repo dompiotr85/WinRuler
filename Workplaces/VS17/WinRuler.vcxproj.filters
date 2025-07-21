@@ -83,6 +83,9 @@
     <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h">
       <Filter>Header files\ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\WRPlatform.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinRuler.rc">

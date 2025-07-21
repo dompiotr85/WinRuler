@@ -28,14 +28,16 @@ namespace WinRuler
 		 * \param Pos		Dialog position. Default: wxDefaultPosition
 		 * \param Size		Dialog size. Default: wxSize(600, 440)
 		 * \param Style		Dialog style.
-		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
+		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX |
+		 *					wxTAB_TRAVERSAL
 		 **/
 		CAboutDialog(
 			wxWindow* Parent, wxWindowID Id = wxID_ANY,
 			const wxString& Title = wxString("About WinRuler"),
 			const wxPoint& Pos = wxDefaultPosition,
 			const wxSize& Size = wxSize(600, 440),
-			long Style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
+			long Style = 
+				wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
 
 		/**
 		 * Default destructor.

@@ -179,6 +179,7 @@
     <ClInclude Include="..\..\Source\CMainFrame.h" />
     <ClInclude Include="..\..\Source\CNewRulerLengthDialog.h" />
     <ClInclude Include="..\..\Source\COptionsDialog.h" />
+    <ClInclude Include="..\..\Source\WRPlatform.h" />
     <ClInclude Include="..\..\Source\WRUtilities.h" />
     <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h" />
     <ClInclude Include="resource.h" />

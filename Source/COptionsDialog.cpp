@@ -32,7 +32,7 @@ namespace WinRuler
 	EVT_BUTTON(
 		ID_HorizontalRulerDecreaseButton, 
 		COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 	EVT_CHECKBOX(
 		ID_SnapToEdgesOfScreen, 
 		COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
@@ -152,18 +152,22 @@ namespace WinRuler
 	void COptionsDialog::CreateControls()
 	{
 		// Set client size.
-		// @todo	Right now code below is a dirty hack. Implementation of
-		//			OS and platform detection need to be done.
-#ifdef __unix__	// If platform is Linux.
+		// @todo	Right now code below is a dirty hack. 
+#ifdef WR_LINUX // If platform is Linux.
 		int cWidth = 700;
 		int cHeight = 860;
-#elif defined(_WIN32) || defined(WIN32)	// If platform is Windows.
+#elif defined(WR_WINDOWS) // If platform is Windows.
 		int cWidth = 700;
 		int cHeight = 740;
-#elif __APPLE__
+#elif defined(WR_MACOS) // If platform is macOS.
         int cWidth = 700;
         int cHeight = 860;
+#else
+# warning "Unknown platform!"
+		int cWidth = 700;
+		int cHeight = 740;
 #endif
+
         SetClientSize(wxSize(cWidth, cHeight));
 
 		// Create Notebook.
@@ -175,7 +179,7 @@ namespace WinRuler
 		// Create Notebook pages.
 		m_pRulerPanel = new wxPanel(m_pNotebook, wxID_ANY);
 		m_pCalibrationPanel = new wxPanel(m_pNotebook, wxID_ANY);
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 		m_pAdditionalFeaturesPanel = new wxPanel(m_pNotebook, wxID_ANY);
 #endif
 
@@ -191,7 +195,7 @@ namespace WinRuler
 		// Add created notebook pages to notebook.
 		m_pNotebook->AddPage(m_pRulerPanel, wxString("Ruler"));
 		m_pNotebook->AddPage(m_pCalibrationPanel, wxString("Calibration"));
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 		m_pNotebook->AddPage(
             m_pAdditionalFeaturesPanel, wxString("Additional features"));
 #endif
@@ -669,7 +673,7 @@ namespace WinRuler
 		// Retrieve pointer to CMainFrame class.
 		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 		// Create snap to edges of the screen static box.
 		m_pSnapToEdgesOfScreenStaticBox =
 			new wxStaticBox(
@@ -875,7 +879,7 @@ namespace WinRuler
 
 	void COptionsDialog::SetupAdditionalFeaturesPageSizers()
 	{
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 		wxBoxSizer* pSnappingBoxSizer = new wxBoxSizer(wxVERTICAL);
 
 		wxSizerFlags flags =
@@ -979,7 +983,7 @@ namespace WinRuler
 		m_pHRulerPanel->Refresh();
 	}
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 	void COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked(
         wxCommandEvent& Event)
 	{

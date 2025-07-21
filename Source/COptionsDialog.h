@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "WRPlatform.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/clrpicker.h>
@@ -44,14 +45,16 @@ namespace WinRuler
 		 * \param Pos		Dialog position. Default: wxDefaultPosition
 		 * \param Size		Dialog size. Default: wxSize(700, 560)
 		 * \param Style		Dialog style.
-		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL
+		 *					Default: wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | 
+		 *					wxTAB_TRAVERSAL
 		 **/
 		COptionsDialog(
 			wxWindow* Parent, wxWindowID Id = wxID_ANY,
 			const wxString& Title = wxString("Options"),
 			const wxPoint& Pos = wxDefaultPosition,
 			const wxSize& Size = wxDefaultSize,
-			long Style = wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
+			long Style = 
+				wxCAPTION | wxSYSTEM_MENU | wxCLOSE_BOX | wxTAB_TRAVERSAL);
 
 		/**
 		 * Default destructor.
@@ -189,7 +192,7 @@ namespace WinRuler
 		 **/
 		void OnHorizontalRulerDecreaseButtonClicked(wxCommandEvent& Event);
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 		/**
 		 * OnSnapToEdgesOfScreenCheckBoxClicked() method event.
 		 *

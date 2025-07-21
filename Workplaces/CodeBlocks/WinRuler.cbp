@@ -26,9 +26,9 @@
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="$(#wx)/lib/gcc_dll/libwxbase32ud.a" />
-					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32ud_core.a" />
-					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32ud_richtext.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxbase33ud.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33ud_core.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33ud_richtext.a" />
 				</Linker>
 			</Target>
 			<Target title="Windows-Release">
@@ -51,9 +51,9 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="$(#wx)/lib/gcc_dll/libwxbase32u.a" />
-					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32u_core.a" />
-					<Add library="$(#wx)/lib/gcc_dll/libwxmsw32u_richtext.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxbase33u.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33u_core.a" />
+					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33u_richtext.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Debug">
@@ -89,6 +89,7 @@
 					<Add option="-DNDEBUG" />
 				</Compiler>
 				<ResourceCompiler>
+					<Add directory="$(#wx)/include" />
 					<Add directory="../../Resources" />
 				</ResourceCompiler>
 				<Linker>

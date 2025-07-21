@@ -359,7 +359,7 @@ namespace WinRuler
 				SetTransparent(255);
 			}
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#ifdef WR_WINDOWS // If platform is Windows.
 			// Set snap to edges of the screen distance and snap to other
 			// windows distance.
             m_iSnapToEdgesOfScreenDistance =
