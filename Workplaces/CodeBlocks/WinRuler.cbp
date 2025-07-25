@@ -73,7 +73,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="`wx-config --libs`" />
-					<Add library="wx_gtk3u_richtext-3.2" />
+					<Add library="wx_gtk3u_richtext-3.3" />
 				</Linker>
 			</Target>
 			<Target title="Linux-Release">
@@ -95,7 +95,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="`wx-config --libs`" />
-					<Add library="wx_gtk3u_richtext-3.2" />
+					<Add library="wx_gtk3u_richtext-3.3" />
 				</Linker>
 			</Target>
 		</Build>

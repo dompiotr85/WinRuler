@@ -12,32 +12,32 @@ namespace WinRuler
 
 	EVT_CLOSE(COptionsDialog::OnClose)
 	EVT_CHOICE(
-		ID_BackgroundTypeChoice, 
+		ID_BackgroundTypeChoice,
 		COptionsDialog::OnBackgroundTypeChoiceChanged)
 	EVT_CHECKBOX(
-		ID_RulerTransparency, 
+		ID_RulerTransparency,
 		COptionsDialog::OnRulerTransparencyCheckBoxClicked)
 	EVT_CHOICE(
-		ID_CalibrateUnitOfMeasurementTypeChoice, 
+		ID_CalibrateUnitOfMeasurementTypeChoice,
 		COptionsDialog::OnCalibrateUnitOfMeasurementTypeChoiceChanged)
 	EVT_BUTTON(
-		ID_VerticalRulerIncreaseButton, 
+		ID_VerticalRulerIncreaseButton,
 		COptionsDialog::OnVerticalRulerIncreaseButtonClicked)
 	EVT_BUTTON(
-		ID_VerticalRulerDecreaseButton, 
+		ID_VerticalRulerDecreaseButton,
 		COptionsDialog::OnVerticalRulerDecreaseButtonClicked)
 	EVT_BUTTON(
-		ID_HorizontalRulerIncreaseButton, 
+		ID_HorizontalRulerIncreaseButton,
 		COptionsDialog::OnHorizontalRulerIncreaseButtonClicked)
 	EVT_BUTTON(
-		ID_HorizontalRulerDecreaseButton, 
+		ID_HorizontalRulerDecreaseButton,
 		COptionsDialog::OnHorizontalRulerDecreaseButtonClicked)
 #ifdef WR_WINDOWS // If platform is Windows.
 	EVT_CHECKBOX(
-		ID_SnapToEdgesOfScreen, 
+		ID_SnapToEdgesOfScreen,
 		COptionsDialog::OnSnapToEdgesOfScreenCheckBoxClicked)
 	EVT_CHECKBOX(
-		ID_SnapToOtherWindows, 
+		ID_SnapToOtherWindows,
 		COptionsDialog::OnSnapToOtherWindowsCheckBoxClicked)
 #endif
 
@@ -152,7 +152,7 @@ namespace WinRuler
 	void COptionsDialog::CreateControls()
 	{
 		// Set client size.
-		// @todo	Right now code below is a dirty hack. 
+		// @todo	Right now code below is a dirty hack.
 #ifdef WR_LINUX // If platform is Linux.
 		int cWidth = 700;
 		int cHeight = 860;
@@ -670,10 +670,10 @@ namespace WinRuler
 
 	void COptionsDialog::CreateAdditionalFeaturesPageControls()
 	{
+#ifdef WR_WINDOWS // If platform is Windows.
 		// Retrieve pointer to CMainFrame class.
 		CMainFrame* pMainFrame = static_cast<CMainFrame*>(this->GetParent());
 
-#ifdef WR_WINDOWS // If platform is Windows.
 		// Create snap to edges of the screen static box.
 		m_pSnapToEdgesOfScreenStaticBox =
 			new wxStaticBox(
