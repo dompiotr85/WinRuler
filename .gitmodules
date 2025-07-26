@@ -1,0 +1,12 @@
+[submodule "ThirdParty/json"]
+	path = ThirdParty/json
+	url = git@github.com:nlohmann/json.git
+	branch = master
+[submodule "ThirdParty/wxWidgets"]
+	path = ThirdParty/wxWidgets
+	url = git@github.com:wxWidgets/wxWidgets.git
+	branch = master
+[submodule "ThirdParty/sqlite"]
+	path = ThirdParty/sqlite
+	url = git@github.com:sqlite/sqlite.git
+	branch = master

@@ -30,6 +30,19 @@
 					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33ud_core.a" />
 					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33ud_richtext.a" />
 				</Linker>
+				<ExtraCommands>
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxbase332ud_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxbase332ud_xml_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_core_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_html_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_richtext_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxbase332ud_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxbase332ud_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxbase332ud_xml_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxbase332ud_xml_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332ud_core_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_core_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332ud_html_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_html_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332ud_richtext_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Debug\wxmsw332ud_richtext_gcc_WinRuler.dll&quot;' />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Windows-Release">
 				<Option platforms="Windows;" />
@@ -55,6 +68,19 @@
 					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33u_core.a" />
 					<Add library="$(#wx)/lib/gcc_dll/libwxmsw33u_richtext.a" />
 				</Linker>
+				<ExtraCommands>
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxbase332u_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxbase332u_xml_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_core_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_html_gcc_WinRuler.dll&quot;' />
+					<Add before='cmd.exe /C &quot;del /F $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_richtext_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxbase332u_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxbase332u_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxbase332u_xml_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxbase332u_xml_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332u_core_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_core_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332u_html_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_html_gcc_WinRuler.dll&quot;' />
+					<Add after='cmd.exe /C &quot;copy $(PROJECT_DIR)..\..\ThirdParty\wxWidgets\lib\gcc_dll\wxmsw332u_richtext_gcc_WinRuler.dll $(PROJECT_DIR)..\..\Binaries\Windows\x64\GCC-Release\wxmsw332u_richtext_gcc_WinRuler.dll&quot;' />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Linux-Debug">
 				<Option platforms="Unix;" />
@@ -130,7 +156,6 @@
 		<Unit filename="../../ThirdParty/sqlite/sqlite3.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../ThirdParty/sqlite/sqlite3.h" />
 		<Unit filename="WinRuler.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

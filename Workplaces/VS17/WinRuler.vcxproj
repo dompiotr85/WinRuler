@@ -73,22 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,6 +104,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332ud_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332ud_xml_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_xml_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_core_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_core_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_html_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_html_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_richtext_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_xml_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_core_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_html_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,6 +137,22 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332u_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332u_xml_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_xml_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_core_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_core_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_html_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_html_vc_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_richtext_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRuler.dll
+</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_xml_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_core_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_html_vc_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRuler.dll
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -139,6 +169,22 @@
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332ud_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332ud_xml_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_xml_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_core_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_core_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_html_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_html_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_richtext_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_WinRuler.dll
+</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_xml_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_core_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_html_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_WinRuler.dll
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -158,6 +204,22 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332u_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332u_xml_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_xml_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_core_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_core_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_html_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_html_vc_x64_WinRuler.dll
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_richtext_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_richtext_vc_x64_WinRuler.dll
+</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_xml_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_core_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_html_vc_x64_WinRuler.dll
+del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_richtext_vc_x64_WinRuler.dll
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CAboutDialog.cpp" />
@@ -181,7 +243,6 @@
     <ClInclude Include="..\..\Source\COptionsDialog.h" />
     <ClInclude Include="..\..\Source\WRPlatform.h" />
     <ClInclude Include="..\..\Source\WRUtilities.h" />
-    <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

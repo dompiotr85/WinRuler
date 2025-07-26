@@ -13,11 +13,11 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header files\ThirdParty">
-      <UniqueIdentifier>{1d163c9b-9480-4af5-bcdd-f9b469bbae21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source files\ThirdParty">
-      <UniqueIdentifier>{bca3a233-8406-4d38-8e09-9d43902da83a}</UniqueIdentifier>
+      <UniqueIdentifier>{43c985d2-180e-473f-8536-3b03174614bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\ThirdParty\SQLite">
+      <UniqueIdentifier>{57dbf926-c0af-4c96-b130-36a81763139a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +49,7 @@
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ThirdParty\sqlite\sqlite3.c">
-      <Filter>Source files\ThirdParty</Filter>
+      <Filter>Source files\ThirdParty\SQLite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,9 +79,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\COptionsDialog.h">
       <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h">
-      <Filter>Header files\ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\WRPlatform.h">
       <Filter>Header files</Filter>
