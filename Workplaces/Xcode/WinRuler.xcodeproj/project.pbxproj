@@ -7,19 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE2EA3AB2E34C11300813EEE /* libwx_baseu_xml-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3AA2E34C11300813EEE /* libwx_baseu_xml-3.3.1.dylib */; };
+		AE2EA3AF2E34C12900813EEE /* libwx_baseu_net-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3AE2E34C12900813EEE /* libwx_baseu_net-3.3.1.dylib */; };
+		AE2EA3B22E34C14900813EEE /* libwx_baseu-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3B12E34C14900813EEE /* libwx_baseu-3.3.1.dylib */; };
+		AE2EA3B62E34C16000813EEE /* libwx_osx_cocoau_core-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3B52E34C16000813EEE /* libwx_osx_cocoau_core-3.3.1.dylib */; };
+		AE2EA3BA2E34C16A00813EEE /* libwx_osx_cocoau_html-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3B92E34C16A00813EEE /* libwx_osx_cocoau_html-3.3.1.dylib */; };
+		AE2EA3BD2E34C17500813EEE /* libwx_osx_cocoau_qa-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3BC2E34C17500813EEE /* libwx_osx_cocoau_qa-3.3.1.dylib */; };
+		AE2EA3C32E34C1CA00813EEE /* libwx_osx_cocoau_richtext-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3C22E34C1CA00813EEE /* libwx_osx_cocoau_richtext-3.3.1.dylib */; };
+		AE2EA3C62E34C1DD00813EEE /* libwx_osx_cocoau_xrc-3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2EA3C52E34C1DD00813EEE /* libwx_osx_cocoau_xrc-3.3.1.dylib */; };
 		AEA1678E2D24060400E48C69 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1678D2D24060400E48C69 /* IOKit.framework */; };
 		AEA167902D24061100E48C69 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1678F2D24061100E48C69 /* Carbon.framework */; };
 		AEA167922D24061E00E48C69 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167912D24061E00E48C69 /* Cocoa.framework */; };
 		AEA167942D24062C00E48C69 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167932D24062C00E48C69 /* QuartzCore.framework */; };
 		AEA167962D24064100E48C69 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167952D24064100E48C69 /* AudioToolbox.framework */; };
 		AEA167982D24069B00E48C69 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167972D24069B00E48C69 /* OpenGL.framework */; };
-		AEA1679A2D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167992D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib */; };
-		AEA1679C2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679B2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib */; };
-		AEA1679E2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679D2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib */; };
-		AEA167A02D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA1679F2D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib */; };
-		AEA167A22D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A12D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib */; };
-		AEA167A42D2408B500E48C69 /* libwx_baseu_net-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A32D2408B500E48C69 /* libwx_baseu_net-3.2.dylib */; };
-		AEA167A62D2408C700E48C69 /* libwx_baseu-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167A52D2408C700E48C69 /* libwx_baseu-3.2.dylib */; };
 		AEA167B82D240AE200E48C69 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B52D240AE200E48C69 /* main.cpp */; };
 		AEA167B92D240AE200E48C69 /* WRUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B72D240AE200E48C69 /* WRUtilities.cpp */; };
 		AEA167BA2D240AE200E48C69 /* CDrawPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */; };
@@ -29,7 +30,6 @@
 		AEA167BE2D240AE200E48C69 /* CApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167AA2D240AE200E48C69 /* CApplication.cpp */; };
 		AEA167BF2D240AE200E48C69 /* COptionsDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */; };
 		AEA167C02D240AE200E48C69 /* CAboutDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */; };
-		AEA167C32D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA167C22D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib */; };
 		AEA167CB2D240D6000E48C69 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = AEA167C82D240D6000E48C69 /* sqlite3.c */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +46,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AE2EA3A52E34C00100813EEE /* WRPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WRPlatform.h; sourceTree = "<group>"; };
+		AE2EA3A62E34C0EE00813EEE /* libwx_baseu_net-3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu_net-3.3.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_baseu_net-3.3.dylib"; sourceTree = "<group>"; };
+		AE2EA3AA2E34C11300813EEE /* libwx_baseu_xml-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu_xml-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_baseu_xml-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3AE2E34C12900813EEE /* libwx_baseu_net-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu_net-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_baseu_net-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3B12E34C14900813EEE /* libwx_baseu-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_baseu-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_baseu-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3B52E34C16000813EEE /* libwx_osx_cocoau_core-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_core-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_core-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3B92E34C16A00813EEE /* libwx_osx_cocoau_html-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_html-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_html-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3BC2E34C17500813EEE /* libwx_osx_cocoau_qa-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_qa-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_qa-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3BF2E34C18500813EEE /* libwx_osx_cocoau_ribbon-3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_ribbon-3.3.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_ribbon-3.3.dylib"; sourceTree = "<group>"; };
+		AE2EA3C22E34C1CA00813EEE /* libwx_osx_cocoau_richtext-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_richtext-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_richtext-3.3.1.dylib"; sourceTree = "<group>"; };
+		AE2EA3C52E34C1DD00813EEE /* libwx_osx_cocoau_xrc-3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_xrc-3.3.1.dylib"; path = "../../../wxWidgets-3.3.1/macOSbuild/lib/libwx_osx_cocoau_xrc-3.3.1.dylib"; sourceTree = "<group>"; };
 		AEA167822D24050700E48C69 /* WinRuler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WinRuler; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEA1678D2D24060400E48C69 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		AEA1678F2D24061100E48C69 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -90,18 +101,18 @@
 			files = (
 				AEA1678E2D24060400E48C69 /* IOKit.framework in Frameworks */,
 				AEA167902D24061100E48C69 /* Carbon.framework in Frameworks */,
+				AE2EA3AF2E34C12900813EEE /* libwx_baseu_net-3.3.1.dylib in Frameworks */,
 				AEA167922D24061E00E48C69 /* Cocoa.framework in Frameworks */,
 				AEA167942D24062C00E48C69 /* QuartzCore.framework in Frameworks */,
 				AEA167962D24064100E48C69 /* AudioToolbox.framework in Frameworks */,
+				AE2EA3C32E34C1CA00813EEE /* libwx_osx_cocoau_richtext-3.3.1.dylib in Frameworks */,
+				AE2EA3B22E34C14900813EEE /* libwx_baseu-3.3.1.dylib in Frameworks */,
+				AE2EA3C62E34C1DD00813EEE /* libwx_osx_cocoau_xrc-3.3.1.dylib in Frameworks */,
+				AE2EA3BD2E34C17500813EEE /* libwx_osx_cocoau_qa-3.3.1.dylib in Frameworks */,
 				AEA167982D24069B00E48C69 /* OpenGL.framework in Frameworks */,
-				AEA1679A2D2407BA00E48C69 /* libwx_osx_cocoau_xrc-3.2.dylib in Frameworks */,
-				AEA167A02D24081900E48C69 /* libwx_osx_cocoau_core-3.2.dylib in Frameworks */,
-				AEA1679E2D24080500E48C69 /* libwx_osx_cocoau_qa-3.2.dylib in Frameworks */,
-				AEA1679C2D2407D500E48C69 /* libwx_osx_cocoau_html-3.2.dylib in Frameworks */,
-				AEA167C32D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib in Frameworks */,
-				AEA167A22D2408A200E48C69 /* libwx_baseu_xml-3.2.dylib in Frameworks */,
-				AEA167A42D2408B500E48C69 /* libwx_baseu_net-3.2.dylib in Frameworks */,
-				AEA167A62D2408C700E48C69 /* libwx_baseu-3.2.dylib in Frameworks */,
+				AE2EA3B62E34C16000813EEE /* libwx_osx_cocoau_core-3.3.1.dylib in Frameworks */,
+				AE2EA3BA2E34C16A00813EEE /* libwx_osx_cocoau_html-3.3.1.dylib in Frameworks */,
+				AE2EA3AB2E34C11300813EEE /* libwx_baseu_xml-3.3.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,23 +124,6 @@
 			children = (
 				AEA167C42D240CD900E48C69 /* ThirdParty */,
 				AEA167C12D240AEE00E48C69 /* Source */,
-				AEA167A72D240AE200E48C69 /* CAboutDialog.h */,
-				AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */,
-				AEA167A92D240AE200E48C69 /* CApplication.h */,
-				AEA167AA2D240AE200E48C69 /* CApplication.cpp */,
-				AEA167AB2D240AE200E48C69 /* CDrawPanel.h */,
-				AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */,
-				AEA167AD2D240AE200E48C69 /* CLicenseDialog.h */,
-				AEA167AE2D240AE200E48C69 /* CLicenseDialog.cpp */,
-				AEA167AF2D240AE200E48C69 /* CMainFrame.h */,
-				AEA167B02D240AE200E48C69 /* CMainFrame.cpp */,
-				AEA167B12D240AE200E48C69 /* CNewRulerLengthDialog.h */,
-				AEA167B22D240AE200E48C69 /* CNewRulerLengthDialog.cpp */,
-				AEA167B32D240AE200E48C69 /* COptionsDialog.h */,
-				AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */,
-				AEA167B52D240AE200E48C69 /* main.cpp */,
-				AEA167B62D240AE200E48C69 /* WRUtilities.h */,
-				AEA167B72D240AE200E48C69 /* WRUtilities.cpp */,
 				AEA1678C2D24060400E48C69 /* Frameworks */,
 				AEA167832D24050700E48C69 /* Products */,
 			);
@@ -146,6 +140,16 @@
 		AEA1678C2D24060400E48C69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AE2EA3C52E34C1DD00813EEE /* libwx_osx_cocoau_xrc-3.3.1.dylib */,
+				AE2EA3C22E34C1CA00813EEE /* libwx_osx_cocoau_richtext-3.3.1.dylib */,
+				AE2EA3BF2E34C18500813EEE /* libwx_osx_cocoau_ribbon-3.3.dylib */,
+				AE2EA3BC2E34C17500813EEE /* libwx_osx_cocoau_qa-3.3.1.dylib */,
+				AE2EA3B92E34C16A00813EEE /* libwx_osx_cocoau_html-3.3.1.dylib */,
+				AE2EA3B52E34C16000813EEE /* libwx_osx_cocoau_core-3.3.1.dylib */,
+				AE2EA3B12E34C14900813EEE /* libwx_baseu-3.3.1.dylib */,
+				AE2EA3AE2E34C12900813EEE /* libwx_baseu_net-3.3.1.dylib */,
+				AE2EA3AA2E34C11300813EEE /* libwx_baseu_xml-3.3.1.dylib */,
+				AE2EA3A62E34C0EE00813EEE /* libwx_baseu_net-3.3.dylib */,
 				AEA167C22D240CAB00E48C69 /* libwx_osx_cocoau_richtext-3.2.dylib */,
 				AEA167A52D2408C700E48C69 /* libwx_baseu-3.2.dylib */,
 				AEA167A32D2408B500E48C69 /* libwx_baseu_net-3.2.dylib */,
@@ -167,6 +171,24 @@
 		AEA167C12D240AEE00E48C69 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AE2EA3A52E34C00100813EEE /* WRPlatform.h */,
+				AEA167A72D240AE200E48C69 /* CAboutDialog.h */,
+				AEA167A82D240AE200E48C69 /* CAboutDialog.cpp */,
+				AEA167A92D240AE200E48C69 /* CApplication.h */,
+				AEA167AA2D240AE200E48C69 /* CApplication.cpp */,
+				AEA167AB2D240AE200E48C69 /* CDrawPanel.h */,
+				AEA167AC2D240AE200E48C69 /* CDrawPanel.cpp */,
+				AEA167AD2D240AE200E48C69 /* CLicenseDialog.h */,
+				AEA167AE2D240AE200E48C69 /* CLicenseDialog.cpp */,
+				AEA167AF2D240AE200E48C69 /* CMainFrame.h */,
+				AEA167B02D240AE200E48C69 /* CMainFrame.cpp */,
+				AEA167B12D240AE200E48C69 /* CNewRulerLengthDialog.h */,
+				AEA167B22D240AE200E48C69 /* CNewRulerLengthDialog.cpp */,
+				AEA167B32D240AE200E48C69 /* COptionsDialog.h */,
+				AEA167B42D240AE200E48C69 /* COptionsDialog.cpp */,
+				AEA167B52D240AE200E48C69 /* main.cpp */,
+				AEA167B62D240AE200E48C69 /* WRUtilities.h */,
+				AEA167B72D240AE200E48C69 /* WRUtilities.cpp */,
 			);
 			name = Source;
 			path = /Users/piotr/Programowanie/WinRuler/Source;
@@ -386,10 +408,11 @@
 		AEA1678A2D24050700E48C69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.2",
-					"/usr/local/include/wx-3.2",
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.3",
+					"/usr/local/include/wx-3.3",
 					../../Source,
 					../../ThirdParty/sqlite,
 				);
@@ -411,10 +434,11 @@
 		AEA1678B2D24050700E48C69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.2",
-					"/usr/local/include/wx-3.2",
+					"/usr/local/lib/wx/include/osx_cocoa-unicode-3.3",
+					"/usr/local/include/wx-3.3",
 					../../Source,
 					../../ThirdParty/sqlite,
 				);
