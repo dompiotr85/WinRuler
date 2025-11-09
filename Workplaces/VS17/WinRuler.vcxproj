@@ -73,22 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(SolutionDir)..\..\ThirdParty\sqlite;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(SolutionDir)..\..\ThirdParty\sqlite;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(SolutionDir)..\..\ThirdParty\sqlite;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(SolutionDir)..\..\ThirdParty\sqlite;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
