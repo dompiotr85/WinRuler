@@ -1,0 +1,86 @@
+WinRuler use third party libraries, that need to be build before you can build WinRuler. Bellow you can
+find steps how to build them:
+
+
+wxWidgets library:
+----------
+To use wxWidgets library in WinRuler project, we need to run some commands before starting WinRuler build.
+Depending of your Operating System and your compiler, use these commands to build wxWidgets library:
+
+- For Windows platform and Visual Studio IDE compiler use:
+
+cd WinRuler
+cd ThirdParty
+cd wxWidgets
+cd build
+cd msw
+;(one of command below depending on your preference)
+nmake /f makefile.vc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
+nmake /f makefile.vc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
+nmake /f makefile.vc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
+nmake /f makefile.vc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
+
+- For Windows platform, Code::Blocks IDE and mingw compiler use:
+
+cd WinRuler
+cd ThirdParty
+cd wxWidgets
+cd build
+cd msw
+;(one of command below depending on your preference)
+mingw32-make -f makefile.gcc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
+mingw32-make -f makefile.gcc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
+mingw32-make -f makefile.gcc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
+mingw32-make -f makefile.gcc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
+
+- For Linux platform and Code::Blocks IDE use:
+
+;some necessary build tools, including g++ and autotools are needed.
+sudo apt install build-essential
+sudo apt install libgtk2.0-dev             
+sudo apt install libgtk-3-dev
+cd WinRuler
+cd ThirdParty
+cd wxWidgets
+mkdir gtk-build
+cd gtk-build
+../configure --enable-debug --with-gtk=3 --with-opengl
+make -j3
+sudo make install
+sudo ldconfig
+
+- For macOS platform and Xcode IDE use:
+cd WinRuler
+cd ThirdParty
+cd wxWidgets
+mkdir cocoa-build
+cd cocoa-build
+../configure --enable-debug
+make -j3
+sudo make install
+
+
+After this, all files that we need are created and WinRuler project can use them.
+
+SQLite library:
+-------
+We need sqlite3.h and sqlite3.c files. We need to build amalgamation source files. Open command line and do this:
+
+- For Windows platform, Visual Studio IDE compiler use:
+
+cd WinRuler
+cd ThirdParty
+cd sqlite
+nmake /f Makefile.msc sqlite3.c
+
+- For Linux platform, Code::Blocks IDE and GCC compiler:
+
+cd WinRuler
+cd ThirdParty
+cd sqlite
+./configure
+make sqlite3.c
+
+After this, 2 files that we need are created and WinRuler project can use them.
+
+
