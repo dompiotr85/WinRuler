@@ -3,9 +3,9 @@
  * Licensed under the MIT license.
  **/
 
-#include <wx/wx.h>
-#include <wx/display.h>
 #include "CMainFrame.h"
+
+#include <wx/display.h>
 
 namespace WinRuler
 {
@@ -1054,6 +1054,13 @@ namespace WinRuler
 				m_iSnapToOtherWindowsDistance = 
 					static_cast<int>(wxAtoi(Value));
 			}
+			else if (Key == "language_file")
+			{
+				if (Value != "")
+					m_sLanguageFile = Value;
+				else
+					m_sLanguageFile = "WinRuler_en-GB.db";
+			}
 
 #ifdef _DEBUG
 			// Log that specified setting was applied.
@@ -1123,6 +1130,8 @@ namespace WinRuler
 			m_bSnapToOtherWindows ? wxString("true") : wxString("false");
 		Settings["snap_to_other_windows_distance"] =
 			wxString::Format("%d", m_iSnapToOtherWindowsDistance);
+
+		Settings["language_file"] = m_sLanguageFile;
 
 		// If SaveSettingsToDatabase() failed, display error and return from
 		// this method.

@@ -5,6 +5,11 @@
 
 #include "WRUtilities.h"
 
+ // Include Windows headers only if platform is Windows.
+#if defined(WR_WINDOWS)
+# include <Windows.h>
+#endif
+
 namespace WinRuler
 {
 	std::vector<wxSize> g_vPixelPerInch( { wxSize(0, 0) } );
@@ -165,7 +170,7 @@ namespace WinRuler
 	}
 
 // If platform is Windows, then we can use WinAPI to get all windows.
-#ifdef WR_WINDOWS
+#if defined(WR_WINDOWS)
 	BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	{
 		std::vector<WindowInfo>* WindowsVec =
@@ -184,7 +189,9 @@ namespace WinRuler
 		// Continue enumeration.
 		return TRUE;
 	}
+#endif // end WR_WINDOWS
 
+#if defined(WR_WINDOWS)
 	std::vector<WindowInfo> GetAllWindows()
 	{
 		std::vector<WindowInfo> WindowsVec;
@@ -193,5 +200,5 @@ namespace WinRuler
 
 		return WindowsVec;
 	}
-#endif
+#endif // end WR_WINDOWS
 } // end namespace WinRuler

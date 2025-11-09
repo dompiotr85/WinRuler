@@ -3,11 +3,13 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CAPPLICATION_H_
+#define _CAPPLICATION_H_
 
 #include <wx/wx.h>
 
 #include <CMainFrame.h>
+#include <CLanguageManager.h>
 
 namespace WinRuler
 {
@@ -63,5 +65,10 @@ namespace WinRuler
 
 		//! Pointer to wxLog.
 		wxLog* m_pLogger;
+
+		//! Language manager.
+		CLanguageManager* m_pLanguageMgr;
 	};
 } // end namespace WinRuler
+
+#endif // _CAPPLICATION_H_

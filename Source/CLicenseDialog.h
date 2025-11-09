@@ -3,7 +3,8 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CLICENSEDIALOG_H_
+#define _CLICENSEDIALOG_H_
 
 #include <wx/wx.h>
 #include <wx/richtext/richtextctrl.h>
@@ -73,3 +74,5 @@ namespace WinRuler
 		wxButton* m_pCloseButton;
     };
 } // end namespace WinRuler
+
+#endif // _CLICENSEDIALOG_H_

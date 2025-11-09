@@ -3,14 +3,16 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _COPTIONSDIALOG_H_
+#define _COPTIONSDIALOG_H_
 
-#include "WRPlatform.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/clrpicker.h>
 #include <wx/filepicker.h>
 #include <wx/spinctrl.h>
+
+#include "WRPlatform.h"
 
 /**
  * Enumeration of options ids.
@@ -329,3 +331,5 @@ namespace WinRuler
 		wxSpinCtrl* m_pSnapToOtherWindowsSpinCtrl;
 	};
 } // end namespace WinRuler
+
+#endif // _COPTIONSDIALOG_H_

@@ -3,7 +3,8 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CNEWRULERLENGTHDIALOG_H_
+#define _CNEWRULERLENGTHDIALOG_H_
 
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
@@ -83,3 +84,5 @@ namespace WinRuler
 		wxButton* m_pOKButton;
 	};
 } // end namespace WinRuler
+
+#endif // _CNEWRULERLENGTHDIALOG_H_

@@ -54,6 +54,9 @@
     <ClCompile Include="..\..\ThirdParty\sqlite\sqlite3.c">
       <Filter>Source files\ThirdParty\sqlite</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CLanguageManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CApplication.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h">
       <Filter>Header files\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CLanguageManager.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,10 @@
  * Licensed under the MIT license.
  **/
 
-#include <cmath>
-#include <wx/wx.h>
-#include "CMainFrame.h"
 #include "CDrawPanel.h"
-#include "WRUtilities.h"
+#include "CMainFrame.h"
+
+#include <cmath>
 
 namespace WinRuler
 {

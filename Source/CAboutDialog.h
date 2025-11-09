@@ -3,9 +3,11 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CABOUTDIALOG_H_
+#define _CABOUTDIALOG_H_
 
 #include <wx/wx.h>
+
 #include "CLicenseDialog.h"
 
 namespace WinRuler
@@ -95,3 +97,5 @@ namespace WinRuler
 		wxButton* m_pCloseButton;
 	};
 } // end namespace WinRuler
+
+#endif // _CABOUTDIALOG_H_

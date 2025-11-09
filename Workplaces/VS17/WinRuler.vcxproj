@@ -42,8 +42,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,22 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(ShortProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\..\Binaries\Windows\$(PlatformShortName)\$(Configuration)\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WXWIN)/include;$(SolutionDir)..\..\ThirdParty\sqlite;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(WXWIN)\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,7 +98,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(SolutionDir)..\..\Source;$(SolutionDir)..\..\ThirdParty\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -106,18 +106,24 @@
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332ud_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
+      <Command>echo -- Copying all dynamic libraries (DLLs)
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332ud_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332ud_xml_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_xml_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_core_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_core_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_html_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_html_vc_WinRuler.dll
-copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_richtext_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll</Command>
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332ud_richtext_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll
+echo -- All dynamic libraries (DLLs) copied
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
+      <Command>echo -- Deleting all dynamic libraries (DLLs)
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxbase332ud_xml_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_core_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_html_vc_WinRuler.dll
-del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll</Command>
+del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRuler.dll
+echo -- All dynamic libraries (DLLs) deleted
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +136,7 @@ del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRul
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(SolutionDir)..\..\Source;$(SolutionDir)..\..\ThirdParty\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,19 +146,23 @@ del $(SolutionDir)..\..\Binaries\Windows\x86\Debug\wxmsw332ud_richtext_vc_WinRul
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332u_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
+      <Command>echo -- Copying all dynamic libraries (DLLs)
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332u_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxbase332u_xml_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_xml_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_core_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_core_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_html_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_html_vc_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_dll\wxmsw332u_richtext_vc_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRuler.dll
+echo -- All dynamic libraries (DLLs) copied
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
+      <Command>echo -- Deleting all dynamic libraries (DLLs)
+del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxbase332u_xml_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_core_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_html_vc_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRuler.dll
+echo -- All dynamic libraries (DLLs) deleted
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -164,7 +174,7 @@ del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRu
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(SolutionDir)..\..\Source;$(SolutionDir)..\..\ThirdParty\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,19 +183,23 @@ del $(SolutionDir)..\..\Binaries\Windows\x86\Release\wxmsw332u_richtext_vc_WinRu
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332ud_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
+      <Command>echo -- Copying all dynamic libraries (DLLs)
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332ud_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332ud_xml_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_xml_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_core_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_core_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_html_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_html_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332ud_richtext_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_WinRuler.dll
+echo -- All dynamic libraries (DLLs) copied
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
+      <Command>echo -- Deleting all dynamic libraries (DLLs)
+del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxbase332ud_xml_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_core_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_html_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_WinRuler.dll
+echo -- All dynamic libraries (DLLs) deleted
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -199,7 +213,7 @@ del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_Wi
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(SolutionDir)..\..\Source;$(SolutionDir)..\..\ThirdParty\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -209,26 +223,30 @@ del $(SolutionDir)..\..\Binaries\Windows\x64\Debug\wxmsw332ud_richtext_vc_x64_Wi
       <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_x64_dll</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332u_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
+      <Command>echo -- Copying all dynamic libraries (DLLs)
+copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332u_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxbase332u_xml_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_xml_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_core_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_core_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_html_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_html_vc_x64_WinRuler.dll
 copy $(SolutionDir)..\..\ThirdParty\wxWidgets\lib\vc_x64_dll\wxmsw332u_richtext_vc_x64_WinRuler.dll $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_richtext_vc_x64_WinRuler.dll
+echo -- All dynamic libraries (DLLs) copied
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
+      <Command>echo -- Deleting all dynamic libraries (DLLs)
+del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxbase332u_xml_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_core_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_html_vc_x64_WinRuler.dll
 del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_richtext_vc_x64_WinRuler.dll
-</Command>
+echo -- All dynamic libraries (DLLs) deleted</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CAboutDialog.cpp" />
     <ClCompile Include="..\..\Source\CApplication.cpp" />
     <ClCompile Include="..\..\Source\CDrawPanel.cpp" />
+    <ClCompile Include="..\..\Source\CLanguageManager.cpp" />
     <ClCompile Include="..\..\Source\CLicenseDialog.cpp" />
     <ClCompile Include="..\..\Source\CNewRulerLengthDialog.cpp" />
     <ClCompile Include="..\..\Source\COptionsDialog.cpp" />
@@ -241,6 +259,7 @@ del $(SolutionDir)..\..\Binaries\Windows\x64\Release\wxmsw332u_richtext_vc_x64_W
     <ClInclude Include="..\..\Source\CAboutDialog.h" />
     <ClInclude Include="..\..\Source\CApplication.h" />
     <ClInclude Include="..\..\Source\CDrawPanel.h" />
+    <ClInclude Include="..\..\Source\CLanguageManager.h" />
     <ClInclude Include="..\..\Source\CLicenseDialog.h" />
     <ClInclude Include="..\..\Source\CMainFrame.h" />
     <ClInclude Include="..\..\Source\CNewRulerLengthDialog.h" />

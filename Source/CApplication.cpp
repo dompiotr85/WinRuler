@@ -3,11 +3,10 @@
  * Licensed under the MIT license.
  **/
 
-#include <wx/wx.h>
-#include <wx/display.h>
-
 #include "CApplication.h"
 #include "WRUtilities.h"
+
+#include <wx/display.h>
 
 namespace WinRuler
 {
@@ -40,6 +39,10 @@ namespace WinRuler
 		// true here, otherwise store false. We will need that information
 		// bellow.
 		bool bAppExecForTheFirstTime = ApplicationExecutedForTheFirstTime();
+
+		// Create dynamically (on heap) new CLanguageManager class.
+		m_pLanguageMgr = 
+			new CLanguageManager(wxGetCwd() + "../../../../Languages/");
 
 		// Create dynamically (on heap) new CMainFrame class and store it in
 		// mainFrame.
@@ -90,6 +93,12 @@ namespace WinRuler
 
 	int CApplication::OnExit()
 	{
+		// Release m_pLanguageMgr instance.
+		if (m_pLanguageMgr != nullptr)
+		{
+			wxDELETE(m_pLanguageMgr);
+		}
+
 #ifdef _DEBUG
 		// Clean our wxLog instance.
 		wxLog::SetActiveTarget(nullptr);

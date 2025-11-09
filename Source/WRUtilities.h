@@ -3,7 +3,10 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _WRUTILITIES_H_
+#define _WRUTILITIES_H_
+
+#include <wx/wx.h>
 
 #include <vector>
 #include <cmath>
@@ -12,13 +15,6 @@
 #include <iostream>
 
 #include "WRPlatform.h"
-
-#include <wx/wx.h>
-
-// Include Windows headers only if platform is Windows.
-#ifdef WR_WINDOWS
-# include <Windows.h>
-#endif
 
 namespace WinRuler
 {
@@ -139,7 +135,8 @@ namespace WinRuler
 	 *
 	 * \return	Returns result of pixels to inches calculation.
 	 **/
-	double PixelsToInchesHorizontal(unsigned int DisplayNo, int APixelDistance);
+	double PixelsToInchesHorizontal(
+		unsigned int DisplayNo, int APixelDistance);
 
 	/**
 	 * Calculates conversion from pixels to inches (vertical version).
@@ -247,7 +244,7 @@ namespace WinRuler
 	 **/
 	wxPoint ParsePosition(const wxString& PositionString);
 
-#if (defined(_WIN32) || defined(WIN32))	// If platform is Windows.
+#if defined(WR_WINDOWS) // If platform is Windows.
 	// Window information structure.
 	struct WindowInfo
 	{
@@ -276,3 +273,5 @@ namespace WinRuler
 	std::vector<WindowInfo> GetAllWindows();
 #endif
 }
+
+#endif // _WRUTILITIES_H_

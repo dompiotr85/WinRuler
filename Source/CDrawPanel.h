@@ -3,9 +3,11 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CDRAWPANEL_H_
+#define _CDRAWPANEL_H_
 
 #include <wx/wx.h>
+
 #include "WRUtilities.h"
 
 namespace WinRuler
@@ -208,3 +210,5 @@ namespace WinRuler
         wxPoint m_InitialPos;
     };
 } // end namespace WinRuler
+
+#endif // _CDRAWPANEL_H_

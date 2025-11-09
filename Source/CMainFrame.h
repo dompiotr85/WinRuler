@@ -3,17 +3,18 @@
  * Licensed under the MIT license.
  **/
 
-#pragma once
+#ifndef _CMAINFRAME_H_
+#define _CMAINFRAME_H_
 
-#include <map>
-#include <wx/wx.h>
-#include <sqlite3.h>
-
-#include "WRUtilities.h"
 #include "CDrawPanel.h"
 #include "CAboutDialog.h"
 #include "CNewRulerLengthDialog.h"
 #include "COptionsDialog.h"
+#include "WRUtilities.h"
+
+#include <wx/wx.h>
+#include <sqlite3.h>
+#include <map>
 
 enum HT_Pos
 {
@@ -242,6 +243,9 @@ namespace WinRuler
 		 **/
 		void ResizeSize(const wxPoint& Pos);
 	public:
+		//! Ruler's language file.
+		wxString m_sLanguageFile;
+
 		//! Ruler's scale position.
 		ERulerPosition m_eRulerPosition = rpTop;
 
@@ -347,3 +351,5 @@ namespace WinRuler
 		wxPoint m_ptDirection;
 	};
 } // end namespace WinRuler
+
+#endif // _CMAINFRAME_H_
