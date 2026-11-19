@@ -142,6 +142,8 @@
 		<Unit filename="../../Source/CApplication.h" />
 		<Unit filename="../../Source/CDrawPanel.cpp" />
 		<Unit filename="../../Source/CDrawPanel.h" />
+		<Unit filename="../../Source/CLanguageManager.cpp" />
+		<Unit filename="../../Source/CLanguageManager.h" />
 		<Unit filename="../../Source/CLicenseDialog.cpp" />
 		<Unit filename="../../Source/CLicenseDialog.h" />
 		<Unit filename="../../Source/CMainFrame.cpp" />
@@ -155,6 +157,10 @@
 		<Unit filename="../../Source/main.cpp" />
 		<Unit filename="../../ThirdParty/sqlite/sqlite3.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../ThirdParty/sqlite/sqlite3.h">
+			<Option target="Windows-Debug" />
+			<Option target="Windows-Release" />
 		</Unit>
 		<Unit filename="WinRuler.rc">
 			<Option compilerVar="WINDRES" />

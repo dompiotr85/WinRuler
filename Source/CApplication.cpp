@@ -41,7 +41,7 @@ namespace WinRuler
 		bool bAppExecForTheFirstTime = ApplicationExecutedForTheFirstTime();
 
 		// Create dynamically (on heap) new CLanguageManager class.
-		m_pLanguageMgr = 
+		m_pLanguageMgr =
 			new CLanguageManager(wxGetCwd() + "../../../../Languages/");
 
 		// Create dynamically (on heap) new CMainFrame class and store it in
@@ -93,12 +93,6 @@ namespace WinRuler
 
 	int CApplication::OnExit()
 	{
-		// Release m_pLanguageMgr instance.
-		if (m_pLanguageMgr != nullptr)
-		{
-			wxDELETE(m_pLanguageMgr);
-		}
-
 #ifdef _DEBUG
 		// Clean our wxLog instance.
 		wxLog::SetActiveTarget(nullptr);
@@ -123,6 +117,9 @@ namespace WinRuler
 		// Clear h_vPixelPerInch vector.
 		g_vPixelPerInch.clear();
 
+		// Release m_pLanguageMgr instance.
+        wxDELETE(m_pLanguageMgr);
+
 		// Execute and return inherited method OnExit() value.
 		return wxApp::OnExit();
 	}
@@ -134,8 +131,8 @@ namespace WinRuler
 
 		// If retrieved event type is motion or left button down or left button
 		// up, then ...
-		if (Type == wxEVT_MOTION || 
-			Type == wxEVT_LEFT_DOWN || 
+		if (Type == wxEVT_MOTION ||
+			Type == wxEVT_LEFT_DOWN ||
 			Type == wxEVT_LEFT_UP)
 		{
 			// ... have only go up once; then this subroutine will be called

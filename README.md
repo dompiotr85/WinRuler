@@ -14,7 +14,7 @@ in centimetres or other units of measurement, enabling precise measurements.
 - Intuitive and simple user interface.
 - Support for various units of measurement (centimetres, inches, pixels, etc.).
 - Adjustable ruler length to suit individual needs.
-- Works on all major operating systems: Windows, macOS, Linux.
+- Works on major operating systems: Windows, Linux, (macOS in the future).
 
 ## Purpose
 

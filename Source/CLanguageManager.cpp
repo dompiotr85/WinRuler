@@ -238,6 +238,10 @@ namespace WinRuler
 				if (std::filesystem::is_regular_file(entry.status()))
 				{
 					fileList.push_back(entry.path().filename().string());
+
+					wxLogInfo(
+						"Language file '%s' found.", 
+						entry.path().filename().string());
 				}
 			}
 

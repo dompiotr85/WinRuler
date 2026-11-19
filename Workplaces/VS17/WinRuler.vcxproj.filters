@@ -16,11 +16,14 @@
     <Filter Include="Source files\ThirdParty">
       <UniqueIdentifier>{43c985d2-180e-473f-8536-3b03174614bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header files\sqlite">
-      <UniqueIdentifier>{6d098b3b-5b0a-46aa-b8e6-2a8f1e5ed859}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source files\ThirdParty\sqlite">
       <UniqueIdentifier>{57dbf926-c0af-4c96-b130-36a81763139a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\ThirdParty">
+      <UniqueIdentifier>{5afaa67a-26c2-4b4c-8221-40e8b4311b57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\ThirdParty\sqlite">
+      <UniqueIdentifier>{6d098b3b-5b0a-46aa-b8e6-2a8f1e5ed859}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +93,7 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ThirdParty\sqlite\sqlite3.h">
-      <Filter>Header files\sqlite</Filter>
+      <Filter>Header files\ThirdParty\sqlite</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CLanguageManager.h">
       <Filter>Header files</Filter>

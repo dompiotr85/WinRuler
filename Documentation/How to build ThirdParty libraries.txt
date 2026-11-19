@@ -49,17 +49,6 @@ make -j3
 sudo make install
 sudo ldconfig
 
-- For macOS platform and Xcode IDE use:
-cd WinRuler
-cd ThirdParty
-cd wxWidgets
-mkdir cocoa-build
-cd cocoa-build
-../configure --enable-debug
-make -j3
-sudo make install
-
-
 After this, all files that we need are created and WinRuler project can use them.
 
 SQLite library:
