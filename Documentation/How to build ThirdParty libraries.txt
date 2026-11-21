@@ -3,18 +3,19 @@ find steps how to build them:
 
 
 wxWidgets library:
-----------
+------------------
 To use wxWidgets library in WinRuler project, we need to run some commands before starting WinRuler build.
 Depending of your Operating System and your compiler, use these commands to build wxWidgets library:
 
-- For Windows platform and Visual Studio IDE compiler use:
+- For Windows platform and Visual Studio IDE compiler use appropriate platform Native Tools Command Prompt
+  for VS:
 
 cd WinRuler
 cd ThirdParty
 cd wxWidgets
 cd build
 cd msw
-;(one of command below depending on your preference)
+;(one of command below depending on your platform preference)
 nmake /f makefile.vc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
 nmake /f makefile.vc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
 nmake /f makefile.vc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
@@ -27,7 +28,7 @@ cd ThirdParty
 cd wxWidgets
 cd build
 cd msw
-;(one of command below depending on your preference)
+;(one of command below depending on your platform preference)
 mingw32-make -f makefile.gcc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
 mingw32-make -f makefile.gcc BUILD=release SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X64 VENDOR=WinRuler
 mingw32-make -f makefile.gcc BUILD=debug SHARED=1 UNICODE=1 MONOLITHIC=0 TARGET_CPU=X86 VENDOR=WinRuler
@@ -52,10 +53,12 @@ sudo ldconfig
 After this, all files that we need are created and WinRuler project can use them.
 
 SQLite library:
--------
-We need sqlite3.h and sqlite3.c files. We need to build amalgamation source files. Open command line and do this:
+---------------
+We need sqlite3.h and sqlite3.c files. We need to build amalgamation source files. Open command line and
+do this:
 
-- For Windows platform, Visual Studio IDE compiler use:
+- For Windows platform, Visual Studio IDE compiler use appropriate platform Native Tools Command Prompt
+  for VS:
 
 cd WinRuler
 cd ThirdParty
@@ -70,6 +73,6 @@ cd sqlite
 ./configure
 make sqlite3.c
 
-After this, 2 files that we need are created and WinRuler project can use them.
+After this, 2 files that we need are created and WinRuler project can use them for its compilation.
 
 

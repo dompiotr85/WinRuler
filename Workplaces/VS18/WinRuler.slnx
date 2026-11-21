@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="WinRuler.vcxproj" Id="93137001-5486-409c-868c-31ac28327beb" />
+</Solution>
