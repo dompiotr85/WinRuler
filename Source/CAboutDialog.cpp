@@ -1,5 +1,5 @@
 /**
- * Copyright © 2024-2025 Piotr Domanski
+ * Copyright © 2024-2026 Piotr Domanski
  * Licensed under the MIT license.
  **/
 
@@ -77,7 +77,7 @@ namespace WinRuler
             new wxStaticText(
                     this, wxID_ANY,
                     wxString(
-                        "Copyright © 2024 Piotr Domanski and WinRuler "
+                        "Copyright © 2024-2026 Piotr Domanski and WinRuler "
                         "programmers team."));
 
         // Create bottom panel.
